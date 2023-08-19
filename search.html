@@ -5,8 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSON Text Search</title>
     <style>
-        /* 在此添加你的 CSS */
+        body {
+          /* margin: 0;
+          display: flex; */
+          font-family: Arial, sans-serif;
+        }
+      
+        .table-container {
+          display: flex;
+          overflow-x: auto;
+          width: 100%;
+        }
+      
+        .table {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          border: 1px solid #ccc;
+          margin: 10px;
+        }
+      
+        .table-row {
+          display: flex;
+          border-bottom: 1px solid #ccc;
+        }
+      
+        .table-cell {
+          flex: 0 0 150px; /* 固定寬度 */
+          height: 125px; /* 固定高度 */
+          padding: 10px;
+          /* display: flex; */
+          align-items: flex-start;
+          justify-content: center;
+          flex-direction: column;
+          overflow-y: auto; /* 啟用上下滾動 */
+          border-right: 2px solid #ccc; /* 添加右邊分隔線 */
+        }
+      
+        .table-cell:last-child {
+          border-right: none; /* 移除最後一個格子的右邊分隔線 */
+        }
+      
+        .table:first-child {
+          border: 4px double #000; /* 最外框加粗 */
+        }
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+        }
+        
+        .checkbox-label {
+            margin-top: 10px;
+        justify-content: start; /* 調整對齊方式 */
+
+            align-items: start; /*  調整對齊方式 */
+            /* margin-right: 15px; */
+        }
+
+        #raceFilter {
+        justify-content: start; /* 調整對齊方式 */
+        align-items: start; /*  調整對齊方式 */
+
+        width: 150px;
+        height: 25px;
+        border: 1px solid #000;
+        }
+
     </style>
+
 </head>
 <body>
     <h1>JSON Text Search</h1>
@@ -14,26 +82,66 @@
     <button onclick="searchJSON()">搜尋</button>
 
     <h2>選擇搜尋欄位：</h2>
-    <label><input type="checkbox" data-field="Image Name">卡片名稱</label>
-    <!-- <label><input type="checkbox" data-field="Data Url">Data Url</label> -->
-    <label><input type="checkbox" data-field="屬性">屬性</label>
-    <div>
-        <label for="raceFilter">選擇種族：</label>
-        <label><input type="checkbox" data-field="主動技效果">主動技</label>
-        <label><input type="checkbox" data-field="隊長技效果">隊長技</label>
-        <label><input type="checkbox" data-field="Team Skills">隊伍技</label>
-        <select id="raceFilter">
-            <option value="all">所有種族</option>
-            <option value="人類">人類</option>
-            <option value="魔族">魔族</option>
-            <option value="獸族">獸族</option>
-            <!-- 添加其他種族選項 -->
-        </select>
-    </div>
-    <label><input type="checkbox" data-field="最小CD" data-field2="最小EP">最小CD/EP</label>
+    <div class="filter-container">
+        <div class="checkbox-label">
+          <label class="checkbox-label"><input type="checkbox" data-field="Image Name">卡片名稱</label>
+          <label class="checkbox-label"><input type="checkbox" data-field="主動技效果">主動技</label>
+          <label class="checkbox-label"><input type="checkbox" data-field="隊長技效果">隊長技</label>
+          <label class="checkbox-label"><input type="checkbox" data-field="Team Skills">隊伍技</label>
+          <label><input type="checkbox" data-field="最小CD" data-field2="最小EP">最小CD/EP</label>
+
+          <div class="checkbox-label">
+            <label for="raceFilter" class="checkbox-label">選擇種族：</label>
+            <select id="raceFilter" >
+              <option value="all">所有種族</option>
+              <option value="水屬">水</option>
+              <option value="火屬">火</option>
+              <option value="木屬">木</option>
+              <option value="光屬">光</option>
+              <option value="暗屬">暗</option>
+
+            </select>
+          </div>
+          
+          <div class="checkbox-label">
+            <label for="raceFilter" class="checkbox-label">選擇屬性：</label>
+            <select id="raceFilter" >
+              <option value="all">所有屬性</option>
+              <option value="人類">人類</option>
+              <option value="獸類">獸類</option>
+              <option value="妖精類">妖精類</option>
+              <option value="龍類">龍類</option>
+              <option value="神族">神族</option>
+              <option value="魔族">魔族</option>
+              <option value="機械族">機械族</option>
+              <option value="進化素材">進化素材</option>
+              <option value="強化素材">強化素材</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
     <!-- 其他欄位選項 -->
 
     <div id="results"></div>
+    <div class="table-container">
+        <div class="table">
+          <div class="table-row">
+            <div class="table-cell">Cell 1</div>
+            <div class="table-cell">Cell 2 with longer text that needs scrolling</div>
+            <div class="table-cell">Cell 3</div>
+          </div>
+        </div>
+        <!-- <div class="table">
+          <div class="table-row">
+            <div class="table-cell">Cell 4</div>
+            <div class="table-cell">Cell 5</div>
+            <div class="table-cell">Cell 6 with longer text that needs scrolling</div>
+          </div>
+        </div> -->
+        <!-- Add more table blocks as needed -->
+      </div>
+
 
     <script>
         // var searchData = [];
