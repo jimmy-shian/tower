@@ -82,9 +82,10 @@
         }
         .filter-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin: 20px;
+            padding: 3px;
         }
         
         .checkbox-label {
@@ -116,7 +117,7 @@
       <button class="search-button" onclick="searchJSON()">搜尋</button>
     </div>
 
-    <h2>選擇搜尋欄位：</h2>
+    <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
     <div class="filter-container">
         <div class="checkbox-label">
           <label class="checkbox-label"><input type="checkbox" data-field="Image Name" checked>卡片名稱</label>
@@ -124,7 +125,7 @@
           <label class="checkbox-label"><input type="checkbox" data-field="隊長技效果">隊長技</label>
           <label class="checkbox-label"><input type="checkbox" data-field="Team Skills">隊伍技</label>
           <label><input type="checkbox" data-field="最小CD" data-field2="最小EP">最小CD/EP</label>
-
+          
           <div class="checkbox-label">
             <label for="raceFilter" class="checkbox-label">選擇種族：</label>
             <select id="raceFilter" >
@@ -153,9 +154,10 @@
               <option value="強化素材">強化素材</option>
             </select>
           </div>
-
+          
         </div>
       </div>
+
     <!-- 其他欄位選項 -->
 
     <div id="results"></div>
@@ -197,7 +199,7 @@ function searchJSON() {
     var raceFilter = document.getElementById("raceFilter").value;
     // 获取选择的属性值
     var attributeFilter = document.getElementById("attributeFilter").value;
-
+    console.log(raceFilter, attributeFilter);
     // 清空结果显示区域
     resultsDiv.innerHTML = "";
 
