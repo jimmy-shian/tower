@@ -42,42 +42,57 @@
             background-color: #0056b3;
             }
 
-            .table-container {
-            width: 98%;
-            overflow-x: auto;
-            }
-
             .table {
+            /* max-width: auto; */
+            /* overflow-x: auto; */
+            /* resize: vertical; */
+            border-collapse: collapse;
+            width: 50%;
+            /* max-height: 50px; */
             height: 100%;
             flex-direction: column;
             border: 1px solid #ccc;
             margin: 10px;
-            }
+        }
 
-            .table-row {
+        .table-row {
             display: inline-flex;
             border-bottom: 1px solid #ccc;
             justify-content: center;
             align-items: center;
-            }
+        }
 
-            .table-cell {
+        .table-cell {
             overflow-y: auto;
-            height: 85px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
+            height: 125px;
+            padding: 15px;
+            display: inline-flex;
             justify-content: center;
             border-right: 2px solid #c7c7c7;
-            }
+        }
 
-            .table-cell:last-child {
+        .table-cell:last-child {
             border-right: none;
-            }
+        }
 
-            .table:first-child {
+        .table:first-child {
             border: 4px double #000;
-            }
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 40px; /* 與圖片寬度相同 */
+            height: auto; /* 自動高度 */
+            transition: transform 0.25s; /* 添加平滑過渡效果 */
+            /* overflow-clip-margin: 0; */
+        }
+
+        .image-wrapper:hover {
+            position: fixed;
+            transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 50;
+        }
+
 
             .filter-container {
             display: flex;
@@ -168,6 +183,16 @@
         </div>
       </div>
 
+<div style="text-align: center; margin-top: 20px;">
+    <!-- <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW" target="_blank">
+        <img alt="Creative Commons License" style="border-width:0; width: 120px;" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
+    </a><br> -->
+    本作品資料來源為：
+    <a rel="license" href="https://tos.fandom.com/zh/wiki/%E7%A5%9E%E9%AD%94%E4%B9%8B%E5%A1%94_%E7%B9%81%E4%B8%AD%E7%B6%AD%E5%9F%BA?variant=zh-tw" target="_blank">神魔之塔繁中維基</a>
+    ，根據FANDOM社區使用條款以<a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW" target="_blank">
+        <img alt="Creative Commons License" style="border-width:0; width: 80px;" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
+        (CC-BY-SA 3.0) </a>進行使用。
+</div><br>
 
     <script>
         // var searchData = [];

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+        }
+
+        .table {
+            /* max-width: auto; */
+            /* overflow-x: auto; */
+            /* resize: vertical; */
+            border-collapse: collapse;
+            width: 50%;
+            /* max-height: 50px; */
+            height: 100%;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        .table-row {
+            display: inline-flex;
+            border-bottom: 1px solid #ccc;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-cell {
+            overflow-y: auto;
+            height: 125px;
+            padding: 15px;
+            display: inline-flex;
+            justify-content: center;
+            border-right: 2px solid #c7c7c7;
+        }
+
+        .table-cell:last-child {
+            border-right: none;
+        }
+
+        .table:first-child {
+            border: 4px double #000;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 40px; /* 與圖片寬度相同 */
+            height: auto; /* 自動高度 */
+            transition: transform 0.25s; /* 添加平滑過渡效果 */
+            /* overflow-clip-margin: 0; */
+        }
+
+        .image-wrapper:hover {
+            position: fixed;
+            transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <center>
+
+        <table class="table">
+            <tr class="table-row">
+                <th class="table-cell" style="width: 140px; max-height: 28px; overflow-y: hidden;">名稱</th>
+                <th class="table-cell" style="width: 64px; max-height: 28px; overflow-y: hidden;">詳細介紹</th>
+                <th class="table-cell" style="width: 50px; max-height: 28px; overflow-y: hidden;">縮圖</th>
+                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">屬性</th>
+                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">種族</th>
+                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">最小EP</th>
+                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">主動技</th>
+                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">隊長技</th>
+                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">隊伍技能</th>
+            </tr>
+            <tr class="table-row">
+                <td class="table-cell" style="width: 140px; overflow-y: auto; align-items: center; justify-content: center;">
+                    No. 10345 永恆水手月亮</td>
+                <td class="table-cell" style="width: 64px; overflow-y: auto; align-items: center; justify-content: center;">
+                    <a href="https://tos.fandom.com/zh/wiki/%E6%B0%B8%E6%81%86%E6%B0%B4%E6%89%8B%E6%9C%88%E4%BA%AE" target="_blank">
+                        點擊前往</a>
+                </td>
+                <td class="table-cell" style="width: 50px; overflow: hidden; align-items: center; justify-content: center;">
+                    <div class="image-wrapper">
+                        <img src="https://static.wikia.nocookie.net/tos/images/a/af/10345i.png/revision/latest?cb=20221205055835&path-prefix=zh" alt="圖片" width="40" height="auto">
+                    </div>
+                </td>                
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    光</td>      
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    人類</td>
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    7</td>
+                <td class="table-cell" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;">
+                    銀色月光水晶力量‧強 :<br><br>I.將所有符石轉化為⇒人族強化符石1回合內<br>II.增加10連擊(Combo、Ex.Combo)<br>III.消除符石後⓵單數直行首批掉落⇒心人族符石⓶雙數直行首批掉落⇒光人族符石<br>&nbsp</td>
+                <td class="table-cell" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;">
+                    愛與正義‧強 :<br><br>I.光屬性及人類成員⇒攻擊力10倍、生命力及回復力1.5倍<br>II.「晚禮服假面」及【水手戰士】成員⇒生命力、攻擊力及回復力額外1.6倍<br>III.消除≥2種符石⇒全隊攻擊力5倍<br>IV.消除光或心符石⓵自身攻擊力5倍⓶自身無視「固定連擊盾」<br>&nbsp</td>
+                <td class="table-cell" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;"
+                >隊伍技能：<br><br>◆ 消除 ≥15 粒心符石⇒【水手戰士】成員⓵ 技能 CD -1⓶ 技能 EP +1
+                <br>◆【水手戰士】成員⇒ 不會被封鎖主動技能發動條件：以「超級水手月亮」或「永恆水手月亮」作隊
+                長及戰友<br>================<br>隊伍技能：<br><br>◆ 必然延長移動符石時間 4 秒<br>◆ 所有符
+                石兼具⇒ 150% 所有符石效果<br>◆ 將移動符石時觸碰的電擊、凍結、弱化、化血、石化符石狀態解除⇒ 並
+                添加為人族符石<br>◆ 達至 ≥4 連擊 (Combo)⇒ 全隊攻擊力 4 倍<br>◆ 根據最後結束轉珠時放手的符石
+                種類⇒ 於回合結束時將隊長直行符石移除⇒ 掉落該種人族強化符石<br>◆「燃燒」傷害減至 1<br>◆ 觸碰
+                「暴風」仍可移動符石<br>◆【水手戰士】成員⓵ 無視「指定形狀盾」⓶ 無視「連擊相等盾」發動條件：
+                以「永恆水手月亮」作隊長，並以【水手戰士】成員作戰友<br>================隊伍技能：<br><br>◆ 
+                獲得「水晶力量」：▋將所有符石轉化為⇒ 隊長屬性及心符石各 15 粒<br>◆ 於回合開始時點擊已儲滿的龍
+                脈儀⇒ 可觸發「水晶力量」能力(需消耗 100% 龍脈儀能量)發動條件：以【水手戰士】成員作隊長及戰友＊能
+                量 (EP) 儲存條件：1 回合內每消除 4 組符石⇒ 儲存 1 EP⇒ 每回合最多儲存 2 EP<br>&nbsp</td>
+            </tr>
+            <tr class="table-row">
+                <td class="table-cell" style="width: 140px; overflow-y: auto; align-items: center; justify-content: center;">
+                    </td>
+                <td class="table-cell" style="width: 64px; overflow-y: auto; align-items: center; justify-content: center;">
+                    <a href="https://tos.fandom.com/zh/wiki/%E8%B6%85%E7%B4%9A%E6%B0%B4%E6%89%8B%E6%9C%88%E4%BA%AE" target="_blank">
+                        </a>
+                </td>
+                <td class="table-cell" style="width: 50px; overflow: hidden; align-items: center; justify-content: center;">
+                    <div class="image-wrapper">
+                    </div>
+                </td>                
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    </td>      
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    </td>
+                <td class="table-cell" style="width: 40px; overflow-y: auto; align-items: center; justify-content: center;">
+                    7</td>
+                <td class="table-cell" rowspan="1" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;">
+                    星光蜜月療癒之吻 :<br><br>I.將所有符石轉化為⇒固定數量及位置的五屬及心符石2回合內<br>
+                    II.連擊(Combo)時攻擊力提升200%III.自身無視⇒「反首消符石盾」<br>&nbsp</td>
+                <td class="table-cell" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;">
+                    </td>
+                <td class="table-cell" style="width: 175px; overflow-y: auto; text-align: start ; justify-content: center;"
+                >
+                </td>
+            </tr>
+        </table>        
+    </center>
+</body>
+</html>
