@@ -6,105 +6,101 @@
     <title>JSON Text Search</title>
     <style>
         body {
-          /* margin: 0;
-          display: flex; */
-          font-family: Arial, sans-serif;
-        }
+            font-family: Arial, sans-serif;
+            }
+
             .search-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 20px 0 0;
             }
 
             .search-input {
-                width: 55%; /* 调整搜索框宽度 */
-                padding: 10px;
-                margin: 10px 20px 10px 0;
-                font-size: 16px; /* 放大文字 */
-                border: 1px solid #ccc;
-                border-radius: 5px;
+            width: 55%;
+            padding: 10px;
+            margin: 10px 20px 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             }
 
             .search-button {
-                padding: 10px 25px;
-                margin: 10px ;
-                width: auto;
-                font-size: 16px; /* 放大文字 */
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.2s ease;
+            padding: 10px 25px;
+            margin: 10px;
+            width: auto;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
             }
 
             .search-button:hover {
-                background-color: #0056b3;
+            background-color: #0056b3;
             }
-        .table-container {
-          display: flex;
-          /* overflow-x: auto; */
-          width: 98%;
-        }
-      
-        .table {
-          display: flex;
-          width: 100%;
-          flex-direction: column;
-          border: 1px solid #ccc;
-          margin: 10px;
-        }
-      
-        .table-row {
-          display: flex;
-          border-bottom: 1px solid #ccc;
-        }
-      
-        .table-cell {
-          overflow-y: auto; /* 啟用上下滾動 */
-          /* flex: 75px 0 0 ; 固定寬度 */
-          max-height: 85px; /* 固定高度 ===========================*/
-          padding: 10px;
-          /* display: flex; */
-          align-items: flex-start;
-          justify-content: center;
-          flex-direction: column;
-          border-right: 2px solid #c7c7c7; /* 添加右邊分隔線 */
-        }
-      
-        .table-cell:last-child {
-          border-right: none; /* 移除最後一個格子的右邊分隔線 */
-        }
-      
-        .table:first-child {
-          border: 4px double #000; /* 最外框加粗 */
-        }
-        .filter-container {
+
+            .table-container {
+            width: 98%;
+            overflow-x: auto;
+            }
+
+            .table {
+            height: 100%;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            margin: 10px;
+            }
+
+            .table-row {
+            display: inline-flex;
+            border-bottom: 1px solid #ccc;
+            justify-content: center;
+            align-items: center;
+            }
+
+            .table-cell {
+            overflow-y: auto;
+            height: 85px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 2px solid #c7c7c7;
+            }
+
+            .table-cell:last-child {
+            border-right: none;
+            }
+
+            .table:first-child {
+            border: 4px double #000;
+            }
+
+            .filter-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 20px;
             padding: 3px;
-        }
-        
-        .checkbox-label {
+            }
+
+            .checkbox-label {
             margin-top: 10px;
-            justify-content: start; /* 調整對齊方式 */
+            justify-content: start;
+            align-items: start;
+            }
 
-            align-items: start; /*  調整對齊方式 */
-            /* margin-right: 15px; */
-        }
-
-        #raceFilter,
-        #attributeFilter {
-        justify-content: start; /* 調整對齊方式 */
-        align-items: start; /*  調整對齊方式 */
-
-        width: 150px;
-        height: 25px;
-        border: 1px solid #000;
-        }
+            #raceFilter,
+            #attributeFilter {
+            justify-content: start;
+            align-items: start;
+            width: 150px;
+            height: 25px;
+            border: 1px solid #000;
+            }
 
     </style>
 
