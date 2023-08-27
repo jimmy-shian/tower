@@ -278,20 +278,21 @@
         
                         if (match) {
                             // Retrieve the corresponding HTML table row from the showData array
-                            var htmlText = data2[index]
-                                console.log(showData[index]);
+                            var htmlText = showData[index]
+                                console.log(htmlText);
 
                             // Create a temporary <div> element
                                 var resultItem = document.createElement("div");
                                 resultItem.className = "table-container";
 
                             // Set the innerHTML of the <div> to the HTML table row
-                                resultItem.innerHTML = htmlText.textContent;
+                                resultItem.innerHTML = htmlText.replace("{'}'", '');
 
                             // Append the contents of the <div> to the resultsDiv
-                            while (resultItem.firstChild) {
-                                resultsDiv.appendChild(resultItem.firstChild);
-                            }
+                            // while (resultItem.firstChild) {
+                                resultsDiv.appendChild(resultItem);
+
+                            // }
                         }
                     }
                 });
