@@ -215,9 +215,9 @@
         });
         fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/processed_data.json')
         .then(response => response.json()) // 解析 JSON 資料
-            .then(data => {
+            .then(data2 => {
                 // 現在的 data 應該是一個陣列，可以進行迭代
-                showData = data; // 將解析後的資料指派給 searchData
+                showData = data2; // 將解析後的資料指派給 searchData
                 console.log('show data is loading');
             })
             .catch(error => {
@@ -278,15 +278,15 @@
         
                         if (match) {
                             // Retrieve the corresponding HTML table row from the showData array
-                            var htmlText = showData[index]
-                            console.log(htmlText);
+                            var htmlText = data2[index]
+                                console.log(showData[index]);
 
                             // Create a temporary <div> element
                                 var resultItem = document.createElement("div");
                                 resultItem.className = "table-container";
 
                             // Set the innerHTML of the <div> to the HTML table row
-                            resultItem.innerHTML = htmlText;
+                                resultItem.innerHTML = htmlText.textContent;
 
                             // Append the contents of the <div> to the resultsDiv
                             while (resultItem.firstChild) {
