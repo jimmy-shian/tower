@@ -268,19 +268,11 @@
 
                         // 如果匹配标志为 true，创建结果项并添加到页面中
                         if (match) {
-                            // Retrieve the corresponding HTML table row from the showData array
-                            var htmlTableRow = showData[index];
-
-                            // Create a temporary <div> element
-                            // var tempDiv = document.createElement("div");
-
-                            // Set the innerHTML of the <div> to the HTML table row
-                                // changeBtn = document.querySelector('#changeBtn');
-                                resultsDiv.innerHTML = htmlTableRow;
-                            // Append the contents of the <div> to the resultsDiv
-                            // while (tempDiv.firstChild) {
-                            //     resultsDiv.appendChild(htmlTableRow.firstChild);
-                            // }
+                            // Retrieve the corresponding HTML-formatted text data from the showData array
+                            var htmlText = showData[index];
+                            
+                            // Set the innerHTML of resultsDiv to display the HTML content
+                            resultsDiv.innerHTML = htmlText;
                         }
                     }
                 });
