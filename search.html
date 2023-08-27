@@ -201,168 +201,90 @@
             .then(data => {
                 // 現在的 data 應該是一個陣列，可以進行迭代
                 searchData = data; // 將解析後的資料指派給 searchData
+                console.log('search data is loading');
             })
             .catch(error => {
-                console.error('Error fetching or parsing data:', error);
+                console.error('Error fetching or parsing final_data.json:', error);
         });
-        
-        // ... 其他代码
+        fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/processed_data.json')
+        .then(response => response.json()) // 解析 JSON 資料
+            .then(data => {
+                // 現在的 data 應該是一個陣列，可以進行迭代
+                showData = data; // 將解析後的資料指派給 searchData
+                console.log('show data is loading');
+            })
+            .catch(error => {
+                console.error('Error fetching or parsing processed_data.json:', error);
+        });
+            // function createResultItem(item, index) {
+            //     var values = Object.values(item[index]);
+            // };
+            // 定义一个名为 searchJSON 的函数，用于执行搜索操作
+            function searchJSON() {
+                // 获取搜索关键字输入框的值，并转换为小写
+                var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
+                // 获取用于显示结果的 <div> 元素
+                var resultsDiv = document.getElementById("results");
+                // 获取选择的字段数组
+                var selectedFields = getSelectedFields();
+                // 获取选择的种族值
+                var raceFilter = document.getElementById("raceFilter").value;
+                // 获取选择的属性值
+                var attributeFilter = document.getElementById("attributeFilter").value;
+                console.log(raceFilter, attributeFilter);
+                // 清空结果显示区域
+                resultsDiv.innerHTML = "";
 
-// 定义一个名为 searchJSON 的函数，用于执行搜索操作
-function searchJSON() {
-    // 获取搜索关键字输入框的值，并转换为小写
-    var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
-    // 获取用于显示结果的 <div> 元素
-    var resultsDiv = document.getElementById("results");
-    // 获取选择的字段数组
-    var selectedFields = getSelectedFields();
-    // 获取选择的种族值
-    var raceFilter = document.getElementById("raceFilter").value;
-    // 获取选择的属性值
-    var attributeFilter = document.getElementById("attributeFilter").value;
-    console.log(raceFilter, attributeFilter);
-    // 清空结果显示区域
-    resultsDiv.innerHTML = "";
+                // 遍历 searchData 数组中的每个数据项，同时追踪索引
+                searchData.forEach((item, index) => {
+                    // 初始化是否匹配标志为 false
+                    var match = false;
 
-    // 遍历 searchData 数组中的每个数据项，同时追踪索引
-    searchData.forEach((item, index) => {
-        // 初始化是否匹配标志为 false
-        var match = false;
+                    // 如果选择的种族值和属性值与数据项的值匹配，继续执行
+                    if ((raceFilter === "all" || item["種族"] === raceFilter) &&
+                        (attributeFilter === "all" || item["屬性"] === attributeFilter)) {
+                        // 遍历选择的字段数组
+                        selectedFields.forEach(field => {
+                            // 获取字段值，并转换为小写
+                            var fieldValue = item[field.fieldName].toLowerCase();
 
-        // 如果选择的种族值和属性值与数据项的值匹配，继续执行
-        if ((raceFilter === "all" || item["種族"] === raceFilter) &&
-            (attributeFilter === "all" || item["屬性"] === attributeFilter)) {
-            // 遍历选择的字段数组
-            selectedFields.forEach(field => {
-                // 获取字段值，并转换为小写
-                var fieldValue = item[field.fieldName].toLowerCase();
+                            // 将搜索关键字拆分为字符数组
+                            var searchCharacters = searchKeyword.split(' ');
+                            var currentIndex = 0;
 
-                // 将搜索关键字拆分为字符数组
-                var searchCharacters = searchKeyword.split('');
-                var currentIndex = 0;
+                            // 遍历字段值中的每个字符
+                            for (var i = 0; i < fieldValue.length; i++) {
+                                // 如果字符匹配搜索关键字中的字符，继续检查下一个字符
+                                if (fieldValue[i] === searchCharacters[currentIndex]) {
+                                    currentIndex++;
+                                    // 如果所有搜索关键字中的字符都匹配，设置匹配标志为 true
+                                    if (currentIndex === searchCharacters.length) {
+                                        match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
 
-                // 遍历字段值中的每个字符
-                for (var i = 0; i < fieldValue.length; i++) {
-                    // 如果字符匹配搜索关键字中的字符，继续检查下一个字符
-                    if (fieldValue[i] === searchCharacters[currentIndex]) {
-                        currentIndex++;
-                        // 如果所有搜索关键字中的字符都匹配，设置匹配标志为 true
-                        if (currentIndex === searchCharacters.length) {
-                            match = true;
-                            break;
+                        // 如果匹配标志为 true，创建结果项并添加到页面中
+                        if (match) {
+                            // Retrieve the corresponding HTML table row from the showData array
+                            var htmlTableRow = showData[index];
+
+                            // Create a temporary <div> element
+                            var tempDiv = document.createElement("div");
+
+                            // Set the innerHTML of the <div> to the HTML table row
+                            tempDiv.innerHTML = htmlTableRow;
+
+                            // Append the contents of the <div> to the resultsDiv
+                            while (tempDiv.firstChild) {
+                                resultsDiv.appendChild(tempDiv.firstChild);
+                            }
                         }
                     }
-                }
-            });
-
-            // 如果匹配标志为 true，创建结果项并添加到页面中
-            if (match) {
-                var resultItem = createResultItem(item, index);
-                resultsDiv.appendChild(resultItem);
+                });
             }
-        }
-    });
-}
-
-        // 定义一个名为 createResultItem 的函数，用于创建结果项的显示
-        function createResultItem(item, index) {
-            // 创建用于显示结果的 <div> 元素
-            var resultItem = document.createElement("div");
-            resultItem.className = "table-container";
-
-            // 创建表格元素
-            var table = document.createElement("table");
-            table.className = "table";
-
-            // 添加表头行
-            var tableHeadRow = document.createElement("tr");
-            tableHeadRow.className = "table-row";
-            var columnHeaders = ["名稱", "詳細介紹", "屬性", "種族", "最小CD", "主動技名稱", "主動技效果", "隊長技名稱", "隊長技效果", "隊伍技能", "最小EP"];
-            columnHeaders.forEach(headerText => {
-                var th = document.createElement("th");
-                th.className = "table-cell";
-                // th.style.width = (headerText === "詳細介紹" || headerText === "主動技效果" || headerText === "隊長技效果" || headerText === "隊伍技能") ? "200px" : "100px";
-                // 设置固定宽度
-                if (headerText === "名稱" || headerText === "主動技名稱" || headerText === "隊長技名稱") {
-                    th.style.width = "140px";
-                } else if (headerText === "詳細介紹" || headerText === "屬性" || headerText === "種族" ||
-                 headerText === "最小CD" ||
-                  headerText === "最小EP") {
-                    th.style.width = "50px";
-                } else {
-                    th.style.width = "175px";
-                }
-                th.style.maxHeight = "32px";
-                th.style.overflowY = "hidden";
-                th.textContent = headerText;
-                tableHeadRow.appendChild(th);
-            });
-            table.appendChild(tableHeadRow);
-
-            // 创建表格行元素
-            var tableRow = document.createElement("tr");
-            tableRow.className = "table-row";
-
-            // 获取数据项的值数组
-            var values = Object.values(item);
-
-            // 遍历数据项的值数组
-            values.forEach((value, columnIndex) => {
-                // 创建表格单元格元素
-                var td = document.createElement("td");
-                td.className = "table-cell";
-
-                // 设置固定宽度
-                if (columnIndex === 0 || columnIndex === 5 || columnIndex === 7) {
-                    td.style.width = "140px";
-                } else if (columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 10) {
-                    td.style.width = "50px";
-                } else {
-                    td.style.width = "175px";
-                }
-                
-                // 设置最大高度和溢出属性
-                td.style.overflowY = "auto";
-
-                // 如果是第二列，创建链接元素
-                if (columnIndex === 1) {
-                    var link = document.createElement("a");
-                    link.href = value;
-                    link.textContent = "點擊前往";
-                    link.target = "_blank";
-                    td.appendChild(link);
-                } else {
-                    // 否则直接设置单元格的文本内容
-                    td.textContent = value;
-                }
-
-                // 将单元格添加到行中
-                tableRow.appendChild(td);
-            });
-
-            // 将行添加到表格中
-            table.appendChild(tableRow);
-            // 将表格添加到结果项的 <div> 中
-            resultItem.appendChild(table);
-
-            // 显示索引
-            // var indexElement = document.createElement("div");
-            // indexElement.className = "index";
-            // indexElement.textContent = "Index: " + index;
-            // resultItem.appendChild(indexElement);
-
-            // 返回创建的结果项 <div> 元素
-            return resultItem;
-        }
-
-
-        // ... 其他代码
-
-        function handleKeyPress(event) {
-            if (event.keyCode === 13) {
-                searchJSON(); // 在按下 Enter 键时触发搜索功能
-            }
-        }
 
         function getSelectedFields() {
             var selectedFields = [];
@@ -378,6 +300,15 @@ function searchJSON() {
 
             return selectedFields;
         }
+
+        // ... 其他代码
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                searchJSON(); // 在按下 Enter 键时触发搜索功能
+            }
+        }
+
 
 // ... 其他代码
 
