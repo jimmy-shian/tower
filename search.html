@@ -42,7 +42,13 @@
             background-color: #0056b3;
             }
 
-            .table {
+            .table-container {
+                display: flex;
+                /* overflow-x: auto; */
+                border: 4px double #000;
+                width: 98%;
+            }
+       .table {
             /* max-width: auto; */
             /* overflow-x: auto; */
             /* resize: vertical; */
@@ -51,6 +57,7 @@
             /* max-height: 50px; */
             height: 100%;
             flex-direction: column;
+            /* border: 4px double #000; */
             border: 1px solid #ccc;
             margin: 10px;
         }
@@ -75,24 +82,24 @@
             border-right: none;
         }
 
-        .table:first-child {
+        /* .table:first-child {
             border: 4px double #000;
-        }
+        } */
 
         .image-wrapper {
-            position: relative;
+            position: absolute;
             width: 40px; /* 與圖片寬度相同 */
             height: auto; /* 自動高度 */
-            transition: transform 0.25s; /* 添加平滑過渡效果 */
+            transition: transform 0.2s; /* 添加平滑過渡效果 */
             /* overflow-clip-margin: 0; */
         }
 
         .image-wrapper:hover {
-            position: fixed;
-            transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
-            z-index: 50;
+            position: absolute;
+            /* display: flex; */
+            transform: scale(3); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 99;
         }
-
 
             .filter-container {
             display: flex;
@@ -173,7 +180,7 @@
 
     <div id="results"></div>
     
-    <div class="table-container">
+    <!-- <div class="table-container">
         <div class="table">
           <div class="table-row">
             <div class="table-cell">Cell 1</div>
@@ -181,7 +188,7 @@
             <div class="table-cell">Cell 3</div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 <div style="text-align: center; margin-top: 20px;">
     <!-- <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW" target="_blank">
@@ -234,6 +241,7 @@
                 console.log(raceFilter, attributeFilter);
                 // 清空结果显示区域
                 resultsDiv.innerHTML = "";
+                var resultItem = document.createElement("div");
 
                 // 遍历 searchData 数组中的每个数据项，同时追踪索引
                 searchData.forEach((item, index) => {
@@ -267,12 +275,23 @@
                         });
 
                         // 如果匹配标志为 true，创建结果项并添加到页面中
+        
                         if (match) {
-                            // Retrieve the corresponding HTML-formatted text data from the showData array
-                            var htmlText = showData[index];
-                            
-                            // Set the innerHTML of resultsDiv to display the HTML content
-                            resultsDiv.innerHTML = htmlText;
+                            // Retrieve the corresponding HTML table row from the showData array
+                            var htmlText = showData[index]
+                            console.log(htmlText);
+
+                            // Create a temporary <div> element
+                                var resultItem = document.createElement("div");
+                                resultItem.className = "table-container";
+
+                            // Set the innerHTML of the <div> to the HTML table row
+                            resultItem.innerHTML = htmlText;
+
+                            // Append the contents of the <div> to the resultsDiv
+                            while (resultItem.firstChild) {
+                                resultsDiv.appendChild(resultItem.firstChild);
+                            }
                         }
                     }
                 });
