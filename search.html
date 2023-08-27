@@ -249,7 +249,7 @@
                             var fieldValue = item[field.fieldName].toLowerCase();
 
                             // 将搜索关键字拆分为字符数组
-                            var searchCharacters = searchKeyword.split(' ');
+                            var searchCharacters = searchKeyword.split('');
                             var currentIndex = 0;
 
                             // 遍历字段值中的每个字符
@@ -272,15 +272,15 @@
                             var htmlTableRow = showData[index];
 
                             // Create a temporary <div> element
-                            var tempDiv = document.createElement("div");
+                            // var tempDiv = document.createElement("div");
 
                             // Set the innerHTML of the <div> to the HTML table row
-                            tempDiv.innerHTML = htmlTableRow;
-
+                                // changeBtn = document.querySelector('#changeBtn');
+                                resultsDiv.innerHTML = htmlTableRow;
                             // Append the contents of the <div> to the resultsDiv
-                            while (tempDiv.firstChild) {
-                                resultsDiv.appendChild(tempDiv.firstChild);
-                            }
+                            // while (tempDiv.firstChild) {
+                            //     resultsDiv.appendChild(htmlTableRow.firstChild);
+                            // }
                         }
                     }
                 });
