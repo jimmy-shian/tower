@@ -306,7 +306,9 @@ function searchJSON() {
                 searchJSON(); // 在按下 Enter 键时触发搜索功能
             }
         }
-
+        if (event.keyCode === 13) {
+                searchJSON(); // 在按下 Enter 键时触发搜索功能
+            }
         function getSelectedFields() {
             var selectedFields = [];
             var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
