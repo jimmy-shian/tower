@@ -45,10 +45,10 @@
             .table-container {
                 display: flex;
                 /* overflow-x: auto; */
-                border: 4px double #000;
                 width: 98%;
             }
-       .table {
+            .table {
+            border: 4px double #000;
             /* max-width: auto; */
             /* overflow-x: auto; */
             /* resize: vertical; */
@@ -58,13 +58,14 @@
             height: 100%;
             flex-direction: column;
             /* border: 4px double #000; */
-            border: 1px solid #ccc;
+            /* border: 1px solid #ccc; */
             margin: 10px;
         }
 
         .table-row {
             display: inline-flex;
             border-bottom: 1px solid #ccc;
+            max-height: 600px;
             justify-content: center;
             align-items: center;
         }
@@ -73,7 +74,7 @@
             overflow-y: auto;
             height: 125px;
             padding: 15px;
-            display: inline-flex;
+            display: inline-grid;
             justify-content: center;
             border-right: 2px solid #c7c7c7;
         }
@@ -142,25 +143,13 @@
           <label class="checkbox-label"><input type="checkbox" data-field="主動技效果" checked>主動技</label>
           <label class="checkbox-label"><input type="checkbox" data-field="隊長技效果">隊長技</label>
           <label class="checkbox-label"><input type="checkbox" data-field="Team Skills">隊伍技</label>
-          <label><input type="checkbox" data-field="最小CD" data-field2="最小EP">最小CD/EP</label>
-          
+          <label class="checkbox-label"><input type="checkbox" data-field="最小CD">最小CD</label>
+          <label class="checkbox-label"><input type="checkbox" data-field="最小EP">最小EP</label>
+        
           <div class="checkbox-label">
             <label for="raceFilter" class="checkbox-label">選擇種族：</label>
             <select id="raceFilter" >
               <option value="all">所有種族</option>
-              <option value="水屬">水</option>
-              <option value="火屬">火</option>
-              <option value="木屬">木</option>
-              <option value="光屬">光</option>
-              <option value="暗屬">暗</option>
-
-            </select>
-          </div>
-          
-          <div class="checkbox-label">
-            <label for="attributeFilter" class="checkbox-label">選擇屬性：</label>
-            <select id="attributeFilter" >
-              <option value="all">所有屬性</option>
               <option value="人類">人類</option>
               <option value="獸類">獸類</option>
               <option value="妖精類">妖精類</option>
@@ -170,6 +159,19 @@
               <option value="機械族">機械族</option>
               <option value="進化素材">進化素材</option>
               <option value="強化素材">強化素材</option>
+
+            </select>
+          </div>
+          
+          <div class="checkbox-label">
+            <label for="attributeFilter" class="checkbox-label">選擇屬性：</label>
+            <select id="attributeFilter" >
+                <option value="all">所有屬性</option>
+                <option value="水">水</option>
+                <option value="火">火</option>
+                <option value="木">木</option>
+                <option value="光">光</option>
+                <option value="暗">暗</option>
             </select>
           </div>
           
@@ -223,83 +225,115 @@
             .catch(error => {
                 console.error('Error fetching or parsing processed_data.json:', error);
         });
-            // function createResultItem(item, index) {
-            //     var values = Object.values(item[index]);
-            // };
-            // 定义一个名为 searchJSON 的函数，用于执行搜索操作
-            function searchJSON() {
-                // 获取搜索关键字输入框的值，并转换为小写
-                var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
-                // 获取用于显示结果的 <div> 元素
-                var resultsDiv = document.getElementById("results");
-                // 获取选择的字段数组
-                var selectedFields = getSelectedFields();
-                // 获取选择的种族值
-                var raceFilter = document.getElementById("raceFilter").value;
-                // 获取选择的属性值
-                var attributeFilter = document.getElementById("attributeFilter").value;
-                console.log(raceFilter, attributeFilter);
-                // 清空结果显示区域
-                resultsDiv.innerHTML = "";
-                var resultItem = document.createElement("div");
 
-                // 遍历 searchData 数组中的每个数据项，同时追踪索引
-                searchData.forEach((item, index) => {
-                    // 初始化是否匹配标志为 false
-                    var match = false;
+        function searchJSON() {
+            var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
+            var resultsDiv = document.getElementById("results");
+            var selectedFields = getSelectedFields();
+            var raceFilter = String(document.getElementById("raceFilter").value);
+            var attributeFilter = String(document.getElementById("attributeFilter").value);
+            resultsDiv.innerHTML = "";
+            var filteredIndexes = [];
+            var dataIndex = [];
+            var dataIndex2 = [];
 
-                    // 如果选择的种族值和属性值与数据项的值匹配，继续执行
-                    if ((raceFilter === "all" || item["種族"] === raceFilter) &&
-                        (attributeFilter === "all" || item["屬性"] === attributeFilter)) {
-                        // 遍历选择的字段数组
-                        selectedFields.forEach(field => {
-                            // 获取字段值，并转换为小写
-                            var fieldValue = item[field.fieldName].toLowerCase();
+            var match = false;
 
-                            // 将搜索关键字拆分为字符数组
-                            var searchCharacters = searchKeyword.split('');
-                            var currentIndex = 0;
-
-                            // 遍历字段值中的每个字符
-                            for (var i = 0; i < fieldValue.length; i++) {
-                                // 如果字符匹配搜索关键字中的字符，继续检查下一个字符
-                                if (fieldValue[i] === searchCharacters[currentIndex]) {
-                                    currentIndex++;
-                                    // 如果所有搜索关键字中的字符都匹配，设置匹配标志为 true
-                                    if (currentIndex === searchCharacters.length) {
-                                        match = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-
-                        // 如果匹配标志为 true，创建结果项并添加到页面中
-        
+            // 遍历 searchData 数组中的每个数据项，同时追踪索引
+            searchData.forEach((item, index) => {
+                selectedFields.forEach(field => {
+                    var fieldValue = item[field.fieldName];
+                    
+                    if (fieldValue.includes(searchKeyword)) {
+                        match = true;
                         if (match) {
-                            // Retrieve the corresponding HTML table row from the showData array
-                            var htmlText = showData[index]
-                                console.log(htmlText);
+                            console.log('ininininin');
 
-                            // Create a temporary <div> element
-                                var resultItem = document.createElement("div");
-                                resultItem.className = "table-container";
-
-                            // Set the innerHTML of the <div> to the HTML table row
-                                resultItem.innerHTML = htmlText.replace("{'}'", '');
-
-                            // Append the contents of the <div> to the resultsDiv
-                            // while (resultItem.firstChild) {
-                                resultsDiv.appendChild(resultItem);
-
-                            // }
+                            console.log('屬性 attributeFilter', attributeFilter , '-', item["屬性"] );
+                            console.log('種族 raceFilter', raceFilter , '-', item["種族"] );                            
+                            // var attributeFilter = item["屬性"];
+                            // var raceValues = item["種族"];
+                            if (item["屬性"] == attributeFilter && item["種族"] == raceFilter) {
+                                dataIndex.push(index);
+                                console.log('1');
+                                }
+                            else if (item["屬性"] == attributeFilter && raceFilter == 'all') {
+                                dataIndex.push(index);
+                                console.log('2');
+                                }
+                            else if (attributeFilter == 'all' && item["種族"] == raceFilter) {
+                                dataIndex.push(index);
+                                console.log('3');
+                            }
+                            else if (attributeFilter == 'all' && raceFilter == 'all') {
+                                dataIndex.push(index);
+                                console.log('4');
+                            }
+                            else
+                                console.log('Not find');
                         }
+                        // filteredIndexes.push(index);
+                        console.log(dataIndex);
+                        console.log(raceFilter, attributeFilter);
+                        console.log(match);
                     }
                 });
-            }
+            });
+                
+            dataIndex.forEach((index,item) => {
+                    dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
+                    var resultItem = document.createElement("div");
+                    // 将数据项转换为文本，并设置为 resultItem 的文本内容
+                    dataIndex2 = String(dataIndex2);
 
+                    if (dataIndex2.startsWith("{'") && dataIndex2.endsWith("'}")) {
+                        dataIndex2 = dataIndex2.substring(2, dataIndex2.length - 2);
+                    }
+                    // 设置 resultItem 的 HTML 内容
+                        resultItem.innerHTML = dataIndex2;
+                        console.log('finish');
+                        resultsDiv.appendChild(resultItem);
+                    });
+ 
+        }
+
+        function highlightKeywords(text, keyword) {
+            // 将搜索关键字拆分为字符数组
+            var searchCharacters = keyword.split('');
+            var currentIndex = 0;
+
+            // 将文本中匹配的字符用 <mark> 标签进行高亮处理
+            var highlightedText = text.replace(/./g, char => {
+                if (char.toLowerCase() === searchCharacters[currentIndex]) {
+                    currentIndex++;
+                    return `<mark>${char}</mark>`;
+                } else {
+                    return char;
+                }
+            });
+
+            return highlightedText;
+        }
+
+
+        // function getSelectedFields() {
+        //     var selectedFields = [];
+        //     var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+        //     checkboxes.forEach(checkbox => {
+        //         var fieldName = checkbox.getAttribute("data-field");
+
+        //         selectedFields.push({
+        //             fieldName: fieldName
+        //         });
+        //     });
+
+        //     return selectedFields;
+        // }
         function getSelectedFields() {
             var selectedFields = [];
+            // var checkboxCD = document.getElementById("checkbox-cd");
+            // var checkboxEP = document.getElementById("checkbox-ep");
             var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
 
             checkboxes.forEach(checkbox => {
@@ -310,9 +344,19 @@
                 });
             });
 
-            return selectedFields;
-        }
+            // if (checkboxCD.checked) {
+            //     selectedFields.push({
+            //         fieldName: checkboxCD.getAttribute("data-field")
+            //     });
+            // }
+            // if (checkboxEP.checked) {
+            //     selectedFields.push({
+            //         fieldName: checkboxEP.getAttribute("data-field")
+            //     });
+            // }
 
+        return selectedFields;
+    }
         // ... 其他代码
 
         function handleKeyPress(event) {
