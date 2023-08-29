@@ -8,22 +8,31 @@
             font-family: Arial, sans-serif;
         }
 
-        .table {
+
+            .table-container {
+                display: flex;
+                /* overflow-x: auto; */
+                width: 98%;
+            }
+            .table {
+            border: 4px double #000;
             /* max-width: auto; */
             /* overflow-x: auto; */
             /* resize: vertical; */
             border-collapse: collapse;
-            width: 50%;
+            /* width: 50%; */
             /* max-height: 50px; */
             height: 100%;
             flex-direction: column;
-            border: 1px solid #ccc;
+            /* border: 4px double #000; */
+            /* border: 1px solid #ccc; */
             margin: 10px;
         }
 
         .table-row {
             display: inline-flex;
             border-bottom: 1px solid #ccc;
+            max-height: 600px;
             justify-content: center;
             align-items: center;
         }
@@ -32,7 +41,7 @@
             overflow-y: auto;
             height: 125px;
             padding: 15px;
-            display: inline-flex;
+            display: inline-grid;
             justify-content: center;
             border-right: 2px solid #c7c7c7;
         }
@@ -41,23 +50,55 @@
             border-right: none;
         }
 
-        .table:first-child {
+        /* .table:first-child {
             border: 4px double #000;
-        }
+        } */
 
         .image-wrapper {
-            position: relative;
+            position: absolute;
             width: 40px; /* 與圖片寬度相同 */
             height: auto; /* 自動高度 */
-            transition: transform 0.25s; /* 添加平滑過渡效果 */
+            transition: transform 0.2s; /* 添加平滑過渡效果 */
             /* overflow-clip-margin: 0; */
         }
 
         .image-wrapper:hover {
-            position: fixed;
-            transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
-            z-index: 50;
+            position: absolute;
+            /* display: flex; */
+            transform: scale(4); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 99;
         }
+
+/* 在手机模式下的样式 */
+@media only screen and (max-width: 768px) { /* 如果屏幕宽度小于等于768px */
+    .table-row {
+        /* display: flex; */
+        flex-direction: column;
+        align-items: flex-start;
+        border-right: 2px solid #c7c7c7;
+        border-bottom: 2px solid #c7c7c7;
+    }
+
+    .table-cell {
+        max-width: 100px !important;
+        height: 40px !important;
+        border: 2px solid #c7c7c7;
+        border-right: none;
+        border-bottom: none;
+        padding: 10px;
+    }
+
+    .table-cell:nth-last-child(-n+3) {
+        height: 125px !important;
+    }
+
+    .table-cell:last-child {
+        border-right: 2px solid #c7c7c7;
+        border-bottom: 2px solid #c7c7c7;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -65,15 +106,15 @@
 
         <table class="table">
             <tr class="table-row">
-                <th class="table-cell" style="width: 140px; max-height: 28px; overflow-y: hidden;">名稱</th>
-                <th class="table-cell" style="width: 64px; max-height: 28px; overflow-y: hidden;">詳細介紹</th>
-                <th class="table-cell" style="width: 50px; max-height: 28px; overflow-y: hidden;">縮圖</th>
-                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">屬性</th>
-                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">種族</th>
-                <th class="table-cell" style="width: 40px; max-height: 28px; overflow-y: hidden;">最小EP</th>
-                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">主動技</th>
-                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">隊長技</th>
-                <th class="table-cell" style="width: 175px; max-height: 28px; overflow-y: hidden;">隊伍技能</th>
+                <th class="table-cell" style="width: 140px; height: 28px; overflow-y: hidden;">名稱</th>
+                <th class="table-cell" style="width: 64px; height: 28px; overflow-y: hidden;">詳細介紹</th>
+                <th class="table-cell" style="width: 50px; height: 28px; overflow-y: hidden;">縮圖</th>
+                <th class="table-cell" style="width: 40px; height: 28px; overflow-y: hidden;">屬性</th>
+                <th class="table-cell" style="width: 40px; height: 28px; overflow-y: hidden;">種族</th>
+                <th class="table-cell" style="width: 40px; height: 28px; overflow-y: hidden;">最小EP</th>
+                <th class="table-cell" style="width: 175px; height: 28px; overflow-y: hidden;">主動技</th>
+                <th class="table-cell" style="width: 175px; height: 28px; overflow-y: hidden;">隊長技</th>
+                <th class="table-cell" style="width: 175px; height: 28px; overflow-y: hidden;">隊伍技能</th>
             </tr>
             <tr class="table-row">
                 <td class="table-cell" style="width: 140px; overflow-y: auto; align-items: center; justify-content: center;">
