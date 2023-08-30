@@ -71,7 +71,7 @@
             display: inline-flex;
             /* overflow-y: auto; */
             border : 1px solid #ccc;
-            height: 50px;
+            height: 55px;
             justify-content: center;
             align-items: center;
         }
@@ -146,7 +146,7 @@
     @media only screen and (max-width: 1200px) { /* 如果屏幕宽度小于等于600px */
 
         .table {
-            height: 600px;
+            height: 650px;
             width: revert !important;
             margin: 10px;
             display: inline-block;
@@ -175,7 +175,7 @@
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
-            height: 30px;
+            height: 26px;
             width: 165px !important;
             padding: 10px;
         }
@@ -183,7 +183,7 @@
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
-            height: 30px;
+            height: 26px;
             width: auto !important;
             padding: 10px;
         }
@@ -193,7 +193,12 @@
         .table-cell-title:nth-last-child(-n+3) {
             height: 90px !important;
         }
-
+        .table-cell:nth-child(3) {
+            height: 40px !important;
+        }        
+        .table-cell-title:nth-child(3) {
+            height: 40px !important;
+        }
         .image-wrapper:hover {
             position: absolute;
             transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
@@ -379,6 +384,9 @@ function load_json_files() {
         clearResults();
     }
 
+var mergedSearchKeyword;
+var mergedFieldValues_2;
+
     function searchJSON() {
         console.log('not wait');
         var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
@@ -388,7 +396,7 @@ function load_json_files() {
         var filteredIndexes = [];
         var dataIndex = [];
         var dataIndex2 = [];
-        var mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
+        mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
             
             // 遍历 searchData 数组中的每个数据项，同时追踪索引
             searchData.forEach((item, index) => {
@@ -425,7 +433,7 @@ function load_json_files() {
                     only_CD_EP = true;
                 }
                     // var mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
-                    mergedFieldValues = mergeArabicNumbers(mergedFieldValues +','+ fieldValue_CD +','+ fieldValue_EP).split(',').filter(keyword => keyword !== '');
+                    mergedFieldValues_2 = mergedFieldValues = mergeArabicNumbers(mergedFieldValues +','+ fieldValue_CD +','+ fieldValue_EP).split(',').filter(keyword => keyword !== '');
                     console.log('fieldValue_MinCD_EP=', fieldValue_MinCD_EP);
                     console.log('CD=',item["最小CD"], fieldValue_CD, 'EP=',item["最小EP"], fieldValue_EP);
                     console.log("mergedSearchKeyword:", mergedSearchKeyword);
@@ -536,7 +544,7 @@ function load_json_files() {
     //         }
     //     }
     // }
-    var escapedKeywords;
+var escapedKeywords;
 var pattern;
 
 // 使用正则表达式将纯文本部分标记为红色
@@ -548,7 +556,8 @@ function markupTextWithSearchKeywords(text, keywords) {
     // 创建一个临时容器元素来处理 HTML 内容
     var tempContainer = document.createElement('div');
     tempContainer.innerHTML = text;
-
+console.log('tempContainer',tempContainer);
+console.log('text',text);
     // 遍历容器中的所有节点，并将纯文本节点标记为红色
     traverseNodes(tempContainer);
 
@@ -578,6 +587,77 @@ function traverseNodes(node) {
 }
 
 
+// var escapedKeywords;
+// var pattern;
+
+// // 使用正则表达式将纯文本部分标记为红色
+// function markupTextWithSearchKeywords(text, keywords) {
+//     // 将 keywords 转换为正则表达式安全的字符串
+//     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+//     pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+
+//     // 创建一个临时容器元素来处理 HTML 内容
+//     var tempContainer = document.createElement('div');
+//     tempContainer.innerHTML = text;
+
+//     // 遍历容器中的所有节点，并将纯文本节点标记为红色
+//     traverseNodes(tempContainer);
+
+//     return tempContainer.innerHTML;
+// }
+
+// // 判断是否为一组数字的函数
+// function isNumberGroup(text) {
+//     function mergeArabicNumbers(inputString) {
+//         inputString = inputString.toLowerCase();
+//         let mergedString = '';
+//         let currentNumber = '';
+//         for (let i = 0; i < inputString.length; i++) {
+//             const char = inputString[i];
+//             if (/[0-9]/.test(char)) {
+//                 currentNumber += String(char);
+//             } else {
+//                 if (currentNumber !== '') {
+//                     mergedString += `,${currentNumber},`;
+//                     currentNumber = '';
+//                 }
+//                 mergedString = mergedString + ',' + String(char) + ',' ;
+//             }
+//         }
+//         if (currentNumber !== '') {
+//             mergedString += `${currentNumber}`;
+//         }
+//         return String(mergedString)
+//     }
+//     return text.includes(',') || text.includes(' ');
+// }
+
+// // 遍历节点并标记纯文本部分为红色
+// function traverseNodes(node) {
+//     if (node.nodeType === Node.TEXT_NODE) {
+//         var markedText = node.nodeValue.replace(pattern, match => {
+//             console.log('match=',match);
+//             if (isNumberGroup(match)) {
+//                 return `<strong class="number-group">${match}</strong>`;
+//             } else {
+//                 return `<strong>${match}</strong>`;
+//             }
+//         });
+
+//         var tempElement = document.createElement('span');
+//         tempElement.innerHTML = markedText;
+
+//         while (tempElement.firstChild) {
+//             node.parentNode.insertBefore(tempElement.firstChild, node);
+//         }
+
+//         node.parentNode.removeChild(node);
+//     } else if (node.nodeType === Node.ELEMENT_NODE) {
+//         for (var i = 0; i < node.childNodes.length; i++) {
+//             traverseNodes(node.childNodes[i]);
+//         }
+//     }
+// }
 
 
     // function getSelectedFields() {
