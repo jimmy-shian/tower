@@ -64,7 +64,13 @@
             justify-content: center;
             align-items: center;
         }
-
+        .table-row-title {
+            display: inline-flex;
+            border-bottom: 1px solid #ccc;
+            height: 28px;
+            justify-content: center;
+            align-items: center;
+        }
         .table-cell {
             overflow-y: auto;
             height: 125px;
@@ -127,6 +133,11 @@
     @media only screen and (max-width: 600px) { /* 如果屏幕宽度小于等于600px */
         .table-row {
             border-collapse: collapse;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .table-row-title {
+            /* border-collapse: collapse; */
             flex-direction: column;
             align-items: flex-start;
         }
