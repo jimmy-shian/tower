@@ -143,7 +143,7 @@
 }
 
     /* 在手机模式下的样式 */
-    @media only screen and (max-width: 1200px) { /* 如果屏幕宽度小于等于600px */
+    @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
 
         .table {
             height: 650px;
@@ -206,7 +206,15 @@
         } 
 
     }
-
+    /* 在手机模式下的样式 */
+    @media only screen and (max-width: 600px) { /* 如果屏幕宽度小于等于600px */
+        .table {
+            /* height: 650px; */
+            width: 471px !important;
+            /* margin: 10px; */
+            /* display: inline-block; */
+        }
+    }
 
     </style>
 
@@ -546,18 +554,36 @@ var mergedFieldValues_2;
     // }
 var escapedKeywords;
 var pattern;
+var patterntext;
+
+// // 使用正则表达式将纯文本部分标记为红色
+// function markupTextWithSearchKeywords(text, keywords) {
+//     // 将 keywords 转换为正则表达式安全的字符串
+//     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+//     pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+
+//     // 创建一个临时容器元素来处理 HTML 内容
+//     var tempContainer = document.createElement('div');
+//     tempContainer.innerHTML = text;
+// console.log('tempContainer',tempContainer);
+// console.log('text',text);
+//     // 遍历容器中的所有节点，并将纯文本节点标记为红色
+//     traverseNodes(tempContainer);
+
+//     return tempContainer.innerHTML;
+// }
 
 // 使用正则表达式将纯文本部分标记为红色
 function markupTextWithSearchKeywords(text, keywords) {
     // 将 keywords 转换为正则表达式安全的字符串
     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-    pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+    pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi'); // 使用 \\b 表示单词边界
+    patterntext = new RegExp(escapedKeywords.join('|'), 'gi'); // 修改這個
 
     // 创建一个临时容器元素来处理 HTML 内容
     var tempContainer = document.createElement('div');
     tempContainer.innerHTML = text;
-console.log('tempContainer',tempContainer);
-console.log('text',text);
+
     // 遍历容器中的所有节点，并将纯文本节点标记为红色
     traverseNodes(tempContainer);
 
@@ -568,11 +594,19 @@ console.log('text',text);
 function traverseNodes(node) {
     if (node.nodeType === Node.TEXT_NODE) {
         var markedText = node.nodeValue.replace(pattern, match => {
-            return `<strong>${match}</strong>`;
+            return `<strong>${match}</strong>`; // 这里标记关键字
+        });
+
+        var markedText2 = markedText.replace(patterntext, match => {
+            if (!pattern.test(match)) {
+                return `<strong>${match}</strong>`; // 这里只标记数字
+            } else {
+                return match;
+            }
         });
 
         var tempElement = document.createElement('span');
-        tempElement.innerHTML = markedText;
+        tempElement.innerHTML = markedText2;
 
         while (tempElement.firstChild) {
             node.parentNode.insertBefore(tempElement.firstChild, node);
@@ -585,6 +619,30 @@ function traverseNodes(node) {
         }
     }
 }
+
+
+
+// // 遍历节点并标记纯文本部分为红色
+// function traverseNodes(node) {
+//     if (node.nodeType === Node.TEXT_NODE) {
+//         var markedText = node.nodeValue.replace(pattern, match => {
+//             return `<strong>${match}</strong>`;
+//         });
+
+//         var tempElement = document.createElement('span');
+//         tempElement.innerHTML = markedText;
+
+//         while (tempElement.firstChild) {
+//             node.parentNode.insertBefore(tempElement.firstChild, node);
+//         }
+
+//         node.parentNode.removeChild(node);
+//     } else if (node.nodeType === Node.ELEMENT_NODE) {
+//         for (var i = 0; i < node.childNodes.length; i++) {
+//             traverseNodes(node.childNodes[i]);
+//         }
+//     }
+// }
 
 
 // var escapedKeywords;
