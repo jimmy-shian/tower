@@ -143,18 +143,19 @@
 }
 
     /* 在手机模式下的样式 */
-    @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
+    @media only screen and (max-width: 1200px) { /* 如果屏幕宽度小于等于600px */
+        
         .table {
-            height: 645px;
-            width: auto !important;
+            height: revert;
+            width: revert !important;
             margin: 10px;
             display: inline-block;
         }
         .table-row {
             border: none;
-            white-space: nowrap;
+            /* white-space: nowrap; */
             display: inline-grid;
-            max-width: 150px !important;
+            /* max-width: 150px !important; */
             max-height: 28px !important; 
             align-items: flex-start;
             flex-wrap: nowrap;
@@ -162,7 +163,7 @@
         }
         .table-row-title {
             border: none;
-            white-space: nowrap;
+            /* white-space: nowrap; */
             display: inline-grid;
             /* width: 150px !important; */
             max-height: 28px !important; 
@@ -174,32 +175,33 @@
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
-            max-height: 28px;
-            width: 150px !important;
+            height: 28px;
+            width: 165px !important;
             padding: 10px;
         }
         .table-cell-title {
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
-            max-height: 28px;
+            height: 28px;
             width: auto !important;
             padding: 10px;
         }
         .table-cell:nth-last-child(-n+3) {
-            max-height: 125px !important;
+            height: 130px !important;
         }        
         .table-cell-title:nth-last-child(-n+3) {
-            max-height: 125px !important;
+            height: 130px !important;
         }
 
         .image-wrapper:hover {
             position: absolute;
             transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
             z-index: 99;
-        }
+        } 
 
     }
+
 
     </style>
 
@@ -289,8 +291,8 @@
         resultsDiv_show_mse.innerHTML = "Finish load";
     }, 1000); // 设置延迟为 0，让操作尽快执行
     setTimeout(function() {
-        resultsDiv_show_mse.innerHTML = "&nbsp";
-    }, 2000); // 设置延迟为 0，让操作尽快执行
+        resultsDiv_show_mse.innerHTML = "Can search now";
+    }, 1250); // 设置延迟为 0，让操作尽快执行
 }
 
 function load_json_files() {
