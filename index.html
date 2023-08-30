@@ -51,8 +51,8 @@
         }
         .table {
             border: 4px double #000;
-            border-collapse: collapse;
-            height: 100%;
+            /* border-collapse: collapse; */
+            /* height: 100%; */
             flex-direction: column;
             margin: 10px;
         }
@@ -60,7 +60,7 @@
         .table-row {
             display: inline-flex;
             border-bottom: 1px solid #ccc;
-            max-height: 600px;
+            /* max-height: 600px; */
             justify-content: center;
             align-items: center;
         }
@@ -73,13 +73,15 @@
         }
         .table-cell {
             overflow-y: auto;
-            height: 125px;
+            height: 28px;
             padding: 15px;
             display: inline-grid;
             justify-content: center;
             border-right: 2px solid #c7c7c7;
         }
-
+        /* .table-cell:nth-last-child(-n+3) {
+            height: 125px;
+        } */
         .table-cell:last-child {
             border-right: none;
         }
@@ -132,7 +134,7 @@
     /* 在手机模式下的样式 */
     @media only screen and (max-width: 600px) { /* 如果屏幕宽度小于等于600px */
         .table-row {
-            border-collapse: collapse;
+            /* border-collapse: collapse; */
             flex-direction: column;
             align-items: flex-start;
         }
@@ -140,6 +142,8 @@
             /* border-collapse: collapse; */
             flex-direction: column;
             align-items: flex-start;
+            /* max-height: 28px !important;  */
+
         }
         .table-cell {
             max-width: 150px !important;
@@ -439,6 +443,8 @@ function load_json_files() {
             }, 1000);
         } 
         else {
+            console.log('dataIndex.forEach');
+
             dataIndex.forEach((index, item) => {
                 dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
                 var resultItem = document.createElement("div");
@@ -494,7 +500,7 @@ function load_json_files() {
     var escapedKeywords;
 var pattern;
 
-// 使用正则表达式将匹配的文本标记为红色
+// 使用正则表达式将纯文本部分标记为红色
 function markupTextWithSearchKeywords(text, keywords) {
     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
     pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi');
@@ -510,7 +516,11 @@ function markupTextWithSearchKeywords(text, keywords) {
 function traverseNodes(node) {
     if (node.nodeType === Node.TEXT_NODE) {
         var markedText = node.nodeValue.replace(pattern, match => {
-            return `<strong class="highlight">${match}</strong>`;
+            if (match.match(/^\d+$/)) { // 如果是纯数字字组
+                return `<strong class="highlight">${match}</strong>`;
+            } else {
+                return `<span class="highlight">${match}</span>`;
+            }
         });
 
         var tempElement = document.createElement('span');
@@ -519,6 +529,8 @@ function traverseNodes(node) {
         while (tempElement.firstChild) {
             node.parentNode.insertBefore(tempElement.firstChild, node);
         }
+
+        node.parentNode.removeChild(node);
     } else if (node.nodeType === Node.ELEMENT_NODE) {
         for (var i = 0; i < node.childNodes.length; i++) {
             traverseNodes(node.childNodes[i]);
