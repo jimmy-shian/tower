@@ -46,42 +46,53 @@
         }
 
         .table-container {
-            display: flex;
+            /* display: flex; */
             width: max-content;
         }
         .table {
             border: 4px double #000;
             /* border-collapse: collapse; */
-            /* height: 100%; */
+            height: 175px;
             flex-direction: column;
+            width: min-content;
+            /* display: inline-block; */
             margin: 10px;
         }
 
         .table-row {
             display: inline-flex;
-            border-bottom: 1px solid #ccc;
+            border: 1px solid #ccc;
             /* max-height: 600px; */
+            height: 125px;
             justify-content: center;
             align-items: center;
         }
         .table-row-title {
             display: inline-flex;
-            border-bottom: 1px solid #ccc;
-            height: 28px;
+            /* overflow-y: auto; */
+            border : 1px solid #ccc;
+            height: 50px;
             justify-content: center;
             align-items: center;
         }
         .table-cell {
             overflow-y: auto;
-            height: 28px;
             padding: 15px;
-            display: inline-grid;
+            height: 90px;
+            display: inline-block;
             justify-content: center;
+            align-items: center; 
             border-right: 2px solid #c7c7c7;
         }
-        /* .table-cell:nth-last-child(-n+3) {
-            height: 125px;
-        } */
+        .table-cell-title {
+            overflow-y: auto;
+            padding: 15px;
+            height: 28px;
+            display: inline-block;
+            justify-content: center;
+            align-items: center; 
+            border-right: 2px solid #c7c7c7;
+        }
         .table-cell:last-child {
             border-right: none;
         }
@@ -132,30 +143,56 @@
 }
 
     /* 在手机模式下的样式 */
-    @media only screen and (max-width: 600px) { /* 如果屏幕宽度小于等于600px */
+    @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
+        .table {
+            height: 645px;
+            width: auto !important;
+            margin: 10px;
+            display: inline-block;
+        }
         .table-row {
-            /* border-collapse: collapse; */
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .table-row-title {
-            /* border-collapse: collapse; */
-            flex-direction: column;
-            align-items: flex-start;
-            /* max-height: 28px !important;  */
-
-        }
-        .table-cell {
+            border: none;
+            white-space: nowrap;
+            display: inline-grid;
             max-width: 150px !important;
             max-height: 28px !important; 
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            flex-direction: column;
+        }
+        .table-row-title {
+            border: none;
+            white-space: nowrap;
+            display: inline-grid;
+            /* width: 150px !important; */
+            max-height: 28px !important; 
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            flex-direction: column;
+        }
+        .table-cell {
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
+            max-height: 28px;
+            width: 150px !important;
+            padding: 10px;
+        }
+        .table-cell-title {
+            border: 2px solid #c7c7c7;
+            border-right: none;
+            border-bottom: none;
+            max-height: 28px;
+            width: auto !important;
             padding: 10px;
         }
         .table-cell:nth-last-child(-n+3) {
             max-height: 125px !important;
+        }        
+        .table-cell-title:nth-last-child(-n+3) {
+            max-height: 125px !important;
         }
+
         .image-wrapper:hover {
             position: absolute;
             transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
@@ -283,7 +320,7 @@ function load_json_files() {
             showData = data2; // 將解析後的資料指派給 searchData
             console.log('show data is loading');
             load_json_files_close();
-
+            // searchJSON();
         })
         .catch(error => {
             console.error('Error fetching or parsing processed_data.json:', error);
@@ -502,25 +539,25 @@ var pattern;
 
 // 使用正则表达式将纯文本部分标记为红色
 function markupTextWithSearchKeywords(text, keywords) {
+    // 将 keywords 转换为正则表达式安全的字符串
     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-    pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi');
+    pattern = new RegExp(escapedKeywords.join('|'), 'gi');
 
+    // 创建一个临时容器元素来处理 HTML 内容
     var tempContainer = document.createElement('div');
     tempContainer.innerHTML = text;
 
+    // 遍历容器中的所有节点，并将纯文本节点标记为红色
     traverseNodes(tempContainer);
 
     return tempContainer.innerHTML;
 }
 
+// 遍历节点并标记纯文本部分为红色
 function traverseNodes(node) {
     if (node.nodeType === Node.TEXT_NODE) {
         var markedText = node.nodeValue.replace(pattern, match => {
-            if (match.match(/^\d+$/)) { // 如果是纯数字字组
-                return `<strong class="highlight">${match}</strong>`;
-            } else {
-                return `<span class="highlight">${match}</span>`;
-            }
+            return `<strong>${match}</strong>`;
         });
 
         var tempElement = document.createElement('span');
@@ -537,6 +574,7 @@ function traverseNodes(node) {
         }
     }
 }
+
 
 
 
