@@ -259,7 +259,8 @@ function load_json_files() {
     }, 10); // 设置延迟为 0，让操作尽快执行
 }
 
-    fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/final_data.json')
+    // fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/final_data.json')
+    fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/new_final_data.json')
     .then(response => response.json()) // 解析 JSON 資料
         .then(data => {
             load_json_files();
@@ -493,7 +494,7 @@ function load_json_files() {
     var escapedKeywords;
 var pattern;
 
-// 使用正则表达式将纯文本部分标记为红色
+// 使用正则表达式将匹配的文本标记为红色
 function markupTextWithSearchKeywords(text, keywords) {
     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
     pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi');
@@ -509,11 +510,7 @@ function markupTextWithSearchKeywords(text, keywords) {
 function traverseNodes(node) {
     if (node.nodeType === Node.TEXT_NODE) {
         var markedText = node.nodeValue.replace(pattern, match => {
-            if (match.match(/^\d+$/)) { // 如果是纯数字字组
-                return `<strong class="highlight">${match}</strong>`;
-            } else {
-                return `<span class="highlight">${match}</span>`;
-            }
+            return `<strong class="highlight">${match}</strong>`;
         });
 
         var tempElement = document.createElement('span');
@@ -522,14 +519,13 @@ function traverseNodes(node) {
         while (tempElement.firstChild) {
             node.parentNode.insertBefore(tempElement.firstChild, node);
         }
-
-        node.parentNode.removeChild(node);
     } else if (node.nodeType === Node.ELEMENT_NODE) {
         for (var i = 0; i < node.childNodes.length; i++) {
             traverseNodes(node.childNodes[i]);
         }
     }
 }
+
 
 
     // function getSelectedFields() {
