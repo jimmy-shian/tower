@@ -84,6 +84,7 @@
             justify-content: center;
             align-items: center; 
             border-right: 2px solid #c7c7c7;
+            border-bottom: 2px solid #c7c7c7;
         }
         .table-cell-title {
             color: black;
@@ -94,10 +95,11 @@
             justify-content: center;
             align-items: center; 
             border-right: 2px solid #c7c7c7;
+            /* border-bottom: 2px solid #c7c7c7; */
         }
-        .table-cell:last-child {
+        /* .table-cell:last-child {
             border-right: none;
-        }
+        } */
 
         .image-wrapper {
             position: absolute;
@@ -136,78 +138,14 @@
 
         .like-strong {
             font-weight: 600;
-            /* background-color: ; */
             color: rgb(255, 105, 30);
         }
-        .highlight {
-    /* background-color: yellow; */
-    /* display: inline; */
-    white-space: nowrap; /* 防止换行 */
-}
-/* Apply red color to corresponding rows when checkbox is unchecked
-if .filter-container input[data-field="Image Name"]:not(:checked) 
-.table-row-title:nth-child(1) .table-cell-title,
-.table-row:nth-child(1) .table-cell-title {
-  color: red;
-}
-if .filter-container input[data-field="主動技效果"]:not(:checked)
-.table-row-title:nth-child(7)
-.table-cell-title,
-.table-row:nth-child(7) .table-cell-title {
-  color: red;
-}
-if .filter-container input[data-field="隊長技效果"]:not(:checked) 
-.table-row-title:nth-child(8) .table-cell-title,
-.table-row:nth-child(8) .table-cell-title {
-  color: red;
-}
-if .filter-container input[data-field="Team Skills"]:not(:checked) 
-.table-row-title:nth-child(9) .table-cell-title,
-.table-row:nth-child(9) .table-cell-title {
-  color: red;
-}
-if .filter-container input[data-field="最小CD"]:not(:checked) 
-.table-row-title:nth-child(6) .table-cell-title,
-.table-row:nth-child(6) .table-cell-title {
-  color: red;
-}
-if .filter-container input[data-field="最小EP"]:not(:checked) 
-.table-row-title:nth-child(6) .table-cell-title,
-.table-row:nth-child(6) .table-cell-title {
-  color: red;
-} */
-
-/* Apply red color to corresponding rows when checkbox is unchecked
-.filter-container input[data-field="Image Name"]:not(:checked) ~ label,
-.filter-container input[data-field="主動技效果"]:not(:checked) ~ label,
-.filter-container input[data-field="隊長技效果"]:not(:checked) ~ label,
-.filter-container input[data-field="Team Skills"]:not(:checked) ~ label,
-.filter-container input[data-field="最小CD"]:not(:checked) ~ label,
-.filter-container input[data-field="最小EP"]:not(:checked) ~ label {
-  color: red;
-}
-
-/* Apply red color to corresponding cells in table rows and title rows 
-.table-row-title:nth-child(1) .table-cell-title,
-.table-row:nth-child(1) .table-cell-title,
-.table-row-title:nth-child(7) .table-cell-title,
-.table-row:nth-child(7) .table-cell-title,
-.table-row-title:nth-child(8) .table-cell-title,
-.table-row:nth-child(8) .table-cell-title,
-.table-row-title:nth-child(9) .table-cell-title,
-.table-row:nth-child(9) .table-cell-title,
-.table-row-title:nth-child(6) .table-cell-title,
-.table-row:nth-child(6) .table-cell-title {
-  color: red;
-} */
-
-
 
     /* 在手机模式下的样式 */
     @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
 
         .table {
-            height: 650px;
+            height: 641px;
             width: revert !important;
             margin: 10px;
             display: inline-block;
@@ -221,6 +159,7 @@ if .filter-container input[data-field="最小EP"]:not(:checked)
             align-items: flex-start;
             flex-wrap: nowrap;
             flex-direction: column;
+            
         }
         .table-row-title {
             border: none;
@@ -234,18 +173,18 @@ if .filter-container input[data-field="最小EP"]:not(:checked)
         }
         .table-cell {
             color: black;
-            border: 2px solid #c7c7c7;
-            border-right: none;
-            border-bottom: none;
+            /* border: 2px solid #c7c7c7; */
+            /* border-right: none; */
+            /* border-bottom: none; */
             height: 26px;
             width: 165px !important;
             padding: 10px;
         }
         .table-cell-title {
             color: black;
-            border: 2px solid #c7c7c7;
-            border-right: none;
-            border-bottom: none;
+            /* border: 2px solid #c7c7c7; */
+            /* border-right: none; */
+            border-bottom: 2px solid #c7c7c7;
             height: 26px;
             width: auto !important;
             padding: 10px;
@@ -271,17 +210,47 @@ if .filter-container input[data-field="最小EP"]:not(:checked)
             color: black !important; /* 设置文本颜色为黑色 */
         }
 
-
     }
-    /* 在手机模式下的样式 */
-    @media only screen and (max-width: 600px) { /* 如果屏幕宽度小于等于600px */
-        .table {
-            /* height: 650px; */
-            width: 473px !important;
-            /* margin: 10px; */
-            /* display: inline-block; */
+    
+/* 根据屏幕宽度应用样式 */
+@media only screen and (max-width: 600px) {
+    /* 让表格水平滚动 */
+    .table-container {
+        /* height: 650px; */
+        display: flex; /* 将 table 转换为 flex 容器 */
+        overflow-x: auto; /* 启用 x 轴滚动 */
+        max-width: 305px;
+        border: 4px double #000;
         }
+    .table {
+        margin: 2px;
+        padding: auto;
+        border: none;
+        white-space: nowrap;
+        width: fit-content;
+        /* display: flex; */
+        /* overflow-x: scroll;   */
     }
+    /* 调整单元格宽度 */
+    .table-cell,
+    .table-cell-title {
+        white-space:normal;
+        overflow-y: auto; 
+    }
+    .image-wrapper {
+            position:relative;
+            width: 40px; /* 與圖片寬度相同 */
+            height: auto; /* 自動高度 */
+            transition: transform 0.2s; /* 添加平滑過渡效果 */
+        }
+    .image-wrapper:hover {
+        /* position: sticky; */
+        transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
+        z-index: 999;
+    }
+
+}
+
 
     </style>
 
@@ -599,6 +568,7 @@ var mergedFieldValues_2;
             dataIndex.forEach((index, item) => {
                 dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
                 var resultItem = document.createElement("div");
+                resultItem.classList.add("table-container");
                 // 将数据项转换为文本，并设置为 resultItem 的文本内容
                 dataIndex2 = String(dataIndex2);
                 if (dataIndex2.startsWith("{'") && dataIndex2.endsWith("'}")) {
@@ -607,7 +577,7 @@ var mergedFieldValues_2;
                 // 在循环内部的设置 resultItem 的 HTML 内容的部分
                 resultItem.innerHTML = markupTextWithSearchKeywords(dataIndex2, mergedSearchKeyword);
                 console.log('finish');
-                resultsDiv_show_mse.innerHTML = `共有 ${dataIndex2.length} 筆 搜尋結果`;
+                resultsDiv_show_mse.innerHTML = `共有 ${dataIndex.length} 筆 搜尋結果`;
                 resultsDiv.appendChild(resultItem);
             });
         }
