@@ -266,7 +266,7 @@
 <body>
     <h1>JSON Text Search</h1>
 <p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
-<p>選擇欄位請至少勾選 1 個選項~</p>
+<p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
     <div class="search-container">
       <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
       <button class="search-button" onclick="displayNoMatchingDataMessage()" >搜尋</button>
@@ -275,7 +275,7 @@
     <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
     <div class="filter-container">
         <div class="checkbox-label">
-          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked disabled>卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked>卡片名稱</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="主動技效果" checked>主動技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="隊長技效果">隊長技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Team Skills">隊伍技</label>
