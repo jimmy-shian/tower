@@ -8,8 +8,8 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #e7e7e7;
-
+            background-image: linear-gradient(#e9f0f7, #f7f2f9);
+            /* color: aliceblue; */
         }
 
         .search-container {
@@ -21,33 +21,38 @@
 
         .search-input {
             width: 55%;
-            padding: 10px;
+            padding: 14px;
             margin: 10px 20px 10px 0;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            font-size: 18px;
+            border: 6px double #ccc;
+            border-radius: 12px;
+            background-color: #d9f3ff;
+            transition: background-color 0.2s ease;
         }
-
+        .search-input:hover {
+            background-color: #d0e5ef;
+        }
         .search-button {
-            padding: 10px 25px;
-            margin: 10px;
+            padding: 16px 25px;
+            margin: 14px;
             width: auto;
             font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background-color: #a4d0ff;
+            color: rgb(30, 30, 30);
+            border: 3px solid #ccc;
+            border-radius: 20px;
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
 
         .search-button:hover {
-            background-color: #0056b3;
+            background-color: #e0c3ed;
         }
 
         .table-container {
             /* display: flex; */
             width: max-content;
+            margin: 12px;
         }
         .table {
             border: 4px double #000;
@@ -102,7 +107,7 @@
         } */
 
         .image-wrapper {
-            position: absolute;
+            position: relative;
             width: 40px; /* 與圖片寬度相同 */
             height: auto; /* 自動高度 */
             transition: transform 0.2s; /* 添加平滑過渡效果 */
@@ -127,13 +132,16 @@
             align-items: start;
         }
 
+
         #raceFilter,
         #attributeFilter {
             justify-content: start;
             align-items: start;
+            background-color: #f2eafa;
+            border-radius: 5px;
+            border: 2px dotted #ccc;
             width: 150px;
-            height: 25px;
-            border: 1px solid #000;
+            height: 30px;
         }
 
         .like-strong {
@@ -203,7 +211,7 @@
         }
         .image-wrapper:hover {
             position: absolute;
-            transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
+            transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
             z-index: 99;
         } 
         .black-text {
@@ -212,44 +220,44 @@
 
     }
     
-/* 根据屏幕宽度应用样式 */
-@media only screen and (max-width: 600px) {
-    /* 让表格水平滚动 */
-    .table-container {
-        /* height: 650px; */
-        display: flex; /* 将 table 转换为 flex 容器 */
-        overflow-x: auto; /* 启用 x 轴滚动 */
-        max-width: 305px;
-        border: 4px double #000;
+    /* 根据屏幕宽度应用样式 */
+    @media only screen and (max-width: 600px) {
+        /* 让表格水平滚动 */
+        .table-container {
+            /* height: 650px; */
+            display: flex; /* 将 table 转换为 flex 容器 */
+            overflow-x: auto; /* 启用 x 轴滚动 */
+            max-width: 305px;
+            border: 4px double #000;
+            }
+        .table {
+            margin: 2px;
+            padding: auto;
+            border: none;
+            white-space: nowrap;
+            width: fit-content;
+            /* display: flex; */
+            /* overflow-x: scroll;   */
         }
-    .table {
-        margin: 2px;
-        padding: auto;
-        border: none;
-        white-space: nowrap;
-        width: fit-content;
-        /* display: flex; */
-        /* overflow-x: scroll;   */
-    }
-    /* 调整单元格宽度 */
-    .table-cell,
-    .table-cell-title {
-        white-space:normal;
-        overflow-y: auto; 
-    }
-    .image-wrapper {
-            position:relative;
-            width: 40px; /* 與圖片寬度相同 */
-            height: auto; /* 自動高度 */
-            transition: transform 0.2s; /* 添加平滑過渡效果 */
+        /* 调整单元格宽度 */
+        .table-cell,
+        .table-cell-title {
+            white-space:normal;
+            overflow-y: auto; 
         }
-    .image-wrapper:hover {
-        /* position: sticky; */
-        transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
-        z-index: 999;
-    }
+        .image-wrapper {
+                /* position:sticky ; */
+                width: 40px; /* 與圖片寬度相同 */
+                height: auto; /* 自動高度 */
+                transition: transform 0.2s; /* 添加平滑過渡效果 */
+            }
+        .image-wrapper:hover {
+            /* position: relative; */
+            transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
+            /* z-index: 999; */
+        }
 
-}
+    }
 
 
     </style>
@@ -257,7 +265,7 @@
 </head>
 <body>
     <h1>JSON Text Search</h1>
-
+<p>請不要進 所有種族屬性 的空值搜尋，會掛掉....</p>
     <div class="search-container">
       <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="輸入關鍵字..." onkeypress="handleKeyPress(event)">
       <button class="search-button" onclick="displayNoMatchingDataMessage()" >搜尋</button>
@@ -304,6 +312,7 @@
           
         </div>
       </div>
+
 
     <!-- 其他欄位選項 -->
     <hr>
@@ -462,7 +471,10 @@ var mergedFieldValues_2;
 
     function searchJSON() {
         console.log('not wait');
-        var searchKeyword = document.getElementById("searchInput").value.toLowerCase();
+        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase();
+        if (searchKeyword == "") {
+        searchKeyword = ".";
+        }
         var selectedFields = getSelectedFields();
         var raceFilter = String(document.getElementById("raceFilter").value);
         var attributeFilter = String(document.getElementById("attributeFilter").value);
@@ -581,8 +593,13 @@ var mergedFieldValues_2;
                 resultsDiv.appendChild(resultItem);
             });
         }
-        initializeRowColorUpdater();
-
+        if (dataIndex.length > 2000){
+            resultsDiv_show_mse.innerHTML = `超過 2000 筆 搜尋結果，無法在此呈現，請前往<a herf="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html">神魔之塔主動技搜尋器</a>`;
+            return;
+        }else{
+            initializeRowColorUpdater();
+        }
+        return;
     }
     // var escapedKeywords;
     // var pattern;
