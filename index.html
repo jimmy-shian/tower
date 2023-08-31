@@ -265,16 +265,17 @@
 </head>
 <body>
     <h1>JSON Text Search</h1>
-<p>請不要進 所有種族屬性 的空值搜尋，會掛掉....</p>
+<p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
+<p>選擇欄位請至少勾選 1 個選項~</p>
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="輸入關鍵字..." onkeypress="handleKeyPress(event)">
+      <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
       <button class="search-button" onclick="displayNoMatchingDataMessage()" >搜尋</button>
     </div>
 
     <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
     <div class="filter-container">
         <div class="checkbox-label">
-          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked>卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked disabled>卡片名稱</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="主動技效果" checked>主動技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="隊長技效果">隊長技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Team Skills">隊伍技</label>
@@ -578,6 +579,10 @@ var mergedFieldValues_2;
             console.log('dataIndex.forEach');
 
             dataIndex.forEach((index, item) => {
+                if (dataIndex.length > 3000){
+                resultsDiv_show_mse.innerHTML = `超過 3000 筆 搜尋結果，無法在此呈現，請前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
+                return;
+            }else{
                 dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
                 var resultItem = document.createElement("div");
                 resultItem.classList.add("table-container");
@@ -591,16 +596,15 @@ var mergedFieldValues_2;
                 console.log('finish');
                 resultsDiv_show_mse.innerHTML = `共有 ${dataIndex.length} 筆 搜尋結果`;
                 resultsDiv.appendChild(resultItem);
-            });
-        }
-        if (dataIndex.length > 2000){
-            resultsDiv_show_mse.innerHTML = `超過 2000 筆 搜尋結果，無法在此呈現，請前往<a herf="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html">神魔之塔主動技搜尋器</a>`;
-            return;
+            }
+        });
+        if (dataIndex.length > 3000){
+                return;
         }else{
-            initializeRowColorUpdater();
+            initializeRowColorUpdater();       
         }
-        return;
     }
+}
     // var escapedKeywords;
     // var pattern;
     // // 使用正则表达式将纯文本部分标记为红色
