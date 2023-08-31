@@ -76,6 +76,7 @@
             align-items: center;
         }
         .table-cell {
+            color: black;
             overflow-y: auto;
             padding: 15px;
             height: 90px;
@@ -85,6 +86,7 @@
             border-right: 2px solid #c7c7c7;
         }
         .table-cell-title {
+            color: black;
             overflow-y: auto;
             padding: 15px;
             height: 28px;
@@ -132,7 +134,8 @@
             border: 1px solid #000;
         }
 
-        strong {
+        .like-strong {
+            font-weight: 600;
             /* background-color: ; */
             color: rgb(255, 105, 30);
         }
@@ -141,6 +144,64 @@
     /* display: inline; */
     white-space: nowrap; /* 防止换行 */
 }
+/* Apply red color to corresponding rows when checkbox is unchecked
+if .filter-container input[data-field="Image Name"]:not(:checked) 
+.table-row-title:nth-child(1) .table-cell-title,
+.table-row:nth-child(1) .table-cell-title {
+  color: red;
+}
+if .filter-container input[data-field="主動技效果"]:not(:checked)
+.table-row-title:nth-child(7)
+.table-cell-title,
+.table-row:nth-child(7) .table-cell-title {
+  color: red;
+}
+if .filter-container input[data-field="隊長技效果"]:not(:checked) 
+.table-row-title:nth-child(8) .table-cell-title,
+.table-row:nth-child(8) .table-cell-title {
+  color: red;
+}
+if .filter-container input[data-field="Team Skills"]:not(:checked) 
+.table-row-title:nth-child(9) .table-cell-title,
+.table-row:nth-child(9) .table-cell-title {
+  color: red;
+}
+if .filter-container input[data-field="最小CD"]:not(:checked) 
+.table-row-title:nth-child(6) .table-cell-title,
+.table-row:nth-child(6) .table-cell-title {
+  color: red;
+}
+if .filter-container input[data-field="最小EP"]:not(:checked) 
+.table-row-title:nth-child(6) .table-cell-title,
+.table-row:nth-child(6) .table-cell-title {
+  color: red;
+} */
+
+/* Apply red color to corresponding rows when checkbox is unchecked
+.filter-container input[data-field="Image Name"]:not(:checked) ~ label,
+.filter-container input[data-field="主動技效果"]:not(:checked) ~ label,
+.filter-container input[data-field="隊長技效果"]:not(:checked) ~ label,
+.filter-container input[data-field="Team Skills"]:not(:checked) ~ label,
+.filter-container input[data-field="最小CD"]:not(:checked) ~ label,
+.filter-container input[data-field="最小EP"]:not(:checked) ~ label {
+  color: red;
+}
+
+/* Apply red color to corresponding cells in table rows and title rows 
+.table-row-title:nth-child(1) .table-cell-title,
+.table-row:nth-child(1) .table-cell-title,
+.table-row-title:nth-child(7) .table-cell-title,
+.table-row:nth-child(7) .table-cell-title,
+.table-row-title:nth-child(8) .table-cell-title,
+.table-row:nth-child(8) .table-cell-title,
+.table-row-title:nth-child(9) .table-cell-title,
+.table-row:nth-child(9) .table-cell-title,
+.table-row-title:nth-child(6) .table-cell-title,
+.table-row:nth-child(6) .table-cell-title {
+  color: red;
+} */
+
+
 
     /* 在手机模式下的样式 */
     @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
@@ -172,6 +233,7 @@
             flex-direction: column;
         }
         .table-cell {
+            color: black;
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
@@ -180,6 +242,7 @@
             padding: 10px;
         }
         .table-cell-title {
+            color: black;
             border: 2px solid #c7c7c7;
             border-right: none;
             border-bottom: none;
@@ -204,6 +267,10 @@
             transform: scale(2.5); /* 將圖片放大到原尺寸的2倍 */
             z-index: 99;
         } 
+        .black-text {
+            color: black !important; /* 设置文本颜色为黑色 */
+        }
+
 
     }
     /* 在手机模式下的样式 */
@@ -230,12 +297,12 @@
     <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
     <div class="filter-container">
         <div class="checkbox-label">
-          <label class="checkbox-label"><input type="checkbox" data-field="Image Name" checked>卡片名稱</label>
-          <label class="checkbox-label"><input type="checkbox" data-field="主動技效果" checked>主動技</label>
-          <label class="checkbox-label"><input type="checkbox" data-field="隊長技效果">隊長技</label>
-          <label class="checkbox-label"><input type="checkbox" data-field="Team Skills">隊伍技</label>
-          <label class="checkbox-label"><input type="checkbox" data-field="最小CD">最小CD</label>
-          <label class="checkbox-label"><input type="checkbox" data-field="最小EP">最小EP</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked>卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="主動技效果" checked>主動技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="隊長技效果">隊長技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Team Skills">隊伍技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小CD">最小CD</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小EP">最小EP</label>
         
           <div class="checkbox-label">
             <label for="raceFilter" class="checkbox-label">選擇種族：</label>
@@ -387,10 +454,39 @@ function load_json_files() {
             repeats_dots(dots);
             dots += 1;
         }
+        clearResults();
         searchJSON();
         console.log('close');
-        clearResults();
     }
+
+
+    function getSelectedFields() {
+        var selectedFields = [];
+        // var checkboxCD = document.getElementById("checkbox-cd");
+        // var checkboxEP = document.getElementById("checkbox-ep");
+        var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+        checkboxes.forEach(checkbox => {
+            var fieldName = checkbox.getAttribute("data-field");
+            selectedFields.push({
+                fieldName: fieldName
+            });
+        });
+
+        // if (checkboxCD.checked) {
+        //     selectedFields.push({
+        //         fieldName: checkboxCD.getAttribute("data-field")
+        //     });
+        // }
+        // if (checkboxEP.checked) {
+        //     selectedFields.push({
+        //         fieldName: checkboxEP.getAttribute("data-field")
+        //     });
+        // }
+
+    return selectedFields;
+}
+
 
 var mergedSearchKeyword;
 var mergedFieldValues_2;
@@ -511,9 +607,12 @@ var mergedFieldValues_2;
                 // 在循环内部的设置 resultItem 的 HTML 内容的部分
                 resultItem.innerHTML = markupTextWithSearchKeywords(dataIndex2, mergedSearchKeyword);
                 console.log('finish');
+                resultsDiv_show_mse.innerHTML = `共有 ${dataIndex2.length} 筆 搜尋結果`;
                 resultsDiv.appendChild(resultItem);
             });
         }
+        initializeRowColorUpdater();
+
     }
     // var escapedKeywords;
     // var pattern;
@@ -594,12 +693,12 @@ function markupTextWithSearchKeywords(text, keywords) {
 function traverseNodes(node) {
     if (node.nodeType === Node.TEXT_NODE) {
         var markedText = node.nodeValue.replace(pattern, match => {
-            return `<strong>${match}</strong>`; // 这里标记关键字
+            return `<a class='like-strong' >${match}</a>`; // 这里标记关键字
         });
 
         var markedText2 = markedText.replace(patterntext, match => {
             if (!pattern.test(match)) {
-                return `<strong>${match}</strong>`; // 这里只标记数字
+                return `<a class='like-strong' >${match}</a>`; // 这里只标记数字
             } else {
                 return match;
             }
@@ -618,9 +717,8 @@ function traverseNodes(node) {
             traverseNodes(node.childNodes[i]);
         }
     }
+
 }
-
-
 
 // // 遍历节点并标记纯文本部分为红色
 // function traverseNodes(node) {
@@ -732,32 +830,10 @@ function traverseNodes(node) {
 
     //     return selectedFields;
     // }
-    function getSelectedFields() {
-        var selectedFields = [];
-        // var checkboxCD = document.getElementById("checkbox-cd");
-        // var checkboxEP = document.getElementById("checkbox-ep");
-        var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
 
-        checkboxes.forEach(checkbox => {
-            var fieldName = checkbox.getAttribute("data-field");
-            selectedFields.push({
-                fieldName: fieldName
-            });
-        });
+    
 
-        // if (checkboxCD.checked) {
-        //     selectedFields.push({
-        //         fieldName: checkboxCD.getAttribute("data-field")
-        //     });
-        // }
-        // if (checkboxEP.checked) {
-        //     selectedFields.push({
-        //         fieldName: checkboxEP.getAttribute("data-field")
-        //     });
-        // }
-
-    return selectedFields;
-}
+  
     // ... 其他代码
 
     function handleKeyPress(event) {
@@ -765,6 +841,116 @@ function traverseNodes(node) {
             displayNoMatchingDataMessage(); // 在按下 Enter 键时触发搜索功能
         }
     }
+// // Get all the checkboxes
+// const checkboxes = document.querySelectorAll('.filter-container input[type="checkbox"]');
+
+// // Function to update row colors based on checkbox status
+// function updateRowColors() {
+//   checkboxes.forEach(checkbox => {
+//     const fieldName = checkbox.getAttribute('data-field');
+//     console.log('fieldName=',fieldName);
+//     const checked = checkbox.checked;
+//     if (fieldName == "Image Name"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(1) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(1) .table-cell-title`);
+//     }
+//     if (fieldName == "主動技效果"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(7) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(7) .table-cell-title`);
+//     }
+//     if (fieldName == "隊長技效果"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(8) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(8) .table-cell-title`);
+//     }
+//     if (fieldName == "Team Skills"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(9) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(9) .table-cell-title`);
+//     }
+//     if (fieldName == "最小CD"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(6) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(6) .table-cell-title`);
+//     }
+//     if (fieldName == "最小EP"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(6) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(6) .table-cell-title`);
+//     }
+
+
+//     // const titleCell = document.querySelector(`.table-row-title.${fieldName} .table-cell-title`);
+//     // const rowCell = document.querySelector(`.table-row.${fieldName} .table-cell-title`);
+    
+//     if (!checked) {
+//       titleCell.style.color = 'red';
+//       rowCell.style.color = 'red';
+//     } else {
+//       titleCell.style.color = '';
+//       rowCell.style.color = '';
+//     }
+//   });
+// }
+
+// // Attach event listener to checkboxes
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', updateRowColors);
+// });
+// Get all the checkboxes
+// Get all the checkboxes
+function initializeRowColorUpdater() {
+    const checkboxes = document.querySelectorAll('.filter-container input[type="checkbox"]');
+    console.log('change the color in?')
+
+    // Mapping of checkbox field names to their corresponding column indexes
+    const fieldMappings = {
+        "Image Name": 1,
+        "主動技效果": 7,
+        "隊長技效果": 8,
+        "Team Skills": 9,
+        "最小CD": 6,
+        "最小EP": 6
+    };
+
+    // Get the checkboxes for 最小CD and 最小EP
+    const checkboxMinCD = document.querySelector('.filter-container input[data-field="最小CD"]');
+    const checkboxMinEP = document.querySelector('.filter-container input[data-field="最小EP"]');
+
+    // Function to update row colors based on checkbox status
+    function updateRowColors() {
+        const isMinCDChecked = checkboxMinCD.checked;
+        const isMinEPChecked = checkboxMinEP.checked;
+        
+        const shouldCheckMin = isMinCDChecked || isMinEPChecked;
+
+        checkboxes.forEach(checkbox => {
+            const fieldName = checkbox.getAttribute('data-field');
+            const checked = checkbox.checked || (shouldCheckMin && (fieldName === "最小CD" || fieldName === "最小EP"));
+
+            const columnIndex = fieldMappings[fieldName];
+            const titleRows = document.querySelectorAll(`.table-row-title .table-cell-title:nth-child(${columnIndex}) .like-strong`);
+            const contentRows = document.querySelectorAll(`.table-row .table-cell:nth-child(${columnIndex}) .like-strong`);
+            console.log(fieldName,'=',checked);
+            // console.log('titleRows=', titleRows);
+            // console.log('contentRows=', contentRows);
+
+            titleRows.forEach(titleRow => {
+                titleRow.style.color = checked ? '' : 'black';
+                titleRow.style.fontWeight = checked ? '' : 'normal';
+            });
+
+            contentRows.forEach(contentRow => {
+                contentRow.style.color = checked ? '' : 'black';
+                contentRow.style.fontWeight = checked ? '' : 'normal';
+            });
+        });
+    }
+
+    // Attach event listener to checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateRowColors);
+    });
+
+    // Call the function initially to set the colors based on the checkbox states
+    updateRowColors();
+}
 
 
 // ... 其他代码
