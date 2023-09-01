@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>00000</title>
+    <script src="monster_data.js"></script>
+</head>
+<body>
+    <h1>JSON Text Search</h1>
+    <div id="messageBox">
+        <span id="closeButton">&times;</span>
+        <p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
+        <p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
+      </div>
+
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
+      <button class="search-button" onclick=" searchJSON()" >搜尋</button>
+    </div>
+
+    <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
+    <div class="filter-container">
+        <div class="checkbox-label">
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked>卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="主動技效果" checked>主動技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="隊長技效果">隊長技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Team Skills">隊伍技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小CD">最小CD</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小EP">最小EP</label>
+        
+          <div class="checkbox-label">
+            <label for="raceFilter" class="checkbox-label">選擇種族：</label>
+            <select id="raceFilter" >
+              <option value="all">所有種族</option>
+              <option value="人類">人類</option>
+              <option value="獸類">獸類</option>
+              <option value="妖精類">妖精類</option>
+              <option value="龍類">龍類</option>
+              <option value="神族">神族</option>
+              <option value="魔族">魔族</option>
+              <option value="機械族">機械族</option>
+              <option value="進化素材">進化素材</option>
+              <option value="強化素材">強化素材</option>
+
+            </select>
+          </div>
+          
+          <div class="checkbox-label">
+            <label for="attributeFilter" class="checkbox-label">選擇屬性：</label>
+            <select id="attributeFilter" >
+                <option value="all">所有屬性</option>
+                <option value="水">水</option>
+                <option value="火">火</option>
+                <option value="木">木</option>
+                <option value="光">光</option>
+                <option value="暗">暗</option>
+            </select>
+          </div>
+          
+        </div>
+      </div>
+
+
+    <!-- 其他欄位選項 -->
+    <hr>
+    <hr>
+    <br>
+<!-- <center> -->
+    <div id="resultsContainer" style='font-size: 16px;'>
+        <div id="results_show_mse" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
+        <div id="results" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
+    </div>
+<!-- </center> -->
+    <hr>
+    <br>
+
+</body>
+<script>
+    var resultsDiv_show_mse = document.getElementById("results_show_mse");
+    var resultsDiv = document.getElementById("results");
+
+    function mergeArabicNumbers(inputString) {
+        inputString = inputString.toLowerCase();
+        let mergedString = '';
+        let currentNumber = '';
+        for (let i = 0; i < inputString.length; i++) {
+            const char = inputString[i];
+            if (/[0-9]/.test(char)) {
+                currentNumber += String(char);
+            } else {
+                if (currentNumber !== '') {
+                    mergedString += `,${currentNumber},`;
+                    currentNumber = '';
+                }
+                mergedString = mergedString + ',' + String(char) + ',' ;
+            }
+        }
+        if (currentNumber !== '') {
+            mergedString += `${currentNumber}`;
+        }
+        return String(mergedString)
+    }
+    function getSelectedFields() {
+        var selectedFields = [];
+        var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+        checkboxes.forEach(checkbox => {
+            var fieldName = checkbox.getAttribute("data-field");
+            selectedFields.push({
+                fieldName: fieldName
+            });
+        });
+        return selectedFields;
+    }
+    var mergedSearchKeyword;
+    var mergedFieldValues_2;
+
+    function searchJSON() {
+        console.log('not wait');
+        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase();
+        if (searchKeyword == "") {
+        searchKeyword = ".";
+        }
+        var selectedFields = getSelectedFields();
+        
+        var raceFilter = String(document.getElementById("raceFilter").value);
+        var attributeFilter = String(document.getElementById("attributeFilter").value);
+        var filteredIndexes = [];
+        var dataIndex = [];
+        var dataIndex2 = [];
+        mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
+        
+        for (var i = 0; i < monster_data.length; i++) {
+            var monster = monster_data[i];
+            var monster_id = monster['id'];
+            var monster_name = monster['name'];
+            var monster_attribute = monster['attribute'];
+            var monster_race = monster['race'];
+
+            var monster_skill = monster['skill'];
+                // var monster_skill_name = monster['skill']['name'];
+                // var monster_skill_type = monster['skill']['type'];
+                // var monster_skill_charge = monster['skill']['charge'];
+                // var monster_skill_num = monster['skill']['num'];
+                // var monster_skill_description = monster['skill']['description'];
+            var monster_teamSkill = monster['teamSkill'];
+                // var monster_teamSkill_description = monster_teamSkill['description'];
+                // var monster_teamSkill_activate = monster_teamSkill['activate'];
+            
+            if(monster_id ){
+                console.log( monster_id ,monster_name);
+                for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
+                    monster_skill_name = monster_skill[skill_i]['name'];
+                    monster_skill_description = monster_skill[skill_i]['description'].replace(/\t/g, '').replace('<board>', '').replace('</board>', '');
+                    console.log( monster_skill_name ,monster_skill_description)
+                    resultsDiv_show_mse.innerHTML = monster_skill_name + `${monster_skill_description}`;
+                                    // 根据需要创建 HTML 元素来展示结果
+                var resultItem = document.createElement('div');
+                var skillNameElement = document.createElement('h3');
+                skillNameElement.textContent = monster_skill_name;
+                var skillDescriptionElement = document.createElement('div');
+                skillDescriptionElement.textContent = monster_skill_description;
+
+                // 将创建的元素添加到结果容器中
+                resultItem.appendChild(skillNameElement);
+                resultItem.appendChild(skillDescriptionElement);
+                resultsDiv.appendChild(resultItem);
+                }
+            }
+        
+        }
+    //         // 遍历 searchData 数组中的每个数据项，同时追踪索引
+    //         monster_data.forEach((item, index) => {
+    //             var match = false;
+    //             var fieldValue_MinCD_EP = false;
+    //             var fieldValue_CD = '';
+    //             var fieldValue_EP = '';
+    //             var only_CD_EP = false; // 初始设置为 false
+    //             var cdEpCounter = 0; // 用于计数勾选了 "最小CD" 或 "最小EP" 的字段数量
+           
+    //             var mergedFieldValues = '';
+    //             selectedFields.forEach(field => {
+    //                 if (field.fieldName === "最小CD") {
+    //                     fieldValue_CD = mergeArabicNumbers(String(item["最小CD"]));
+    //                     fieldValue_MinCD_EP = true;
+    //                     cdEpCounter++; // 增加计数
+    //                     return;
+    //                 } else if (field.fieldName === "最小EP") {
+    //                     fieldValue_EP = mergeArabicNumbers(String(item["最小EP"]));
+    //                     fieldValue_MinCD_EP = true;
+    //                     cdEpCounter++; // 增加计数
+    //                     return;
+    //                 } else {
+    //                     var fieldValue = String(item[field.fieldName]).toLowerCase();
+    //                     mergedFieldValues += fieldValue;
+    //                     cdEpCounter++; // 增加计数
+    //                 }
+    //             });
+
+    //             // 如果只有一个 "最小CD" 或 "最小EP" 字段被勾选，则将 only_CD_EP 设置为 true
+    //             if (cdEpCounter == 1) {
+    //                 only_CD_EP = true;
+    //             }
+    //                 // var mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
+    //                 mergedFieldValues_2 = mergedFieldValues = mergeArabicNumbers(mergedFieldValues +','+ fieldValue_CD +','+ fieldValue_EP).split(',').filter(keyword => keyword !== '');
+    //                 console.log('fieldValue_MinCD_EP=', fieldValue_MinCD_EP);
+    //                 console.log('CD=',item["最小CD"], fieldValue_CD, 'EP=',item["最小EP"], fieldValue_EP);
+    //                 console.log("mergedSearchKeyword:", mergedSearchKeyword);
+    //                 console.log("mergedFieldValues:", mergedFieldValues);
+                    
+    //                 if (only_CD_EP){
+    //                     if ((mergedSearchKeyword.some(keyword => mergedFieldValues.includes(keyword)))){
+    //                         match = true;
+    //                     }
+    //                 }
+    //                 else{
+    //                     if ((mergedSearchKeyword.every(keyword => mergedFieldValues.includes(keyword)))){
+    //                         match = true;
+    //                     }
+    //                 }
+    //                 if (match) {
+    //                     console.log('ininininin');
+    //                     console.log('fieldValue_MinCD_EP=', fieldValue_MinCD_EP);
+    //                     console.log('CD=', fieldValue_CD, 'EP=', fieldValue_EP);
+    //                     console.log('屬性 attributeFilter', attributeFilter , '-', item["屬性"] );
+    //                     console.log('種族 raceFilter', raceFilter , '-', item["種族"] );                            
+    //                     // var attributeFilter = item["屬性"];
+    //                     // var raceValues = item["種族"];
+    //                     if (item["屬性"] == attributeFilter && item["種族"] == raceFilter) {
+    //                         dataIndex.push(index);
+    //                         console.log('1');
+    //                         }
+    //                     else if (item["屬性"] == attributeFilter && raceFilter == 'all') {
+    //                         dataIndex.push(index);
+    //                         console.log('2');
+    //                         }
+    //                     else if (attributeFilter == 'all' && item["種族"] == raceFilter) {
+    //                         dataIndex.push(index);
+    //                         console.log('3');
+    //                     }
+    //                     else if (attributeFilter == 'all' && raceFilter == 'all') {
+    //                         dataIndex.push(index);
+    //                         console.log('4');
+    //                     }
+    //                     else
+    //                         console.log('Not find');
+    //                 }
+    //                 console.log(dataIndex);
+    //                 console.log(raceFilter, attributeFilter);
+    //                 console.log(match);
+    //         });
+
+    //     console.log('dataIndex=', dataIndex);
+    //     console.log('dataIndex2=', dataIndex2);
+    //     if (dataIndex.length === 0) {
+    //         setTimeout(function() {
+    //             resultsDiv_show_mse.innerHTML = "No relevant information was found, please modify the keyword and search again...";
+    //             console.log('Please research...');
+    //         }, 1000);
+    //     } 
+    //     else {
+    //         console.log('dataIndex.forEach');
+
+    //         dataIndex.forEach((index, item) => {
+    //             if (dataIndex.length > 5000){
+    //             resultsDiv_show_mse.innerHTML = `超過 3000 筆 搜尋結果，無法在此呈現，請前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
+    //             return;
+    //         }else{
+    //             dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
+    //             var resultItem = document.createElement("div");
+    //             resultItem.classList.add("table-container");
+    //             // 将数据项转换为文本，并设置为 resultItem 的文本内容
+    //             dataIndex2 = String(dataIndex2);
+    //             if (dataIndex2.startsWith("{'") && dataIndex2.endsWith("'}")) {
+    //                 dataIndex2 = dataIndex2.substring(2, dataIndex2.length - 2);
+    //             }
+    //             // 在循环内部的设置 resultItem 的 HTML 内容的部分
+    //             resultItem.innerHTML = markupTextWithSearchKeywords(dataIndex2, mergedSearchKeyword);
+    //             console.log('finish');
+    //             resultsDiv_show_mse.innerHTML = `共有 ${dataIndex.length} 筆 搜尋結果`;
+    //             resultsDiv.appendChild(resultItem);
+    //         }
+    //     });
+    //     if (dataIndex.length > 3000){
+    //             return;
+    //     }else{
+    //         initializeRowColorUpdater();       
+    //     }
+    // }
+}
+
+</script>
+</html>

@@ -11,7 +11,25 @@
             background-image: linear-gradient(#e9f0f7, #f7f2f9);
             /* color: aliceblue; */
         }
+        #messageBox {
+            /* position: fixed; */
+            /* top: 10px;
+            right: 10px; */
+            width: auto ;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            }
 
+            #closeButton {
+            position: sticky; 
+            /* top: 5px; */
+            left: -10px;  
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            }
         .search-container {
             display: flex;
             align-items: center;
@@ -265,8 +283,12 @@
 </head>
 <body>
     <h1>JSON Text Search</h1>
-<p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
-<p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
+    <div id="messageBox">
+        <span id="closeButton">&times;</span>
+        <p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
+        <p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
+      </div>
+
     <div class="search-container">
       <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
       <button class="search-button" onclick="displayNoMatchingDataMessage()" >搜尋</button>
@@ -579,7 +601,7 @@ var mergedFieldValues_2;
             console.log('dataIndex.forEach');
 
             dataIndex.forEach((index, item) => {
-                if (dataIndex.length > 3000){
+                if (dataIndex.length > 5000){
                 resultsDiv_show_mse.innerHTML = `超過 3000 筆 搜尋結果，無法在此呈現，請前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
                 return;
             }else{
@@ -943,7 +965,9 @@ function initializeRowColorUpdater() {
     updateRowColors();
 }
 
-
+document.getElementById("closeButton").addEventListener("click", function() {
+  document.getElementById("messageBox").style.display = "none";
+});
 // ... 其他代码
 
 </script>
