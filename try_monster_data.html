@@ -295,6 +295,7 @@ toggleSwitch.addEventListener('change', function() {
         var select_leaderskill_flag = false;
         var select_teamskill_flag = false;
         var select_littlenum_cd_flag = false;
+        var select_littlenum_ep_flag = false;
         var select_detailed_simple_flag = false;
 
         if (select_flag){
@@ -390,7 +391,7 @@ toggleSwitch.addEventListener('change', function() {
                     }
                 }
             }
-
+//==================開始比對資料====================
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(','); 
             if (select_detailed_simple_flag){
               if ((mergedSearchKeyword.some(keyword => monster_word.includes(keyword)))){
@@ -402,7 +403,7 @@ toggleSwitch.addEventListener('change', function() {
                 }
               }
             }
-            
+//==================準備輸出資料====================
             if (search_flag){
               var dataMapping = {
                 "人類": "icon_human",
@@ -420,7 +421,55 @@ toggleSwitch.addEventListener('change', function() {
                 "光": "icon_l",
                 "暗": "icon_d",
               };
-              
+
+              if ((monster_attribute == attributeFilter || monster_attribute == "all") && (monster_race == raceFilter || monster_race == "all")){
+                var resultItem = document.createElement("div");
+                
+                resultsDiv
+              }
+              if(select_skill_flag){// skill & CD/EP num
+                for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
+                    if (monster_skill[skill_i]['type'] == 'normal'){
+                        monster_word += " " + (monster_skill[skill_i]['name'] + " " + monster_skill[skill_i]['description']);
+                    }
+                    if(select_littlenum_cd_flag){
+                        if(monster_skill[skill_i]['charge'] == 'CD'){
+                            monster_word += " " + monster_skill[skill_i]['num']
+                        }
+                    }
+                    if(select_littlenum_ep_flag){
+                        if(monster_skill[skill_i]['charge'] == 'EP'){
+                            monster_word += " " + monster_skill[skill_i]['num']
+                        }
+                    }
+                }
+            }
+            if(select_monstername_flag){
+                monster_word += " " + monster_idname;
+            }
+            if(select_leaderskill_flag){
+                for (var leader_skill_data_i = 0; leader_skill_data_i < leader_skill_data.length; leader_skill_data_i++) {
+                    var match_monster = leader_skill_data[leader_skill_data_i];
+                    var leader_skill_name = match_monster['name'];
+                    var leader_skill_description = match_monster['description'];
+                    var leader_skill_monster = match_monster['monster'];
+
+                    for (var leader_skill_monster_i = 0; leader_skill_monster_i < leader_skill_monster.length; leader_skill_monster_i++){
+                        match_monster_item = leader_skill_monster[leader_skill_monster_i];
+                        if(match_monster_item == monster_id){
+                            monster_word += " " + (leader_skill_name + " " + leader_skill_description);
+                        }
+                    }
+                } 
+            }
+            if(select_teamskill_flag){
+                for (var teamskill_i = 0; teamskill_i < monster_teamSkill.length; teamskill_i++) {
+                    if (monster_teamSkill[teamskill_i]['type'] == 'normal'){
+                        monster_word += " " + (monster_teamSkill[teamskill_i]['description'] + " " + monster_teamSkill[teamskill_i]['activate']);
+                    }
+                }
+            }
+
             }
             
 

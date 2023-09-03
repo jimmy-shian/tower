@@ -1,0 +1,205 @@
+.card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  .card-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+  }
+  .card-footer-text {
+    flex-grow: 1;
+  }
+  .card-footer-images {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
+  }
+  .card-footer-images img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+  }
+.card-intext{
+height:30vh;
+overflow-y:auto;
+}
+.card-in{
+    display: flex;
+    width: 90% !important;
+}
+
+<body>
+    <div class="card">
+      <img class="card-image" src="your_image_url.jpg" alt="Card Image">
+      <div class="card-footer">
+        <div class="card-footer-text">
+          <p>底下樣行文字</p>
+        </div>
+        <div class="card-footer-images">
+          <img src="small_image_1.jpg" alt="Small Image 1">
+          <img src="small_image_2.jpg" alt="Small Image 2">
+        </div>
+      </div>
+      <div class='card-in'>
+      <div class='card-intext'>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+      </div>
+          <div class='card-intext'>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+        <p>往下是一行字</p>
+        <p>往下是說明</p>
+      </div>
+      </div>
+    </div>
+    <!-- 循環生成其他卡片 -->
+  </body>
+  
+
+  若要透過 JavaScript 生成上述示例中的指令，可以使用 DOM 操作方法來創建元素、設置屬性和添加內容。以下是使用 JavaScript 生成示例指令的程式碼：
+
+1. 控制結構指令（Control Structure Directives）：
+
+```javascript
+// 創建元素
+var element = document.createElement("div");
+
+// 設置 ng-if 屬性
+element.setAttribute("ng-if", "showElement");
+
+// 設置元素內容
+element.textContent = "This element is shown conditionally.";
+
+// 將元素添加到父元素中
+var parentElement = document.getElementById("parent-element");
+parentElement.appendChild(element);
+```
+
+2. 表單相關指令（Form-related Directives）：
+
+```javascript
+// 創建 form 元素
+var formElement = document.createElement("form");
+
+// 設置 action 和 method 屬性
+formElement.setAttribute("action", "/submit");
+formElement.setAttribute("method", "post");
+
+// 創建 input 元素
+var inputElement = document.createElement("input");
+
+// 設置 type、name 和 required 屬性
+inputElement.setAttribute("type", "text");
+inputElement.setAttribute("name", "username");
+inputElement.setAttribute("required", "");
+
+// 創建 button 元素
+var buttonElement = document.createElement("button");
+
+// 設置 type 和內容
+buttonElement.setAttribute("type", "submit");
+buttonElement.textContent = "Submit";
+
+// 將 input 和 button 元素添加到 form 元素中
+formElement.appendChild(inputElement);
+formElement.appendChild(buttonElement);
+
+// 將 form 元素添加到父元素中
+var parentElement = document.getElementById("parent-element");
+parentElement.appendChild(formElement);
+```
+
+3. 媒體相關指令（Media-related Directives）：
+
+```javascript
+// 創建 video 元素
+var videoElement = document.createElement("video");
+
+// 設置 src、controls、width 和 height 屬性
+videoElement.setAttribute("src", "video.mp4");
+videoElement.setAttribute("controls", "");
+videoElement.setAttribute("width", "400");
+videoElement.setAttribute("height", "300");
+
+// 將 video 元素添加到父元素中
+var parentElement = document.getElementById("parent-element");
+parentElement.appendChild(videoElement);
+```
+
+4. 表格相關指令（Table-related Directives）：
+
+```javascript
+// 創建 table 元素
+var tableElement = document.createElement("table");
+
+// 創建 tr 元素
+var trElement = document.createElement("tr");
+
+// 創建 th 元素並設置內容
+var thElement1 = document.createElement("th");
+thElement1.textContent = "Header 1";
+
+var thElement2 = document.createElement("th");
+thElement2.textContent = "Header 2";
+
+// 將 th 元素添加到 tr 元素中
+trElement.appendChild(thElement1);
+trElement.appendChild(thElement2);
+
+// 將 tr 元素添加到 table 元素中
+tableElement.appendChild(trElement);
+
+// 創建 tr 元素
+var trElement2 = document.createElement("tr");
+
+// 創建 td 元素並設置內容
+var tdElement1 = document.createElement("td");
+tdElement1.textContent = "Cell 1,1";
+
+var tdElement2 = document.createElement("td");
+tdElement2.textContent = "Cell 1,2";
+
+// 將 td 元素添加到 tr 元素中
+trElement2.appendChild(tdElement1);
+trElement2.appendChild(tdElement2);
+
+// 將 tr 元素添加到 table 元素中
+tableElement.appendChild(trElement2);
+
+// 創建 tr 元素
+var trElement3 = document.createElement("tr");
+
+// 創建 td 元素並設置內容
+var tdElement3 = document.createElement("td");
+tdElement3.textContent = "Cell 2,1";
+
+var tdElement4 = document.createElement("td");
+tdElement4.textContent = "Cell 2,2";
+
+// 將 td 元素添加到 tr 元素中
+trElement3.appendChild(tdElement3);
+trElement3.appendChild(tdElement4);
+
+// 將 tr 元素添加到 table 元素中
+tableElement.appendChild(trElement3);
+
+// 將 table 元素添加到父元素中
+var parentElement = document.getElementById("parent-element");
+parentElement.appendChild(tableElement);
+```
+
+以上是使用 JavaScript 動態生成示例指令的程式碼示例。您可以根據需要修改父元素的 ID，以及適應特定的場景和邏輯來調整這些程式碼。
