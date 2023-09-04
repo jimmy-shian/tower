@@ -114,7 +114,7 @@
   transition: .4s;
 }
 
-input[type="checkbox"] {
+input[data-field="switchField"] {
   display: none;
 }
 
@@ -247,15 +247,16 @@ toggleSwitch.addEventListener('change', function() {
         }
         return String(mergedString)
     }
-    function getSelectedFields() {
+    
+function getSelectedFields() {
   var selectedFields = [];
   var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
   checkboxes.forEach(checkbox => {
     var fieldName = checkbox.getAttribute("data-field");
-    var isSwitchOn = checkbox.checked;
+    // var isSwitchOn = checkbox.getAttribute("data-field");
       selectedFields.push({
         fieldName: fieldName,
-        isSwitchOn: isSwitchOn
+        // isSwitchOn: isSwitchOn
       });
   });
   return selectedFields;
@@ -264,11 +265,15 @@ toggleSwitch.addEventListener('change', function() {
 
     var resultsDiv_show_mse = document.getElementById("results_show_mse");
     var resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = " &nbsp";
+    resultsDiv_show_mse.innerHTML = " &nbsp";
+
 
     var mergedSearchKeyword;
     var mergedFieldValues_2;
     var select_flag = true;
 
+//================== searchJSON ====================
     function searchJSON() {
         console.log('not wait');
         var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || ".";
@@ -297,6 +302,7 @@ toggleSwitch.addEventListener('change', function() {
         var select_littlenum_cd_flag = false;
         var select_littlenum_ep_flag = false;
         var select_detailed_simple_flag = false;
+        resultsDiv.innerHTML="";
 
         if (select_flag){
             console.log('selectedFields=',selectedFields);
@@ -319,15 +325,18 @@ toggleSwitch.addEventListener('change', function() {
                 }if (fieldName === 'little_num_ep') {
                     select_littlenum_ep_flag = true;
                 }
-            }
-            var isSwitchOn = selectedFields[0].isSwitchOn;
-            if (isSwitchOn == 1) {
+                if (fieldName === "switchField") {
                     select_detailed_simple_flag = true;
                 }
+            }
+            
             select_flag = false;
         }
 
+//================== 開始循環資料，然後先合併搜尋文字 ====================
         for (var i = 0; i < monster_data.length; i++) {
+            var search_flag = false;
+
             var monster_word = "";
             var monster = monster_data[i];
                 monster_id = monster['id'];
@@ -392,17 +401,24 @@ toggleSwitch.addEventListener('change', function() {
                 }
             }
 //==================開始比對資料====================
-            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(','); 
+            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');; 
+            mergedmonster_word = mergeArabicNumbers(monster_word).split(',').filter(keyword => keyword !== '');; 
+            console.log('select_detailed_simple_flag=',select_detailed_simple_flag);
+            console.log('mergedSearchKeyword=',mergedSearchKeyword);
+            console.log('mergedmonster_word=',mergedmonster_word);
             if (select_detailed_simple_flag){
-              if ((mergedSearchKeyword.some(keyword => monster_word.includes(keyword)))){
+              if ((mergedSearchKeyword.some(keyword => mergedmonster_word.includes(keyword)))){
                 search_flag = true; 
-              }
-              else{
-                if ((mergedSearchKeyword.every(keyword => monster_word.includes(keyword)))){
-                  search_flag = true; 
-                }
+                console.log('some');
               }
             }
+            else{
+                if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
+                  search_flag = true; 
+                  console.log('every');
+                }
+            }
+            
 //==================準備輸出資料====================
             if (search_flag){
               var dataMapping = {
@@ -421,12 +437,117 @@ toggleSwitch.addEventListener('change', function() {
                 "光": "icon_l",
                 "暗": "icon_d",
               };
-
-              if ((monster_attribute == attributeFilter || monster_attribute == "all") && (monster_race == raceFilter || monster_race == "all")){
+              console.log('1');
+              console.log('monster_attribute',monster_attribute,"=",attributeFilter);
+              console.log('monster_race',monster_race,"=",raceFilter);
+//================== 生成html ====================
+              if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all")){
+                // 創建外層的 card 元素
                 var resultItem = document.createElement("div");
+                resultItem.classList.add("card");
+
+                // 創建 cardimg-big 元素
+                var cardImgBig = document.createElement("img");
+                cardImgBig.classList.add("cardimg-big");
+                cardImgBig.src = "your_image_url.jpg";
+                cardImgBig.alt = "Card Image";
+                resultItem.appendChild(cardImgBig);
+
+                // 創建 card-name 元素
+                var cardName = document.createElement("div");
+                cardName.classList.add("card-name");
+
+                // 創建 <p> 元素並設置內容
+                var cardNameParagraph = document.createElement("p");
+                cardNameParagraph.textContent = monster_idname;
+                cardName.appendChild(cardNameParagraph);
+
+                // 創建第一個 cardimg-little 元素
+                var cardImgLittle1 = document.createElement("img");
+                cardImgLittle1.classList.add("cardimg-little");
+                cardImgLittle1.src = "your_image_url.jpg";
+                cardImgLittle1.alt = "Card Image";
+                cardName.appendChild(cardImgLittle1);
+
+                // 創建第二個 cardimg-little 元素
+                var cardImgLittle2 = document.createElement("img");
+                cardImgLittle2.classList.add("cardimg-little");
+                cardImgLittle2.src = "your_image_url.jpg";
+                cardImgLittle2.alt = "Card Image";
+                cardName.appendChild(cardImgLittle2);
+
+                resultItem.appendChild(cardName);
+
+                // 創建 card-skill 元素
+                var cardSkill = document.createElement("div");
+                cardSkill.classList.add("card-skill");
+
+                // 創建 card-skill-item 元素
+                var cardSkillItem = document.createElement("div");
+                cardSkillItem.classList.add("card-skill-item");
+
+                // 創建 skill-p 元素
+                var skillP = document.createElement("div");
+                skillP.classList.add("skill-p");
+
+                // 創建 <p> 元素並設置內容
+                var skillPParagraph = document.createElement("p");
+                skillPParagraph.textContent = "rrr";
+                skillP.appendChild(skillPParagraph);
+                cardSkillItem.appendChild(skillP);
+
+                // 創建 skill-detail 元素
+                var skillDetail = document.createElement("div");
+                skillDetail.classList.add("skill-detail");
+
+                // 創建 <p> 元素並設置內容
+                var skillDetailParagraph = document.createElement("p");
+                skillDetailParagraph.textContent = "aaabbcccddd";
+                skillDetail.appendChild(skillDetailParagraph);
+                cardSkillItem.appendChild(skillDetail);
+
+                cardSkill.appendChild(cardSkillItem);
+                resultItem.appendChild(cardSkill);
+
+                // 創建 card-teamskill 元素
+                var cardTeamSkill = document.createElement("div");
+                cardTeamSkill.classList.add("card-teamskill");
+
+                // 創建 card-teamskill-item 元素
+                var cardTeamSkillItem = document.createElement("div");
+                cardTeamSkillItem.classList.add("card-teamskill-item");
+
+                // 創建 teamskill-p 元素
+                var teamSkillP = document.createElement("div");
+                teamSkillP.classList.add("teamskill=p"); // 這裡可能是打錯字，應該是 "teamskill-p" 而不是 "teamskill=p"
+
+                // 創建 <p> 元素並設置內容
+                var teamSkillPParagraph = document.createElement("p");
+                teamSkillPParagraph.textContent = "ttt";
+                teamSkillP.appendChild(teamSkillPParagraph);
+                cardTeamSkillItem.appendChild(teamSkillP);
+
+                // 創建 teamskill-detial 元素
+                var teamSkillDetail = document.createElement("div");
+                teamSkillDetail.classList.add("teamskill-detial"); // 這裡可能是打錯字，應該是 "teamskill-detail" 而不是 "teamskill-detial"
+
+                // 創建 <p> 元素並設置內容
+                var teamSkillDetailParagraph = document.createElement("p");
+                teamSkillDetailParagraph.textContent = "aaabbbcccddd";
+                teamSkillDetail.appendChild(teamSkillDetailParagraph);
+                cardTeamSkillItem.appendChild(teamSkillDetail);
+
+                cardTeamSkill.appendChild(cardTeamSkillItem);
+                resultItem.appendChild(cardTeamSkill);
                 
-                resultsDiv
+                console.log('123');
+                // 將完整的 card 元素添加到 resultsDiv 中
+                // var resultsDiv = document.getElementById("resultsDiv");
+                resultsDiv.appendChild(resultItem);
               }
+
+//==================  ====================
+
               if(select_skill_flag){// skill & CD/EP num
                 for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
                     if (monster_skill[skill_i]['type'] == 'normal'){

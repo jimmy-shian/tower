@@ -70,11 +70,43 @@ overflow-y:auto;
   </body>
   
 
+<div class="card">
+  <img class="cardimg-big" src="your_image_url.jpg" alt="Card Image">
+  <div class="card-name">
+    <p>aaa</p>
+    <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
+    <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
+  </div>
+  <div class="card-skill">
+    <div class="card-skill-item">
+      <div class="skill-p">
+        <p>rrr</p>
+      </div>
+      <div class="skill-detail">
+        <p>aaabbcccddd</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-teamskill">
+    <div class="card-teamskill-item">
+      <div class="teamskill=p">
+        <p>ttt</p>
+      </div>
+      <div class="teamskill-detial">
+        <p>aaabbbcccddd</p>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
   若要透過 JavaScript 生成上述示例中的指令，可以使用 DOM 操作方法來創建元素、設置屬性和添加內容。以下是使用 JavaScript 生成示例指令的程式碼：
 
 1. 控制結構指令（Control Structure Directives）：
 
-```javascript
+
 // 創建元素
 var element = document.createElement("div");
 
@@ -87,11 +119,10 @@ element.textContent = "This element is shown conditionally.";
 // 將元素添加到父元素中
 var parentElement = document.getElementById("parent-element");
 parentElement.appendChild(element);
-```
 
 2. 表單相關指令（Form-related Directives）：
 
-```javascript
+
 // 創建 form 元素
 var formElement = document.createElement("form");
 
@@ -121,11 +152,10 @@ formElement.appendChild(buttonElement);
 // 將 form 元素添加到父元素中
 var parentElement = document.getElementById("parent-element");
 parentElement.appendChild(formElement);
-```
 
 3. 媒體相關指令（Media-related Directives）：
 
-```javascript
+
 // 創建 video 元素
 var videoElement = document.createElement("video");
 
@@ -138,68 +168,7 @@ videoElement.setAttribute("height", "300");
 // 將 video 元素添加到父元素中
 var parentElement = document.getElementById("parent-element");
 parentElement.appendChild(videoElement);
-```
 
-4. 表格相關指令（Table-related Directives）：
 
-```javascript
-// 創建 table 元素
-var tableElement = document.createElement("table");
-
-// 創建 tr 元素
-var trElement = document.createElement("tr");
-
-// 創建 th 元素並設置內容
-var thElement1 = document.createElement("th");
-thElement1.textContent = "Header 1";
-
-var thElement2 = document.createElement("th");
-thElement2.textContent = "Header 2";
-
-// 將 th 元素添加到 tr 元素中
-trElement.appendChild(thElement1);
-trElement.appendChild(thElement2);
-
-// 將 tr 元素添加到 table 元素中
-tableElement.appendChild(trElement);
-
-// 創建 tr 元素
-var trElement2 = document.createElement("tr");
-
-// 創建 td 元素並設置內容
-var tdElement1 = document.createElement("td");
-tdElement1.textContent = "Cell 1,1";
-
-var tdElement2 = document.createElement("td");
-tdElement2.textContent = "Cell 1,2";
-
-// 將 td 元素添加到 tr 元素中
-trElement2.appendChild(tdElement1);
-trElement2.appendChild(tdElement2);
-
-// 將 tr 元素添加到 table 元素中
-tableElement.appendChild(trElement2);
-
-// 創建 tr 元素
-var trElement3 = document.createElement("tr");
-
-// 創建 td 元素並設置內容
-var tdElement3 = document.createElement("td");
-tdElement3.textContent = "Cell 2,1";
-
-var tdElement4 = document.createElement("td");
-tdElement4.textContent = "Cell 2,2";
-
-// 將 td 元素添加到 tr 元素中
-trElement3.appendChild(tdElement3);
-trElement3.appendChild(tdElement4);
-
-// 將 tr 元素添加到 table 元素中
-tableElement.appendChild(trElement3);
-
-// 將 table 元素添加到父元素中
-var parentElement = document.getElementById("parent-element");
-parentElement.appendChild(tableElement);
-```
 
 以上是使用 JavaScript 動態生成示例指令的程式碼示例。您可以根據需要修改父元素的 ID，以及適應特定的場景和邏輯來調整這些程式碼。
