@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Text Search</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(#e9f0f7, #f7f2f9);
+            /* color: aliceblue; */
+        }
+        #messageBox {
+            /* position: fixed; */
+            /* top: 10px;
+            right: 10px; */
+            width: auto ;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            }
+
+            #closeButton {
+            position: sticky; 
+            /* top: 5px; */
+            left: -10px;  
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 20px 0 0;
+        }
+
+        .search-input {
+            width: 55%;
+            padding: 14px;
+            margin: 10px 20px 10px 0;
+            font-size: 18px;
+            border: 6px double #ccc;
+            border-radius: 12px;
+            background-color: #d9f3ff;
+            transition: background-color 0.2s ease;
+        }
+        .search-input:hover {
+            background-color: #d0e5ef;
+        }
+        .search-button {
+            padding: 16px 25px;
+            margin: 14px;
+            width: auto;
+            font-size: 16px;
+            background-color: #a4d0ff;
+            color: rgb(30, 30, 30);
+            border: 3px solid #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-button:hover {
+            background-color: #e0c3ed;
+        }
+
+        .table-container {
+            /* display: flex; */
+            width: max-content;
+            margin: 12px;
+        }
+        .table {
+            border: 4px double #000;
+            /* border-collapse: collapse; */
+            height: 175px;
+            flex-direction: column;
+            width: min-content;
+            /* display: inline-block; */
+            margin: 10px;
+        }
+
+        .table-row {
+            display: inline-flex;
+            border: 1px solid #ccc;
+            /* max-height: 600px; */
+            height: 125px;
+            justify-content: center;
+            align-items: center;
+        }
+        .table-row-title {
+            display: inline-flex;
+            /* overflow-y: auto; */
+            border : 1px solid #ccc;
+            height: 55px;
+            justify-content: center;
+            align-items: center;
+        }
+        .table-cell {
+            color: black;
+            overflow-y: auto;
+            padding: 15px;
+            height: 90px;
+            display: inline-block;
+            justify-content: center;
+            align-items: center; 
+            border-right: 2px solid #c7c7c7;
+            border-bottom: 2px solid #c7c7c7;
+        }
+        .table-cell-title {
+            color: black;
+            overflow-y: auto;
+            padding: 15px;
+            height: 28px;
+            display: inline-block;
+            justify-content: center;
+            align-items: center; 
+            border-right: 2px solid #c7c7c7;
+            /* border-bottom: 2px solid #c7c7c7; */
+        }
+        /* .table-cell:last-child {
+            border-right: none;
+        } */
+
+        .image-wrapper {
+            position: relative;
+            width: 40px; /* 與圖片寬度相同 */
+            height: auto; /* 自動高度 */
+            transition: transform 0.2s; /* 添加平滑過渡效果 */
+        }
+        .image-wrapper:hover {
+            position: absolute;
+            transform: scale(4); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 99;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            padding: 3px;
+        }
+
+        .checkbox-label {
+            margin-top: 10px;
+            justify-content: start;
+            align-items: start;
+        }
+
+
+        #raceFilter,
+        #attributeFilter {
+            justify-content: start;
+            align-items: start;
+            background-color: #f2eafa;
+            border-radius: 5px;
+            border: 2px dotted #ccc;
+            width: 150px;
+            height: 30px;
+        }
+
+        .like-strong {
+            font-weight: 600;
+            color: rgb(255, 105, 30);
+        }
+
+    /* 在手机模式下的样式 */
+    @media only screen and (max-width: 1000px) { /* 如果屏幕宽度小于等于600px */
+
+        .table {
+            height: 641px;
+            width: revert !important;
+            margin: 10px;
+            display: inline-block;
+        }
+        .table-row {
+            border: none;
+            /* white-space: nowrap; */
+            display: inline-grid;
+            /* max-width: 150px !important; */
+            max-height: 30px !important; 
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            
+        }
+        .table-row-title {
+            border: none;
+            /* white-space: nowrap; */
+            display: inline-grid;
+            /* width: 150px !important; */
+            max-height: 30px !important; 
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            flex-direction: column;
+        }
+        .table-cell {
+            color: black;
+            /* border: 2px solid #c7c7c7; */
+            /* border-right: none; */
+            /* border-bottom: none; */
+            height: 26px;
+            width: 165px !important;
+            padding: 10px;
+        }
+        .table-cell-title {
+            color: black;
+            /* border: 2px solid #c7c7c7; */
+            /* border-right: none; */
+            border-bottom: 2px solid #c7c7c7;
+            height: 26px;
+            width: auto !important;
+            padding: 10px;
+        }
+        .table-cell:nth-last-child(-n+3) {
+            height: 90px !important;
+        }        
+        .table-cell-title:nth-last-child(-n+3) {
+            height: 90px !important;
+        }
+        .table-cell:nth-child(3) {
+            height: 40px !important;
+        }        
+        .table-cell-title:nth-child(3) {
+            height: 40px !important;
+        }
+        .image-wrapper:hover {
+            position: absolute;
+            transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
+            z-index: 99;
+        } 
+        .black-text {
+            color: black !important; /* 设置文本颜色为黑色 */
+        }
+
+    }
+    
+    /* 根据屏幕宽度应用样式 */
+    @media only screen and (max-width: 600px) {
+        /* 让表格水平滚动 */
+        .table-container {
+            /* height: 650px; */
+            display: flex; /* 将 table 转换为 flex 容器 */
+            overflow-x: auto; /* 启用 x 轴滚动 */
+            max-width: 305px;
+            border: 4px double #000;
+            }
+        .table {
+            margin: 2px;
+            padding: auto;
+            border: none;
+            white-space: nowrap;
+            width: fit-content;
+            /* display: flex; */
+            /* overflow-x: scroll;   */
+        }
+        /* 调整单元格宽度 */
+        .table-cell,
+        .table-cell-title {
+            white-space:normal;
+            overflow-y: auto; 
+        }
+        .image-wrapper {
+                /* position:sticky ; */
+                width: 40px; /* 與圖片寬度相同 */
+                height: auto; /* 自動高度 */
+                transition: transform 0.2s; /* 添加平滑過渡效果 */
+            }
+        .image-wrapper:hover {
+            /* position: relative; */
+            transform: scale(2); /* 將圖片放大到原尺寸的2倍 */
+            /* z-index: 999; */
+        }
+
+    }
+
+
+    </style>
+
+</head>
+<body>
+    <h1>JSON Text Search</h1>
+    <div id="messageBox">
+        <span id="closeButton">&times;</span>
+        <p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
+        <p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
+      </div>
+
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
+      <button class="search-button" onclick="displayNoMatchingDataMessage()" >搜尋</button>
+    </div>
+
+    <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
+    <div class="filter-container">
+        <div class="checkbox-label">
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Image Name" checked>卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="主動技效果" checked>主動技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="隊長技效果">隊長技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="Team Skills">隊伍技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小CD">最小CD</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="最小EP">最小EP</label>
+        
+          <div class="checkbox-label">
+            <label for="raceFilter" class="checkbox-label">選擇種族：</label>
+            <select id="raceFilter" >
+              <option value="all">所有種族</option>
+              <option value="人類">人類</option>
+              <option value="獸類">獸類</option>
+              <option value="妖精類">妖精類</option>
+              <option value="龍類">龍類</option>
+              <option value="神族">神族</option>
+              <option value="魔族">魔族</option>
+              <option value="機械族">機械族</option>
+              <option value="進化素材">進化素材</option>
+              <option value="強化素材">強化素材</option>
+
+            </select>
+          </div>
+          
+          <div class="checkbox-label">
+            <label for="attributeFilter" class="checkbox-label">選擇屬性：</label>
+            <select id="attributeFilter" >
+                <option value="all">所有屬性</option>
+                <option value="水">水</option>
+                <option value="火">火</option>
+                <option value="木">木</option>
+                <option value="光">光</option>
+                <option value="暗">暗</option>
+            </select>
+          </div>
+          
+        </div>
+      </div>
+
+
+    <!-- 其他欄位選項 -->
+    <hr>
+    <hr>
+    <br>
+<center>
+    <div id="resultsContainer" style='font-size: 16px;'>
+        <div id="results_show_mse" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
+        <div id="results" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
+    </div>
+</center>
+    <hr>
+    <br>
+
+<div style="text-align: center; margin-top: 20px;">
+    本網站資料來源為：
+    <a rel="license" href="https://tos.fandom.com/zh/wiki/%E7%A5%9E%E9%AD%94%E4%B9%8B%E5%A1%94_%E7%B9%81%E4%B8%AD%E7%B6%AD%E5%9F%BA?variant=zh-tw" target="_blank">神魔之塔繁中維基</a>
+    ，根據FANDOM社區使用條款以<a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/deed.zh_TW" target="_blank">
+        <img alt="Creative Commons License" style="border-width:0; width: 80px;" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
+        (CC-BY-SA 3.0) </a>進行使用。
+</div><br>
+
+<script>
+    var resultsDiv_show_mse = document.getElementById("results_show_mse");
+    var stopLoading = true;
+    var resultsDiv = document.getElementById("results");
+    resultsDiv_show_mse.innerHTML = " Loading database.";
+    resultsDiv.innerHTML = " &nbsp";
+
+    function load_json_files_close() {
+    resultsDiv_show_mse.innerHTML = "Loading database...";
+
+    setTimeout(function() {
+        resultsDiv_show_mse.innerHTML = "Finish load";
+    }, 1000); // 设置延迟为 0，让操作尽快执行
+    setTimeout(function() {
+        resultsDiv_show_mse.innerHTML = "Can search now";
+    }, 1250); // 设置延迟为 0，让操作尽快执行
+}
+
+function load_json_files() {
+    // 定义加载信息的数组
+     setTimeout(function() {
+        resultsDiv_show_mse.innerHTML = " Loading database..";
+    }, 10); // 设置延迟为 0，让操作尽快执行
+}
+
+    // fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/final_data.json')
+    fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/new_final_data.json')
+    .then(response => response.json()) // 解析 JSON 資料
+        .then(data => {
+            load_json_files();
+            // 現在的 data 應該是一個陣列，可以進行迭代
+            searchData = data; // 將解析後的資料指派給 searchData
+            console.log('search data is loading');
+        })
+        .catch(error => {
+            load_json_files();
+            console.error('Error fetching or parsing final_data.json:', error);
+    });
+    fetch('https://raw.githubusercontent.com/jimmy-shian/tower/main/processed_data.json')
+    .then(response => response.json()) // 解析 JSON 資料
+        .then(data2 => {
+            // 現在的 data 應該是一個陣列，可以進行迭代
+            showData = data2; // 將解析後的資料指派給 searchData
+            console.log('show data is loading');
+            load_json_files_close();
+            // searchJSON();
+        })
+        .catch(error => {
+            console.error('Error fetching or parsing processed_data.json:', error);
+            load_json_files_close();
+    });
+
+    function mergeArabicNumbers(inputString) {
+        inputString = inputString.toLowerCase();
+        let mergedString = '';
+        let currentNumber = '';
+        for (let i = 0; i < inputString.length; i++) {
+            const char = inputString[i];
+            if (/[0-9]/.test(char)) {
+                currentNumber += String(char);
+            } else {
+                if (currentNumber !== '') {
+                    mergedString += `,${currentNumber},`;
+                    currentNumber = '';
+                }
+                mergedString = mergedString + ',' + String(char) + ',' ;
+            }
+        }
+        if (currentNumber !== '') {
+            mergedString += `${currentNumber}`;
+        }
+        return String(mergedString)
+    }
+    async function clearResults() {
+            stopLoading = false;
+            resultsDiv_show_mse.innerHTML = "&nbsp";
+            console.log('the close time',resultsDiv);
+    }
+
+    async function displayNoMatchingDataMessage() {
+        let dots = 1;
+        const delay = 500; // 每次显示的延迟时间
+        resultsDiv.innerHTML = "&nbsp";
+        resultsDiv_show_mse.innerHTML = "&nbsp";
+
+        console.log('doing displayNoMatchingDataMessage');
+
+        function repeats_dots(dots) {
+            console.log('dots=', dots);
+            resultsDiv_show_mse.innerHTML = `Searching Data${'.'.repeat(dots)}`;
+            console.log(resultsDiv_show_mse.innerHTML);
+        }
+        while (dots <= 4) {
+            await new Promise(resolve => setTimeout(resolve, delay));
+            repeats_dots(dots);
+            dots += 1;
+        }
+        clearResults();
+        searchJSON();
+        console.log('close');
+    }
+
+
+    function getSelectedFields() {
+        var selectedFields = [];
+        // var checkboxCD = document.getElementById("checkbox-cd");
+        // var checkboxEP = document.getElementById("checkbox-ep");
+        var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+        checkboxes.forEach(checkbox => {
+            var fieldName = checkbox.getAttribute("data-field");
+            selectedFields.push({
+                fieldName: fieldName
+            });
+        });
+
+        // if (checkboxCD.checked) {
+        //     selectedFields.push({
+        //         fieldName: checkboxCD.getAttribute("data-field")
+        //     });
+        // }
+        // if (checkboxEP.checked) {
+        //     selectedFields.push({
+        //         fieldName: checkboxEP.getAttribute("data-field")
+        //     });
+        // }
+
+    return selectedFields;
+}
+
+
+var mergedSearchKeyword;
+var mergedFieldValues_2;
+
+    function searchJSON() {
+        console.log('not wait');
+        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase();
+        if (searchKeyword == "") {
+        searchKeyword = ".";
+        }
+        var selectedFields = getSelectedFields();
+        var raceFilter = String(document.getElementById("raceFilter").value);
+        var attributeFilter = String(document.getElementById("attributeFilter").value);
+        var filteredIndexes = [];
+        var dataIndex = [];
+        var dataIndex2 = [];
+        mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
+            
+            // 遍历 searchData 数组中的每个数据项，同时追踪索引
+            searchData.forEach((item, index) => {
+                var match = false;
+                var fieldValue_MinCD_EP = false;
+                var fieldValue_CD = '';
+                var fieldValue_EP = '';
+                var only_CD_EP = false; // 初始设置为 false
+                var cdEpCounter = 0; // 用于计数勾选了 "最小CD" 或 "最小EP" 的字段数量
+            requestAnimationFrame(() => {
+                
+            });
+                var mergedFieldValues = '';
+                selectedFields.forEach(field => {
+                    if (field.fieldName === "最小CD") {
+                        fieldValue_CD = mergeArabicNumbers(String(item["最小CD"]));
+                        fieldValue_MinCD_EP = true;
+                        cdEpCounter++; // 增加计数
+                        return;
+                    } else if (field.fieldName === "最小EP") {
+                        fieldValue_EP = mergeArabicNumbers(String(item["最小EP"]));
+                        fieldValue_MinCD_EP = true;
+                        cdEpCounter++; // 增加计数
+                        return;
+                    } else {
+                        var fieldValue = String(item[field.fieldName]).toLowerCase();
+                        mergedFieldValues += fieldValue;
+                        cdEpCounter++; // 增加计数
+                    }
+                });
+
+                // 如果只有一个 "最小CD" 或 "最小EP" 字段被勾选，则将 only_CD_EP 设置为 true
+                if (cdEpCounter == 1) {
+                    only_CD_EP = true;
+                }
+                    // var mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
+                    mergedFieldValues_2 = mergedFieldValues = mergeArabicNumbers(mergedFieldValues +','+ fieldValue_CD +','+ fieldValue_EP).split(',').filter(keyword => keyword !== '');
+                    console.log('fieldValue_MinCD_EP=', fieldValue_MinCD_EP);
+                    console.log('CD=',item["最小CD"], fieldValue_CD, 'EP=',item["最小EP"], fieldValue_EP);
+                    console.log("mergedSearchKeyword:", mergedSearchKeyword);
+                    console.log("mergedFieldValues:", mergedFieldValues);
+                    
+                    if (only_CD_EP){
+                        if ((mergedSearchKeyword.some(keyword => mergedFieldValues.includes(keyword)))){
+                            match = true;
+                        }
+                    }
+                    else{
+                        if ((mergedSearchKeyword.every(keyword => mergedFieldValues.includes(keyword)))){
+                            match = true;
+                        }
+                    }
+                    if (match) {
+                        console.log('ininininin');
+                        console.log('fieldValue_MinCD_EP=', fieldValue_MinCD_EP);
+                        console.log('CD=', fieldValue_CD, 'EP=', fieldValue_EP);
+                        console.log('屬性 attributeFilter', attributeFilter , '-', item["屬性"] );
+                        console.log('種族 raceFilter', raceFilter , '-', item["種族"] );                            
+                        // var attributeFilter = item["屬性"];
+                        // var raceValues = item["種族"];
+                        if (item["屬性"] == attributeFilter && item["種族"] == raceFilter) {
+                            dataIndex.push(index);
+                            console.log('1');
+                            }
+                        else if (item["屬性"] == attributeFilter && raceFilter == 'all') {
+                            dataIndex.push(index);
+                            console.log('2');
+                            }
+                        else if (attributeFilter == 'all' && item["種族"] == raceFilter) {
+                            dataIndex.push(index);
+                            console.log('3');
+                        }
+                        else if (attributeFilter == 'all' && raceFilter == 'all') {
+                            dataIndex.push(index);
+                            console.log('4');
+                        }
+                        else
+                            console.log('Not find');
+                    }
+                    console.log(dataIndex);
+                    console.log(raceFilter, attributeFilter);
+                    console.log(match);
+            });
+
+        console.log('dataIndex=', dataIndex);
+        console.log('dataIndex2=', dataIndex2);
+        if (dataIndex.length === 0) {
+            setTimeout(function() {
+                resultsDiv_show_mse.innerHTML = "No relevant information was found, please modify the keyword and search again...";
+                console.log('Please research...');
+            }, 1000);
+        } 
+        else {
+            console.log('dataIndex.forEach');
+
+            dataIndex.forEach((index, item) => {
+                if (dataIndex.length > 5000){
+                resultsDiv_show_mse.innerHTML = `超過 3000 筆 搜尋結果，無法在此呈現，請前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
+                return;
+            }else{
+                dataIndex2 = showData[index]; // 获取 showData 中的索引值对应的数据项索引
+                var resultItem = document.createElement("div");
+                resultItem.classList.add("table-container");
+                // 将数据项转换为文本，并设置为 resultItem 的文本内容
+                dataIndex2 = String(dataIndex2);
+                if (dataIndex2.startsWith("{'") && dataIndex2.endsWith("'}")) {
+                    dataIndex2 = dataIndex2.substring(2, dataIndex2.length - 2);
+                }
+                // 在循环内部的设置 resultItem 的 HTML 内容的部分
+                resultItem.innerHTML = markupTextWithSearchKeywords(dataIndex2, mergedSearchKeyword);
+                console.log('finish');
+                resultsDiv_show_mse.innerHTML = `共有 ${dataIndex.length} 筆 搜尋結果`;
+                resultsDiv.appendChild(resultItem);
+            }
+        });
+        if (dataIndex.length > 3000){
+                return;
+        }else{
+            initializeRowColorUpdater();       
+        }
+    }
+}
+    // var escapedKeywords;
+    // var pattern;
+    // // 使用正则表达式将纯文本部分标记为红色
+    // function markupTextWithSearchKeywords(text, keywords) {
+    //     // escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    //     // pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+    //     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    //     pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi');
+
+    //     var tempContainer = document.createElement('div');
+    //     tempContainer.innerHTML = text;
+
+    //     traverseNodes(tempContainer);
+
+    //     return tempContainer.innerHTML;
+    // }
+
+    // function traverseNodes(node) {
+    //     if (node.nodeType === Node.TEXT_NODE) {
+    //         var markedText = node.nodeValue.replace(pattern, match => {
+    //             return `<strong class="highlight">${match}</strong>`;
+    //         });
+
+    //         var tempElement = document.createElement('span');
+    //         tempElement.innerHTML = markedText;
+
+    //         while (tempElement.firstChild) {
+    //             node.parentNode.insertBefore(tempElement.firstChild, node);
+    //         }
+
+    //         node.parentNode.removeChild(node);
+    //     } else if (node.nodeType === Node.ELEMENT_NODE) {
+    //         for (var i = 0; i < node.childNodes.length; i++) {
+    //             traverseNodes(node.childNodes[i]);
+    //         }
+    //     }
+    // }
+var escapedKeywords;
+var pattern;
+var patterntext;
+
+// // 使用正则表达式将纯文本部分标记为红色
+// function markupTextWithSearchKeywords(text, keywords) {
+//     // 将 keywords 转换为正则表达式安全的字符串
+//     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+//     pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+
+//     // 创建一个临时容器元素来处理 HTML 内容
+//     var tempContainer = document.createElement('div');
+//     tempContainer.innerHTML = text;
+// console.log('tempContainer',tempContainer);
+// console.log('text',text);
+//     // 遍历容器中的所有节点，并将纯文本节点标记为红色
+//     traverseNodes(tempContainer);
+
+//     return tempContainer.innerHTML;
+// }
+
+// 使用正则表达式将纯文本部分标记为红色
+function markupTextWithSearchKeywords(text, keywords) {
+    // 将 keywords 转换为正则表达式安全的字符串
+    escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    pattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi'); // 使用 \\b 表示单词边界
+    patterntext = new RegExp(escapedKeywords.join('|'), 'gi'); // 修改這個
+
+    // 创建一个临时容器元素来处理 HTML 内容
+    var tempContainer = document.createElement('div');
+    tempContainer.innerHTML = text;
+
+    // 遍历容器中的所有节点，并将纯文本节点标记为红色
+    traverseNodes(tempContainer);
+
+    return tempContainer.innerHTML;
+}
+
+// 遍历节点并标记纯文本部分为红色
+function traverseNodes(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+        var markedText = node.nodeValue.replace(pattern, match => {
+            return `<a class='like-strong' >${match}</a>`; // 这里标记关键字
+        });
+
+        var markedText2 = markedText.replace(patterntext, match => {
+            if (!pattern.test(match)) {
+                return `<a class='like-strong' >${match}</a>`; // 这里只标记数字
+            } else {
+                return match;
+            }
+        });
+
+        var tempElement = document.createElement('span');
+        tempElement.innerHTML = markedText2;
+
+        while (tempElement.firstChild) {
+            node.parentNode.insertBefore(tempElement.firstChild, node);
+        }
+
+        node.parentNode.removeChild(node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+        for (var i = 0; i < node.childNodes.length; i++) {
+            traverseNodes(node.childNodes[i]);
+        }
+    }
+
+}
+
+// // 遍历节点并标记纯文本部分为红色
+// function traverseNodes(node) {
+//     if (node.nodeType === Node.TEXT_NODE) {
+//         var markedText = node.nodeValue.replace(pattern, match => {
+//             return `<strong>${match}</strong>`;
+//         });
+
+//         var tempElement = document.createElement('span');
+//         tempElement.innerHTML = markedText;
+
+//         while (tempElement.firstChild) {
+//             node.parentNode.insertBefore(tempElement.firstChild, node);
+//         }
+
+//         node.parentNode.removeChild(node);
+//     } else if (node.nodeType === Node.ELEMENT_NODE) {
+//         for (var i = 0; i < node.childNodes.length; i++) {
+//             traverseNodes(node.childNodes[i]);
+//         }
+//     }
+// }
+
+
+// var escapedKeywords;
+// var pattern;
+
+// // 使用正则表达式将纯文本部分标记为红色
+// function markupTextWithSearchKeywords(text, keywords) {
+//     // 将 keywords 转换为正则表达式安全的字符串
+//     escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+//     pattern = new RegExp(escapedKeywords.join('|'), 'gi');
+
+//     // 创建一个临时容器元素来处理 HTML 内容
+//     var tempContainer = document.createElement('div');
+//     tempContainer.innerHTML = text;
+
+//     // 遍历容器中的所有节点，并将纯文本节点标记为红色
+//     traverseNodes(tempContainer);
+
+//     return tempContainer.innerHTML;
+// }
+
+// // 判断是否为一组数字的函数
+// function isNumberGroup(text) {
+//     function mergeArabicNumbers(inputString) {
+//         inputString = inputString.toLowerCase();
+//         let mergedString = '';
+//         let currentNumber = '';
+//         for (let i = 0; i < inputString.length; i++) {
+//             const char = inputString[i];
+//             if (/[0-9]/.test(char)) {
+//                 currentNumber += String(char);
+//             } else {
+//                 if (currentNumber !== '') {
+//                     mergedString += `,${currentNumber},`;
+//                     currentNumber = '';
+//                 }
+//                 mergedString = mergedString + ',' + String(char) + ',' ;
+//             }
+//         }
+//         if (currentNumber !== '') {
+//             mergedString += `${currentNumber}`;
+//         }
+//         return String(mergedString)
+//     }
+//     return text.includes(',') || text.includes(' ');
+// }
+
+// // 遍历节点并标记纯文本部分为红色
+// function traverseNodes(node) {
+//     if (node.nodeType === Node.TEXT_NODE) {
+//         var markedText = node.nodeValue.replace(pattern, match => {
+//             console.log('match=',match);
+//             if (isNumberGroup(match)) {
+//                 return `<strong class="number-group">${match}</strong>`;
+//             } else {
+//                 return `<strong>${match}</strong>`;
+//             }
+//         });
+
+//         var tempElement = document.createElement('span');
+//         tempElement.innerHTML = markedText;
+
+//         while (tempElement.firstChild) {
+//             node.parentNode.insertBefore(tempElement.firstChild, node);
+//         }
+
+//         node.parentNode.removeChild(node);
+//     } else if (node.nodeType === Node.ELEMENT_NODE) {
+//         for (var i = 0; i < node.childNodes.length; i++) {
+//             traverseNodes(node.childNodes[i]);
+//         }
+//     }
+// }
+
+
+    // function getSelectedFields() {
+    //     var selectedFields = [];
+    //     var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+    //     checkboxes.forEach(checkbox => {
+    //         var fieldName = checkbox.getAttribute("data-field");
+
+    //         selectedFields.push({
+    //             fieldName: fieldName
+    //         });
+    //     });
+
+    //     return selectedFields;
+    // }
+
+    
+
+  
+    // ... 其他代码
+
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            displayNoMatchingDataMessage(); // 在按下 Enter 键时触发搜索功能
+        }
+    }
+// // Get all the checkboxes
+// const checkboxes = document.querySelectorAll('.filter-container input[type="checkbox"]');
+
+// // Function to update row colors based on checkbox status
+// function updateRowColors() {
+//   checkboxes.forEach(checkbox => {
+//     const fieldName = checkbox.getAttribute('data-field');
+//     console.log('fieldName=',fieldName);
+//     const checked = checkbox.checked;
+//     if (fieldName == "Image Name"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(1) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(1) .table-cell-title`);
+//     }
+//     if (fieldName == "主動技效果"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(7) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(7) .table-cell-title`);
+//     }
+//     if (fieldName == "隊長技效果"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(8) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(8) .table-cell-title`);
+//     }
+//     if (fieldName == "Team Skills"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(9) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(9) .table-cell-title`);
+//     }
+//     if (fieldName == "最小CD"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(6) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(6) .table-cell-title`);
+//     }
+//     if (fieldName == "最小EP"){
+//         const titleCell = document.querySelector(`.table-row-title:nth-child(6) .table-cell-title`);
+//         const rowCell = document.querySelector(`.table-row:nth-child(6) .table-cell-title`);
+//     }
+
+
+//     // const titleCell = document.querySelector(`.table-row-title.${fieldName} .table-cell-title`);
+//     // const rowCell = document.querySelector(`.table-row.${fieldName} .table-cell-title`);
+    
+//     if (!checked) {
+//       titleCell.style.color = 'red';
+//       rowCell.style.color = 'red';
+//     } else {
+//       titleCell.style.color = '';
+//       rowCell.style.color = '';
+//     }
+//   });
+// }
+
+// // Attach event listener to checkboxes
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', updateRowColors);
+// });
+// Get all the checkboxes
+// Get all the checkboxes
+function initializeRowColorUpdater() {
+    const checkboxes = document.querySelectorAll('.filter-container input[type="checkbox"]');
+    console.log('change the color in?')
+
+    // Mapping of checkbox field names to their corresponding column indexes
+    const fieldMappings = {
+        "Image Name": 1,
+        "主動技效果": 7,
+        "隊長技效果": 8,
+        "Team Skills": 9,
+        "最小CD": 6,
+        "最小EP": 6
+    };
+
+    // Get the checkboxes for 最小CD and 最小EP
+    const checkboxMinCD = document.querySelector('.filter-container input[data-field="最小CD"]');
+    const checkboxMinEP = document.querySelector('.filter-container input[data-field="最小EP"]');
+
+    // Function to update row colors based on checkbox status
+    function updateRowColors() {
+        const isMinCDChecked = checkboxMinCD.checked;
+        const isMinEPChecked = checkboxMinEP.checked;
+        
+        const shouldCheckMin = isMinCDChecked || isMinEPChecked;
+
+        checkboxes.forEach(checkbox => {
+            const fieldName = checkbox.getAttribute('data-field');
+            const checked = checkbox.checked || (shouldCheckMin && (fieldName === "最小CD" || fieldName === "最小EP"));
+
+            const columnIndex = fieldMappings[fieldName];
+            const titleRows = document.querySelectorAll(`.table-row-title .table-cell-title:nth-child(${columnIndex}) .like-strong`);
+            const contentRows = document.querySelectorAll(`.table-row .table-cell:nth-child(${columnIndex}) .like-strong`);
+            console.log(fieldName,'=',checked);
+            // console.log('titleRows=', titleRows);
+            // console.log('contentRows=', contentRows);
+
+            titleRows.forEach(titleRow => {
+                titleRow.style.color = checked ? '' : 'black';
+                titleRow.style.fontWeight = checked ? '' : 'normal';
+            });
+
+            contentRows.forEach(contentRow => {
+                contentRow.style.color = checked ? '' : 'black';
+                contentRow.style.fontWeight = checked ? '' : 'normal';
+            });
+        });
+    }
+
+    // Attach event listener to checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateRowColors);
+    });
+
+    // Call the function initially to set the colors based on the checkbox states
+    updateRowColors();
+}
+
+document.getElementById("closeButton").addEventListener("click", function() {
+  document.getElementById("messageBox").style.display = "none";
+});
+// ... 其他代码
+
+</script>
+</body>
+</html>
