@@ -54,12 +54,12 @@ function scrollToTop() {
 
 
     function mergeArabicNumbers(inputString) {
-        inputString = inputString.toLowerCase();
+        inputString = inputString;
         let mergedString = '';
         let currentNumber = '';
         for (let i = 0; i < inputString.length; i++) {
             const char = inputString[i];
-            if (/[0-9]/.test(char)) {
+            if (/[0-9.]/.test(char)) {
                 currentNumber += String(char);
             } else {
                 if (currentNumber !== '') {
@@ -86,6 +86,7 @@ function getSelectedFields() {
         // isSwitchOn: isSwitchOn
       });
   });
+  console.log('selectedFields',selectedFields)
   return selectedFields;
 }
 
@@ -102,7 +103,6 @@ function getSelectedFields() {
 
 //================== searchJSON ====================
     function searchJSON() {
-        console.log('not wait,data_howmany=',data_howmany);
         var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || ".";
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
         console.log(mergedSearchKeyword);
@@ -135,27 +135,27 @@ function getSelectedFields() {
         resultsDiv.innerHTML="";
 
         if (select_flag){
-            // console.log('selectedFields=',selectedFields);
+            console.log('select_flag=',select_flag);
             for (var select_i = 0; select_i < selectedFields.length; select_i++) {
                 var fieldName = selectedFields[select_i].fieldName;
-                if (fieldName === 'monster_name') {
+                if (fieldName == 'monster_name') {
                     select_monstername_flag = true;
                 }
-                if (fieldName === 'skill') {
+                if (fieldName == 'skill') {
                     select_skill_flag = true;
                 }
-                if (fieldName === 'leader_skill') {
+                if (fieldName == 'leader_skill') {
                     select_leaderskill_flag = true;
                 }
-                if (fieldName === 'team_skill') {
+                if (fieldName == 'team_skill') {
                     select_teamskill_flag = true;
                 }
-                if (fieldName === 'little_num_cd') {
+                if (fieldName == 'little_num_cd') {
                     select_littlenum_cd_flag = true;
-                }if (fieldName === 'little_num_ep') {
+                }if (fieldName == 'little_num_ep') {
                     select_littlenum_ep_flag = true;
                 }
-                if (fieldName === "switchField") {
+                if (fieldName == "switchField") {
                     select_detailed_simple_flag = true;
                 }
             }
@@ -166,7 +166,6 @@ function getSelectedFields() {
 //================== 開始循環資料，然後先合併搜尋文字 ====================
         for (var i = 0; i < monster_data.length; i++) {
             var search_flag = false;
-
             var monster_word = "";
             var monster = monster_data[i];
                 monster_id = monster['id'];
@@ -185,19 +184,21 @@ function getSelectedFields() {
                 var monster_teamSkill_description = monster_teamSkill['description'];
                 var monster_teamSkill_activate = monster_teamSkill['activate'];
             
-            if(select_skill_flag){// skill & CD/EP num
+            if(select_skill_flag || select_littlenum_cd_flag || select_littlenum_ep_flag){// skill & CD/EP num
                 for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
-                    // if (monster_skill[skill_i]['type'] == 'normal'){
-                        monster_word += " " + monster_skill[skill_i]['description'];
-                    // }
+                    if (select_skill_flag){
+                        monster_word += (" " + monster_skill[skill_i]['description']);
+                    }
                     if(select_littlenum_cd_flag){
                         if(monster_skill[skill_i]['charge'] == 'CD'){
-                            monster_word += " " + monster_skill[skill_i]['num']
+                          if(monster_skill[skill_i]['num'] !== -1){
+                            monster_word += (" " + monster_skill[skill_i]['num']);
+                          }
                         }
                     }
                     if(select_littlenum_ep_flag){
                         if(monster_skill[skill_i]['charge'] == 'EP'){
-                            monster_word += " " + monster_skill[skill_i]['num']
+                            monster_word += (" " + monster_skill[skill_i]['num']);
                         }
                     }
                 }
@@ -206,7 +207,7 @@ function getSelectedFields() {
             //     monster_word += monster_idname;
             // }
             if(select_monstername_flag){
-                monster_word += " " + monster_idname;
+                monster_word += ( " " + monster_idname);
             }
             if(select_leaderskill_flag){
                 for (var leader_skill_data_i = 0; leader_skill_data_i < leader_skill_data.length; leader_skill_data_i++) {
@@ -218,7 +219,7 @@ function getSelectedFields() {
                     for (var leader_skill_monster_i = 0; leader_skill_monster_i < leader_skill_monster.length; leader_skill_monster_i++){
                         match_monster_item = leader_skill_monster[leader_skill_monster_i];
                         if(match_monster_item == monster_id){
-                            monster_word += " " + leader_skill_description;
+                            monster_word += (" " + leader_skill_description);
                         }
                     }
                 } 
@@ -226,10 +227,11 @@ function getSelectedFields() {
             if(select_teamskill_flag){
                 for (var teamskill_i = 0; teamskill_i < monster_teamSkill.length; teamskill_i++) {
                     if (monster_teamSkill[teamskill_i]['type'] == 'normal'){
-                        monster_word += " " + (monster_teamSkill[teamskill_i]['description'] + " " + monster_teamSkill[teamskill_i]['activate']);
+                        monster_word += (" " + (monster_teamSkill[teamskill_i]['description'] + " " + monster_teamSkill[teamskill_i]['activate']));
                     }
                 }
             }
+            // console.log('monster_word = ',monster_word)
 //==================開始比對資料====================
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
             mergedmonster_word = mergeArabicNumbers(monster_word).split(',').filter(keyword => keyword !== '');
@@ -243,7 +245,7 @@ function getSelectedFields() {
               }
             }
             else{
-                if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
+                 if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
                   search_flag = true; 
                   console.log('every');
                 }
@@ -290,9 +292,13 @@ function getSelectedFields() {
 
                 // 創建 <p> 元素並設置內容
                 var cardNameParagraph = document.createElement("p");
-                cardNameParagraph.innerHTML = markupTextWithSearchKeywords(monster_idname);
+                if(select_monstername_flag){
+                  cardNameParagraph.innerHTML = markupTextWithSearchKeywords(monster_idname);
+                }else{
+                  cardNameParagraph.textContent = monster_idname;
+                }
                 cardName.appendChild(cardNameParagraph);
-
+console.log('monster_idname=',monster_idname);
                 // 創建第一個 cardimg-little 元素
                 var cardImgLittle1 = document.createElement("img");
                 cardImgLittle1.classList.add("cardimg-little");
@@ -334,7 +340,11 @@ function getSelectedFields() {
                     if (monster_skill[skill_ii]['num'] == -1){
                       skillPParagraph2.innerHTML = `組合技能`;
                     }else{
-                      skillPParagraph2.innerHTML = `${monster_skill[skill_ii]['charge']} ${markupTextWithSearchKeywords(String(monster_skill[skill_ii]['num']))}`;
+                      if(select_littlenum_cd_flag || select_littlenum_ep_flag){
+                        skillPParagraph2.innerHTML = `${monster_skill[skill_ii]['charge']} &nbsp ${markupTextWithSearchKeywords(String(monster_skill[skill_ii]['num']))}`;
+                      }else{
+                        skillPParagraph2.innerHTML = `${monster_skill[skill_ii]['charge']} &nbsp ${monster_skill[skill_ii]['num']}`;
+                      }
                     }
                     skillP.appendChild(skillPParagraph2);
                     cardSkillItem.appendChild(skillP);
@@ -345,7 +355,11 @@ function getSelectedFields() {
 
                     // 創建 <p> 元素並設置內容
                     var skillDetailParagraph = document.createElement("div");
-                    skillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_skill[skill_ii]['description'])}`;
+                    if(select_skill_flag){
+                      skillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_skill[skill_ii]['description'])}`;
+                    }else{
+                      skillDetailParagraph.textContent = `${monster_skill[skill_ii]['description']}`;
+                    }
                     skillDetail.appendChild(skillDetailParagraph);
                     cardSkillItem.appendChild(skillDetail);
                     prevName = monster_skill[skill_ii]['name'];
@@ -368,7 +382,11 @@ function getSelectedFields() {
 
                   // 創建 <p> 元素並設置內容
                   var teamSkillPParagraph = document.createElement("p");
-                  teamSkillPParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
+                  if(select_teamskill_flag){
+                    teamSkillPParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
+                  }else{
+                    teamSkillPParagraph.textContent = `${monster_teamSkill[teamskill_ii]['activate']}`;
+                  }
                   teamSkillP.appendChild(teamSkillPParagraph);
                   cardTeamSkillItem.appendChild(teamSkillP);
 
@@ -378,7 +396,11 @@ function getSelectedFields() {
 
                   // 創建 <p> 元素並設置內容
                   var teamSkillDetailParagraph = document.createElement("div");
-                  teamSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['description'])}`;
+                  if(select_teamskill_flag){
+                    teamSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['description'])}`;
+                  }else{
+                    teamSkillDetailParagraph.textContent = `${monster_teamSkill[teamskill_ii]['description']}`;
+                  }
                   teamSkillDetail.appendChild(teamSkillDetailParagraph);
                   cardTeamSkillItem.appendChild(teamSkillDetail);
 
@@ -419,7 +441,11 @@ function getSelectedFields() {
 
                             // 創建 <p> 元素並設置內容
                             var leaderSkillDetailParagraph = document.createElement("div");
-                            leaderSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(leader_skill_description)}`;
+                            if(select_leaderskill_flag){
+                              leaderSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(leader_skill_description)}`;
+                            }else{
+                              leaderSkillDetailParagraph.textContent = `${leader_skill_description}`;
+                            }
                             leaderSkillDetail.appendChild(leaderSkillDetailParagraph);
                             leaderSkillItem.appendChild(leaderSkillDetail);
 

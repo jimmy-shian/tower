@@ -23,7 +23,7 @@
       <input type="checkbox" id="toggleSwitch" data-field="switchField">
       <label class="switch" for="toggleSwitch"></label>
       <span id="toggleText">詳細搜尋</span>
-      <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
+      <input type="text" id="searchInput" class="search-input table-cell" value="10" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
       <button class="search-button table-cell" onclick=" searchJSON()" >搜尋</button>
     </div>
     <div class="container table-cell">
@@ -76,11 +76,11 @@
     <h2 style="margin-left: 20%;">選擇搜尋欄位：</h2>
     <div class="filter-container">
         <div class="checkbox-label">
-          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="monster_name" checked>卡片名稱</label>
-          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="skill" checked>主動技</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="monster_name" >卡片名稱</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="skill" >主動技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="leader_skill">隊長技</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="team_skill">隊伍技</label>
-          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="little_num_cd">最小CD</label>
+          <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="little_num_cd" checked>最小CD</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="little_num_ep">最小EP</label>
         
           <div class="checkbox-label">
