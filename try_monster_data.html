@@ -6,24 +6,181 @@
     <script src="monster_data.js"></script>
     <script src="leader_skill_data.js"></script>
     <style>
-        pre {
-            line-height: 0.7; /* 调整行高的数值，可以根据需要进行调整 */
-    }
-    /* .table {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: linear-gradient(#e9f0f7, #f7f2f9);
+    /* color: aliceblue; */
 }
 
-.cell {
-  border: 1px solid #ccc;
-  padding: 10px;
+.card{
+  display: block;
+  /* width:fit-content; */
+  width: 520px;
+  /* max-width: 300px; */
+  height: 520px;
+  margin: 20px;
+  overflow: auto;
+  border: 0.8px solid #6698c1;
+  padding: 18px;
+  border-radius: 5px;
 }
 
-@media screen and (max-width: 600px) {
-  .table {
-    grid-template-columns: repeat(3, 1fr);
-  } 
-}*/
+.cardimg-big {
+  width: 80px;
+  transition: transform 0.2s ease-out; /* 添加過渡效果 */
+  z-index: 98;
+}
+.cardimg-big:hover {
+  position: relative;
+  z-index: 99;
+  transform: scale(1.3); /* 懸停時放大 1.2 倍 */
+}
+.card-name{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.card-name p{
+  margin-right: 25px;  
+}
+.cardimg-little{
+  width: 25px;
+  height: 25px;
+  margin-left: 8px; 
+}
+.card-skill{
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 17px;
+}
+.card-skill-item{
+  width: 210px;
+  display: block;
+  border: 2px solid black;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 10px 0 0;
+}
+/* .card-skill-item:nth-child(1),
+.card-skill-item:nth-child(2) {
+  border-right: none;
+} */
+.skill-p{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.skill-p p{
+  margin: 2px 8px 8px 4px;
+}
+.skill-p p:nth-child(2){
+  display: flex;
+  margin-left: 20px; 
+}
+.skill-detail {
+  /* width: 150px; */
+  height: 150px;
+  background-color: lightgray; /* 淺灰色 */
+  word-wrap: break-word; /* 自動換行 */
+  overflow-y: auto; /* 出現垂直滾輪 */
+  line-height: 1.5; /* 設定行高 */
+  border-top: 2px solid black;
+  padding: 3px;
+}
+.skill-detail div{
+  white-space: pre-wrap;
+  margin: -40px 0 0 8px;
+}
+
+.card-teamskill{
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 2px solid #05467b;
+  margin-bottom: 17px;
+}
+.card-teamskill-item{
+  display: block;
+  border: 2px solid black;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 10px 0 0;
+  width: 343px;
+}
+/* .card-skill-item:nth-child(1),
+.card-skill-item:nth-child(2) {
+  border-right: none;
+} */
+.teamskill-p{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.teamskill-p p{
+  margin: 2px 8px 8px 4px;
+}
+.teamskill-p p:nth-child(2){
+  display: flex;
+  margin-left: 20px; 
+}
+.teamskill-detail {
+  /* width: 150px; */
+  height: 150px;
+  background-color: lightgray; /* 淺灰色 */
+  word-wrap: break-word; /* 自動換行 */
+  overflow-y: auto; /* 出現垂直滾輪 */
+  line-height: 1.5; /* 設定行高 */
+  border-top: 2px solid black;
+  padding: 3px;
+}
+.teamskill-detail div{
+  white-space: pre-wrap;
+  margin: -40px 0 0 8px;
+}
+
+.leaderskill {
+  display: flex;
+  padding-top: 12px;
+  border-top: 2px solid #05467b;
+}
+.leaderskill-item {
+  display: block;
+  border: 2px solid black;
+  background-color: rgb(211, 227, 245);
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 10px 0 0;
+  width: 343px;
+}
+.leaderskill-p {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.leaderskill-p p {
+  margin: 2px 8px 8px 4px;
+}
+.leaderskill-p p:nth-child(2) {
+  display: flex;
+  margin-left: 20px; 
+}
+.leaderskill-detail {
+  /* width: 150px; */
+  height: 150px;
+  background-color: lightgray;
+  word-wrap: break-word;
+  overflow-y: auto;
+  line-height: 1.5;
+  border-top: 2px solid black;
+  padding: 3px;
+}
+.leaderskill-detail div{
+  white-space: pre-wrap;
+  margin: -40px 0 0 8px;
+}
+
+
 .search-container {
             display: flex;
             align-items: center;
@@ -32,9 +189,9 @@
         }
 
         .search-input {
-            width: 300px;
+            width: 280px;
             padding: 10px;
-            margin: 10px 20px 10px 0;
+            margin: 10px 20px 10px 15px;
             font-size: 18px;
             border: 6px double #ccc;
             border-radius: 12px;
@@ -60,40 +217,20 @@
         .search-button:hover {
             background-color: #e0c3ed;
         }
-.table {
+/* .table {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-}
+} */
 
-.cell {
-  flex-grow: 1;
-  min-width: 200px;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-@media screen and (max-width: 600px) {
-  .table {
-    flex-wrap: wrap;
-    overflow-x: initial;
-  }
-}
 .container {
-    float: inline-start;
-    right: 20px;
-  position: relative;
-  width: 200px;
-  height: 28px;
-  /* background-color: #ccc; */
-  /* padding: 20px; */
+  display: inline-flex;
+  align-items: center;
 }
 
 .switch {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-right: 10px;
+  position: relative;
   display: inline-block;
   width: 50px;
   height: 24px;
@@ -114,6 +251,11 @@
   transition: .4s;
 }
 
+.container #toggleText {
+  margin-right: 10px;
+}
+
+
 input[data-field="switchField"] {
   display: none;
 }
@@ -122,42 +264,96 @@ input[type="checkbox"]:checked + .switch:before {
   transform: translateX(26px);
   background-color: #2196F3;
 }
+
+.like-strong {
+  font-weight: 1000;
+  color: rgb(255, 98, 20);
+}
+
+.filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            padding: 3px;
+        }
+
+        .checkbox-label {
+            margin-top: 10px;
+            justify-content: start;
+            align-items: start;
+        }
+
+
+        #raceFilter,
+        #attributeFilter {
+            justify-content: start;
+            align-items: start;
+            background-color: #f2eafa;
+            border-radius: 5px;
+            border: 2px dotted #ccc;
+            width: 150px;
+            height: 30px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>JSON Text Search</h1>
-    <div id="messageBox">
-        <span id="closeButton">&times;</span>
-        <p>請不要進行 所有種族屬性 的空值搜尋，會掛掉....</p>
-        <p>選擇欄位勾選 1 個選項為簡易搜尋，勾選 2 個以上會以較為精確的方式搜尋~</p>
-      </div>
+    <h1>Card skills Search</h1>
 
     <div class="search-container table">
+      <input type="checkbox" id="toggleSwitch" data-field="switchField">
+      <label class="switch" for="toggleSwitch"></label>
+      <span id="toggleText">詳細搜尋</span>
       <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
       <button class="search-button table-cell" onclick=" searchJSON()" >搜尋</button>
     </div>
     <div class="container table-cell">
-        <input type="checkbox" id="toggleSwitch" data-field="switchField" checked>
-        <label class="switch" for="toggleSwitch"></label>
+
+    </div>
+
+<!-- <div class="card">
+    <img class="cardimg-big" src="img/monster/2742.png" alt="Card Image">
+    <div class="card-name">
+      <p>No. 344 特洛伊公主</p>
+      <img class="cardimg-little" src="img/icon/icon_elf.png" alt="Card Image">
+      <img class="cardimg-little" src="img/icon/icon_l.png" alt="Card Image">
+    </div>
+  
+  <div class="card-skill">
+    <div class="card-skill-item">
+      <div class="skill-p">
+        <p>rrr</p>
       </div>
-    
-<!-- <div class="table">
-    <div class="row">
-      <div class="cell">单元格 1</div>
-      <div class="cell">单元格 2</div>
-      <div class="cell">单元格 3</div>
+      <div class="skill-detail">
+        <p>aaabbcccddd</p>
+      </div>
     </div>
-    <div class="row">
-      <div class="cell">单元格 4</div>
-      <div class="cell">单元格 5</div>
-      <div class="cell">单元格 6</div>
+  </div>
+  <div class="card-teamskill">
+    <div class="card-teamskill-item">
+      <div class="teamskill-p">
+        <p>ttt</p>
+      </div>
+      <div class="teamskill-detail">
+        <p>aaabbbcccddd</p>
+      </div>
     </div>
-    <div class="row">
-      <div class="cell">单元格 7</div>
-      <div class="cell">单元格 8</div>
-      <div class="cell">单元格 9</div>
+  </div>
+  <div class="leaderskill">
+    <div class="leaderskill-item">
+      <div class="leaderskill-p">
+        <p>隊長技： 海之力</p>
+      </div>
+      <div class="leaderskill-detail">
+        <div>
+
+    水屬性攻擊力 1.5 倍
+        </div>
+      </div>
     </div>
-  </div> -->
+  </div>
+</div> -->
 
     <h2 style="margin-left: 20vh;">選擇搜尋欄位：</h2>
     <div class="filter-container">
@@ -209,23 +405,33 @@ input[type="checkbox"]:checked + .switch:before {
 <!-- <center> -->
     <div id="resultsContainer" style='font-size: 16px;'>
         <div id="results_show_mse" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
-        <div id="results" style='display: block; opacity: 1;'><p>&nbsp;</p></div>
+  <div id="results" style='display: flex; flex-wrap: wrap; opacity: 1;'><p>&nbsp;</p></div>
     </div>
 <!-- </center> -->
     <hr>
     <br>
-
+<div style="text-align: center; margin-top: 20px;">
+    本網站資料來源為：
+    <a rel="license" href="https://github.com/tinghan33704/tos_tools" target="_blank">蒼曜 tinghan33704</a>
+    ，依據此<a rel="license" href="https://raw.githubusercontent.com/tinghan33704/tos_tools/main/LICENSE" target="_blank">使用條款</a>進行使用。
+</div><br>
 </body>
 <script>
-  const toggleSwitch = document.getElementById('toggleSwitch');
+const toggleSwitch = document.getElementById('toggleSwitch');
+const toggleText = document.getElementById('toggleText');
+// toggleText.textContent = '簡易搜尋';
+// toggleSwitch.parentNode.appendChild(toggleText);
 
 toggleSwitch.addEventListener('change', function() {
   if (this.checked) {
-    console.log('开关已打开');
+    toggleText.textContent = '簡易搜尋';
+    console.log('開關 打開');
   } else {
-    console.log('开关已关闭');
+    toggleText.textContent = '詳細搜尋';
+    console.log('開關 關閉');
   }
 });
+
     function mergeArabicNumbers(inputString) {
         inputString = inputString.toLowerCase();
         let mergedString = '';
@@ -275,7 +481,7 @@ function getSelectedFields() {
 
 //================== searchJSON ====================
     function searchJSON() {
-        console.log('not wait');
+        console.log('not wait,data_howmany=',data_howmany);
         var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || ".";
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
         console.log(mergedSearchKeyword);
@@ -285,6 +491,9 @@ function getSelectedFields() {
 
         var raceFilter = document.getElementById("raceFilter").value;
         var attributeFilter = document.getElementById("attributeFilter").value;
+        var data_howmany = 0;
+        console.log('not wait,data_howmany=',data_howmany);
+
         var filteredIndexes = [];
         var dataIndex = [];
         var dataIndex2 = [];
@@ -305,7 +514,7 @@ function getSelectedFields() {
         resultsDiv.innerHTML="";
 
         if (select_flag){
-            console.log('selectedFields=',selectedFields);
+            // console.log('selectedFields=',selectedFields);
             for (var select_i = 0; select_i < selectedFields.length; select_i++) {
                 var fieldName = selectedFields[select_i].fieldName;
                 if (fieldName === 'monster_name') {
@@ -357,9 +566,9 @@ function getSelectedFields() {
             
             if(select_skill_flag){// skill & CD/EP num
                 for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
-                    if (monster_skill[skill_i]['type'] == 'normal'){
-                        monster_word += " " + (monster_skill[skill_i]['name'] + " " + monster_skill[skill_i]['description']);
-                    }
+                    // if (monster_skill[skill_i]['type'] == 'normal'){
+                        monster_word += " " + monster_skill[skill_i]['description'];
+                    // }
                     if(select_littlenum_cd_flag){
                         if(monster_skill[skill_i]['charge'] == 'CD'){
                             monster_word += " " + monster_skill[skill_i]['num']
@@ -388,7 +597,7 @@ function getSelectedFields() {
                     for (var leader_skill_monster_i = 0; leader_skill_monster_i < leader_skill_monster.length; leader_skill_monster_i++){
                         match_monster_item = leader_skill_monster[leader_skill_monster_i];
                         if(match_monster_item == monster_id){
-                            monster_word += " " + (leader_skill_name + " " + leader_skill_description);
+                            monster_word += " " + leader_skill_description;
                         }
                     }
                 } 
@@ -401,11 +610,11 @@ function getSelectedFields() {
                 }
             }
 //==================開始比對資料====================
-            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');; 
-            mergedmonster_word = mergeArabicNumbers(monster_word).split(',').filter(keyword => keyword !== '');; 
-            console.log('select_detailed_simple_flag=',select_detailed_simple_flag);
-            console.log('mergedSearchKeyword=',mergedSearchKeyword);
-            console.log('mergedmonster_word=',mergedmonster_word);
+            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
+            mergedmonster_word = mergeArabicNumbers(monster_word).split(',').filter(keyword => keyword !== '');
+            // console.log('select_detailed_simple_flag=',select_detailed_simple_flag);
+            // console.log('mergedSearchKeyword=',mergedSearchKeyword);
+            // console.log('mergedmonster_word=',mergedmonster_word);
             if (select_detailed_simple_flag){
               if ((mergedSearchKeyword.some(keyword => mergedmonster_word.includes(keyword)))){
                 search_flag = true; 
@@ -437,11 +646,12 @@ function getSelectedFields() {
                 "光": "icon_l",
                 "暗": "icon_d",
               };
-              console.log('1');
-              console.log('monster_attribute',monster_attribute,"=",attributeFilter);
-              console.log('monster_race',monster_race,"=",raceFilter);
+              // console.log('1');
+              // console.log('monster_attribute',monster_attribute,"=",attributeFilter);
+              // console.log('monster_race',monster_race,"=",raceFilter);
 //================== 生成html ====================
-              if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all")){
+              if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all") && (monster_name !== "")){
+                data_howmany = data_howmany + 1;
                 // 創建外層的 card 元素
                 var resultItem = document.createElement("div");
                 resultItem.classList.add("card");
@@ -449,8 +659,8 @@ function getSelectedFields() {
                 // 創建 cardimg-big 元素
                 var cardImgBig = document.createElement("img");
                 cardImgBig.classList.add("cardimg-big");
-                cardImgBig.src = "your_image_url.jpg";
-                cardImgBig.alt = "Card Image";
+                cardImgBig.src = `img/monster/${monster_id}.png`;
+                cardImgBig.alt = `${monster_name}`;
                 resultItem.appendChild(cardImgBig);
 
                 // 創建 card-name 元素
@@ -459,21 +669,21 @@ function getSelectedFields() {
 
                 // 創建 <p> 元素並設置內容
                 var cardNameParagraph = document.createElement("p");
-                cardNameParagraph.textContent = monster_idname;
+                cardNameParagraph.innerHTML = markupTextWithSearchKeywords(monster_idname);
                 cardName.appendChild(cardNameParagraph);
 
                 // 創建第一個 cardimg-little 元素
                 var cardImgLittle1 = document.createElement("img");
                 cardImgLittle1.classList.add("cardimg-little");
-                cardImgLittle1.src = "your_image_url.jpg";
-                cardImgLittle1.alt = "Card Image";
+                cardImgLittle1.src = `img/icon/${dataMapping[monster_attribute]}.png`;
+                cardImgLittle1.alt = `${monster_attribute}`;
                 cardName.appendChild(cardImgLittle1);
 
                 // 創建第二個 cardimg-little 元素
                 var cardImgLittle2 = document.createElement("img");
                 cardImgLittle2.classList.add("cardimg-little");
-                cardImgLittle2.src = "your_image_url.jpg";
-                cardImgLittle2.alt = "Card Image";
+                cardImgLittle2.src = `img/icon/${dataMapping[monster_race]}.png`;
+                cardImgLittle2.alt = `${monster_race}`;
                 cardName.appendChild(cardImgLittle2);
 
                 resultItem.appendChild(cardName);
@@ -482,118 +692,133 @@ function getSelectedFields() {
                 var cardSkill = document.createElement("div");
                 cardSkill.classList.add("card-skill");
 
-                // 創建 card-skill-item 元素
-                var cardSkillItem = document.createElement("div");
-                cardSkillItem.classList.add("card-skill-item");
+                var prevName = ''; // 追蹤上一個項目的名稱
+                for (var skill_ii = 0; skill_ii < monster_skill.length; skill_ii++) {
+                  // 創建 card-skill-item 元素
+                  if(monster_skill[skill_ii]['name'] !== prevName){
+                    var cardSkillItem = document.createElement("div");
+                    cardSkillItem.classList.add("card-skill-item");
 
-                // 創建 skill-p 元素
-                var skillP = document.createElement("div");
-                skillP.classList.add("skill-p");
+                    // 創建 skill-p 元素
+                    var skillP = document.createElement("div");
+                    skillP.classList.add("skill-p");
 
-                // 創建 <p> 元素並設置內容
-                var skillPParagraph = document.createElement("p");
-                skillPParagraph.textContent = "rrr";
-                skillP.appendChild(skillPParagraph);
-                cardSkillItem.appendChild(skillP);
+                    // 創建 <p> 元素並設置內容
+                    var skillPParagraph = document.createElement("p");
+                    skillPParagraph.textContent = `${monster_skill[skill_ii]['name']}`;
+                    skillP.appendChild(skillPParagraph);
+                    cardSkillItem.appendChild(skillP);
+                    // 創建 <p> 元素並設置內容
+                    var skillPParagraph2 = document.createElement("p");
+                    if (monster_skill[skill_ii]['num'] == -1){
+                      skillPParagraph2.innerHTML = `組合技能`;
+                    }else{
+                      skillPParagraph2.innerHTML = `${monster_skill[skill_ii]['charge']} ${markupTextWithSearchKeywords(String(monster_skill[skill_ii]['num']))}`;
+                    }
+                    skillP.appendChild(skillPParagraph2);
+                    cardSkillItem.appendChild(skillP);
 
-                // 創建 skill-detail 元素
-                var skillDetail = document.createElement("div");
-                skillDetail.classList.add("skill-detail");
+                    // 創建 skill-detail 元素
+                    var skillDetail = document.createElement("div");
+                    skillDetail.classList.add("skill-detail");
 
-                // 創建 <p> 元素並設置內容
-                var skillDetailParagraph = document.createElement("p");
-                skillDetailParagraph.textContent = "aaabbcccddd";
-                skillDetail.appendChild(skillDetailParagraph);
-                cardSkillItem.appendChild(skillDetail);
-
-                cardSkill.appendChild(cardSkillItem);
-                resultItem.appendChild(cardSkill);
-
+                    // 創建 <p> 元素並設置內容
+                    var skillDetailParagraph = document.createElement("div");
+                    skillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_skill[skill_ii]['description'])}`;
+                    skillDetail.appendChild(skillDetailParagraph);
+                    cardSkillItem.appendChild(skillDetail);
+                    prevName = monster_skill[skill_ii]['name'];
+                  }
+                  cardSkill.appendChild(cardSkillItem);
+                  resultItem.appendChild(cardSkill);
+                }
                 // 創建 card-teamskill 元素
                 var cardTeamSkill = document.createElement("div");
                 cardTeamSkill.classList.add("card-teamskill");
-
-                // 創建 card-teamskill-item 元素
-                var cardTeamSkillItem = document.createElement("div");
-                cardTeamSkillItem.classList.add("card-teamskill-item");
-
-                // 創建 teamskill-p 元素
-                var teamSkillP = document.createElement("div");
-                teamSkillP.classList.add("teamskill=p"); // 這裡可能是打錯字，應該是 "teamskill-p" 而不是 "teamskill=p"
-
-                // 創建 <p> 元素並設置內容
-                var teamSkillPParagraph = document.createElement("p");
-                teamSkillPParagraph.textContent = "ttt";
-                teamSkillP.appendChild(teamSkillPParagraph);
-                cardTeamSkillItem.appendChild(teamSkillP);
-
-                // 創建 teamskill-detial 元素
-                var teamSkillDetail = document.createElement("div");
-                teamSkillDetail.classList.add("teamskill-detial"); // 這裡可能是打錯字，應該是 "teamskill-detail" 而不是 "teamskill-detial"
-
-                // 創建 <p> 元素並設置內容
-                var teamSkillDetailParagraph = document.createElement("p");
-                teamSkillDetailParagraph.textContent = "aaabbbcccddd";
-                teamSkillDetail.appendChild(teamSkillDetailParagraph);
-                cardTeamSkillItem.appendChild(teamSkillDetail);
-
-                cardTeamSkill.appendChild(cardTeamSkillItem);
-                resultItem.appendChild(cardTeamSkill);
                 
-                console.log('123');
-                // 將完整的 card 元素添加到 resultsDiv 中
-                // var resultsDiv = document.getElementById("resultsDiv");
-                resultsDiv.appendChild(resultItem);
-              }
+                for (var teamskill_ii = 0; teamskill_ii < monster_teamSkill.length; teamskill_ii++) {
+                  // 創建 card-teamskill-item 元素
+                  var cardTeamSkillItem = document.createElement("div");
+                  cardTeamSkillItem.classList.add("card-teamskill-item");
 
-//==================  ====================
+                  // 創建 teamskill-p 元素
+                  var teamSkillP = document.createElement("div");
+                  teamSkillP.classList.add("teamskill-p"); 
 
-              if(select_skill_flag){// skill & CD/EP num
-                for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
-                    if (monster_skill[skill_i]['type'] == 'normal'){
-                        monster_word += " " + (monster_skill[skill_i]['name'] + " " + monster_skill[skill_i]['description']);
-                    }
-                    if(select_littlenum_cd_flag){
-                        if(monster_skill[skill_i]['charge'] == 'CD'){
-                            monster_word += " " + monster_skill[skill_i]['num']
-                        }
-                    }
-                    if(select_littlenum_ep_flag){
-                        if(monster_skill[skill_i]['charge'] == 'EP'){
-                            monster_word += " " + monster_skill[skill_i]['num']
-                        }
-                    }
+                  // 創建 <p> 元素並設置內容
+                  var teamSkillPParagraph = document.createElement("p");
+                  teamSkillPParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
+                  teamSkillP.appendChild(teamSkillPParagraph);
+                  cardTeamSkillItem.appendChild(teamSkillP);
+
+                  // 創建 teamskill-detial 元素
+                  var teamSkillDetail = document.createElement("div");
+                  teamSkillDetail.classList.add("teamskill-detail");
+
+                  // 創建 <p> 元素並設置內容
+                  var teamSkillDetailParagraph = document.createElement("div");
+                  teamSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['description'])}`;
+                  teamSkillDetail.appendChild(teamSkillDetailParagraph);
+                  cardTeamSkillItem.appendChild(teamSkillDetail);
+
+                  cardTeamSkill.appendChild(cardTeamSkillItem);
+                  resultItem.appendChild(cardTeamSkill);
                 }
-            }
-            if(select_monstername_flag){
-                monster_word += " " + monster_idname;
-            }
-            if(select_leaderskill_flag){
-                for (var leader_skill_data_i = 0; leader_skill_data_i < leader_skill_data.length; leader_skill_data_i++) {
-                    var match_monster = leader_skill_data[leader_skill_data_i];
+
+                // 創建 leaderskill 元素
+                var leaderSkill = document.createElement("div");
+                leaderSkill.classList.add("leaderskill");
+
+                for (var leader_skill_data_ii = 0; leader_skill_data_ii < leader_skill_data.length; leader_skill_data_ii++) {
+                    var match_monster = leader_skill_data[leader_skill_data_ii];
                     var leader_skill_name = match_monster['name'];
                     var leader_skill_description = match_monster['description'];
                     var leader_skill_monster = match_monster['monster'];
 
-                    for (var leader_skill_monster_i = 0; leader_skill_monster_i < leader_skill_monster.length; leader_skill_monster_i++){
-                        match_monster_item = leader_skill_monster[leader_skill_monster_i];
+                    for (var leader_skill_monster_ii = 0; leader_skill_monster_ii < leader_skill_monster.length; leader_skill_monster_ii++){
+                        match_monster_item = leader_skill_monster[leader_skill_monster_ii];
                         if(match_monster_item == monster_id){
-                            monster_word += " " + (leader_skill_name + " " + leader_skill_description);
+                            // 創建 leaderskill-item 元素
+                            var leaderSkillItem = document.createElement("div");
+                            leaderSkillItem.classList.add("leaderskill-item");
+
+                            // 創建 leaderskill-p 元素
+                            var leaderSkillP = document.createElement("div");
+                            leaderSkillP.classList.add("leaderskill-p");
+
+                            // 創建 <p> 元素並設置內容
+                            var leaderSkillPParagraph = document.createElement("p");
+                            leaderSkillPParagraph.textContent = `隊長技： ${leader_skill_name}`;
+                            leaderSkillP.appendChild(leaderSkillPParagraph);
+                            leaderSkillItem.appendChild(leaderSkillP);
+
+                            // 創建 leaderskill-detail 元素
+                            var leaderSkillDetail = document.createElement("div");
+                            leaderSkillDetail.classList.add("leaderskill-detail");
+
+                            // 創建 <p> 元素並設置內容
+                            var leaderSkillDetailParagraph = document.createElement("div");
+                            leaderSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(leader_skill_description)}`;
+                            leaderSkillDetail.appendChild(leaderSkillDetailParagraph);
+                            leaderSkillItem.appendChild(leaderSkillDetail);
+
+                            leaderSkill.appendChild(leaderSkillItem);
+                            resultItem.appendChild(leaderSkill);
                         }
                     }
                 } 
+                resultsDiv.appendChild(resultItem);
+              }
+              console.log('finish');
             }
-            if(select_teamskill_flag){
-                for (var teamskill_i = 0; teamskill_i < monster_teamSkill.length; teamskill_i++) {
-                    if (monster_teamSkill[teamskill_i]['type'] == 'normal'){
-                        monster_word += " " + (monster_teamSkill[teamskill_i]['description'] + " " + monster_teamSkill[teamskill_i]['activate']);
-                    }
-                }
+            if(data_howmany !== 0){
+              resultsDiv_show_mse.innerHTML = `共有 ${data_howmany} 筆 搜尋結果`;
             }
-
+            else{
+              resultsDiv_show_mse.innerHTML = `沒有搜尋結果，請再次嘗試<br>或前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
             }
             
-
+//==================  ====================
 
             // if(monster_name == '超級水手月亮'){
             //     console.log( monster_id ,monster_name);
@@ -660,7 +885,73 @@ function getSelectedFields() {
         
         } // 資料查找完畢          
 
-        
+  //       function markupTextWithSearchKeywords(text) {
+  // var keywordList = mergedSearchKeyword;
+// 使用正则表达式将文本标记为红色
+
+// function markupTextWithSearchKeywords(text) {
+//     // 将 keywords 转换为正则表达式安全的字符串
+//     const escapedKeywords = mergedSearchKeyword.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+//  // 使用正则表达式将文本标记为红色
+// // 使用正则表达式将文本标记为红色
+
+//     // 创建正则表达式，用于匹配关键字，但排除包含在数字中的关键字
+//     // const keywordPattern = new RegExp(`(?:\\b|[^0-9])(${escapedKeywords.join('|')})(?:\\b|[^0-9])`, 'gi');
+//     const keywordPattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi'); // 使用 \\b 表示单词边界
+
+//     // 标记关键字为红色
+//     const markedText = text.replace(keywordPattern, match => {
+//         return `<span class='like-strong'>${match}</span>`;
+//     });
+
+//     return markedText;
+// }
+
+// 使用正则表达式将文本标记为红色
+// 使用正则表达式将文本标记为红色
+function markupTextWithSearchKeywords(text) {
+    var keywords = mergedSearchKeyword;
+    var text_box = "";
+    // 将 keywords 转换为正则表达式安全的字符串
+    const escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    text = mergeArabicNumbers(text).split(',').filter(keyword => keyword !== '');
+    // // 创建正则表达式，用于匹配包含在文本中的关键字
+    // const keywordPattern = new RegExp(`\\b(${escapedKeywords.join('|')})\\b`, 'gi');
+
+    // // 标记关键字为红色
+    // const markedText = text.replace(keywordPattern, match => {
+    //     return `<span class='like-strong'>${match}</span>`;
+    // });
+    // 创建正则表达式，用于匹配包含在文本中的关键字
+    const keywordPattern = new RegExp(`(${escapedKeywords.join('|')})`, 'gi');
+    // 创建正则表达式，用于匹配包含在文本中的关键字
+// const keywordPattern = new RegExp(`\\b(${escapedKeywords.join('|')})\\b`, 'gi');
+    // 标记关键字为红色
+    for (var texti of text){
+      if(mergedSearchKeyword.includes(texti)){
+        texti = `<span class='like-strong'>${texti}</span>`
+        text_box += texti;
+      }
+      else{
+        text_box += texti;
+      }
+    }
+    // const markedText = text.replace(keywordPattern, match => {
+    //     return `<span class='like-strong'>${match}</span>`;
+    // });
+    return text_box;
+}
+
+
+// // 示例用法
+// const text = "这是一个示例，包含数字123和文本关键字abc。";
+// const mergedSearchKeyword = ["123", "abc"];
+
+// const markedText = markupTextWithSearchKeywords(text, mergedSearchKeyword);
+// console.log(markedText);
+
+
+
     //         // 遍历 searchData 数组中的每个数据项，同时追踪索引
     //         monster_data.forEach((item, index) => {
     //             var match = false;

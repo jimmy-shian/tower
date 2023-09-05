@@ -1,174 +1,33 @@
-.card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-  .card-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  .card-footer {
-    display: flex;
-    align-items: center;
-  }
-  .card-footer-text {
-    flex-grow: 1;
-  }
-  .card-footer-images {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 10px;
-  }
-  .card-footer-images img {
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
-  }
-.card-intext{
-height:30vh;
-overflow-y:auto;
-}
-.card-in{
-    display: flex;
-    width: 90% !important;
-}
 
 <body>
-    <div class="card">
-      <img class="card-image" src="your_image_url.jpg" alt="Card Image">
-      <div class="card-footer">
-        <div class="card-footer-text">
-          <p>底下樣行文字</p>
+
+  <div class="card">
+    <img class="cardimg-big" src="your_image_url.jpg" alt="Card Image">
+    <div class="card-name">
+      <p>aaa</p>
+      <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
+      <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
+    </div>
+    <div class="card-skill">
+      <div class="card-skill-item">
+        <div class="skill-p">
+          <p>rrr</p>
         </div>
-        <div class="card-footer-images">
-          <img src="small_image_1.jpg" alt="Small Image 1">
-          <img src="small_image_2.jpg" alt="Small Image 2">
+        <div class="skill-detail">
+          <p>aaabbcccddd</p>
         </div>
       </div>
-      <div class='card-in'>
-      <div class='card-intext'>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-      </div>
-          <div class='card-intext'>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-        <p>往下是一行字</p>
-        <p>往下是說明</p>
-      </div>
-      </div>
     </div>
-    <!-- 循環生成其他卡片 -->
-  </body>
-  
-
-<div class="card">
-  <img class="cardimg-big" src="your_image_url.jpg" alt="Card Image">
-  <div class="card-name">
-    <p>aaa</p>
-    <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
-    <img class="cardimg-little" src="your_image_url.jpg" alt="Card Image">
-  </div>
-  <div class="card-skill">
-    <div class="card-skill-item">
-      <div class="skill-p">
-        <p>rrr</p>
-      </div>
-      <div class="skill-detail">
-        <p>aaabbcccddd</p>
-      </div>
-    </div>
-  </div>
-  <div class="card-teamskill">
-    <div class="card-teamskill-item">
-      <div class="teamskill=p">
-        <p>ttt</p>
-      </div>
-      <div class="teamskill-detial">
-        <p>aaabbbcccddd</p>
+    <div class="card-teamskill">
+      <div class="card-teamskill-item">
+        <div class="teamskill-p">
+          <p>ttt</p>
+        </div>
+        <div class="teamskill-detail">
+          <p>aaabbbcccddd</p>
+        </div>
       </div>
     </div>
   </div>
 
-
-
-</div>
-
-  若要透過 JavaScript 生成上述示例中的指令，可以使用 DOM 操作方法來創建元素、設置屬性和添加內容。以下是使用 JavaScript 生成示例指令的程式碼：
-
-1. 控制結構指令（Control Structure Directives）：
-
-
-// 創建元素
-var element = document.createElement("div");
-
-// 設置 ng-if 屬性
-element.setAttribute("ng-if", "showElement");
-
-// 設置元素內容
-element.textContent = "This element is shown conditionally.";
-
-// 將元素添加到父元素中
-var parentElement = document.getElementById("parent-element");
-parentElement.appendChild(element);
-
-2. 表單相關指令（Form-related Directives）：
-
-
-// 創建 form 元素
-var formElement = document.createElement("form");
-
-// 設置 action 和 method 屬性
-formElement.setAttribute("action", "/submit");
-formElement.setAttribute("method", "post");
-
-// 創建 input 元素
-var inputElement = document.createElement("input");
-
-// 設置 type、name 和 required 屬性
-inputElement.setAttribute("type", "text");
-inputElement.setAttribute("name", "username");
-inputElement.setAttribute("required", "");
-
-// 創建 button 元素
-var buttonElement = document.createElement("button");
-
-// 設置 type 和內容
-buttonElement.setAttribute("type", "submit");
-buttonElement.textContent = "Submit";
-
-// 將 input 和 button 元素添加到 form 元素中
-formElement.appendChild(inputElement);
-formElement.appendChild(buttonElement);
-
-// 將 form 元素添加到父元素中
-var parentElement = document.getElementById("parent-element");
-parentElement.appendChild(formElement);
-
-3. 媒體相關指令（Media-related Directives）：
-
-
-// 創建 video 元素
-var videoElement = document.createElement("video");
-
-// 設置 src、controls、width 和 height 屬性
-videoElement.setAttribute("src", "video.mp4");
-videoElement.setAttribute("controls", "");
-videoElement.setAttribute("width", "400");
-videoElement.setAttribute("height", "300");
-
-// 將 video 元素添加到父元素中
-var parentElement = document.getElementById("parent-element");
-parentElement.appendChild(videoElement);
-
-
-
-以上是使用 JavaScript 動態生成示例指令的程式碼示例。您可以根據需要修改父元素的 ID，以及適應特定的場景和邏輯來調整這些程式碼。
+</body>  

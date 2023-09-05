@@ -1,5 +1,6 @@
 // Last modified : 2023.08.31 21:05
 // replace  "	" to "\\n"
+// 604,605 description error
 
 const leader_skill_data = [
     {
@@ -3887,13 +3888,13 @@ II. 神族攻擊力 2 倍
             }
 
 ],
-        'monster': [604, 605]
+        'monster': [604]
     },
     {
-        'name': '神靈佐主',
+        'name': '神靈輔主',
         'description': `
 
-當隊伍中只有人類及 ≥1 個神族成員時：
+當隊伍中只有人類及 ≥2 個神族成員時：
 
 I. 人類攻擊力 4.5 倍
 
