@@ -12,6 +12,41 @@ toggleSwitch.addEventListener('change', function() {
     console.log('開關 關閉');
   }
 });
+
+var raceFilter_img = document.getElementById("raceFilter");
+var raceImage = document.getElementById("raceImage");
+var attributeFilter_img = document.getElementById("attributeFilter");
+var attributeImage = document.getElementById("attributeImage");
+
+raceFilter_img.addEventListener("change", function() {
+  updateImage(raceFilter_img, raceImage, {
+    "人類": "img/icon/icon_human.png",
+    "獸類": "img/icon/icon_beast.png",
+    "妖精類": "img/icon/icon_elf.png",
+    "龍類": "img/icon/icon_dragon.png",
+    "神族": "img/icon/icon_god.png",
+    "魔族": "img/icon/icon_demon.png",
+    "機械族": "img/icon/icon_machina.png",
+    "進化素材": "img/icon/icon_evolve.png",
+    "強化素材": "img/icon/icon_level_up.png"
+  });
+});
+
+attributeFilter_img.addEventListener("change", function() {
+  updateImage(attributeFilter_img, attributeImage, {
+    "水": "img/icon/icon_w.png",
+    "火": "img/icon/icon_f.png",
+    "木": "img/icon/icon_e.png",
+    "光": "img/icon/icon_l.png",
+    "暗": "img/icon/icon_d.png"
+  });
+});
+
+function updateImage(filter, image, imageMap) {
+  var selectedOption = filter.options[filter.selectedIndex].value;
+  var imgSrc = imageMap[selectedOption] || "";
+  image.src = imgSrc;
+}
 function handleKeyPress(event) {
     if (event.keyCode === 13) {
         searchJSON(); // 在按下 Enter 键时触发搜索功能
@@ -103,7 +138,7 @@ function getSelectedFields() {
 
 //================== searchJSON ====================
     function searchJSON() {
-        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || ".";
+        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() //|| ".";
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
         console.log(mergedSearchKeyword);
         
@@ -273,18 +308,23 @@ function getSelectedFields() {
               // console.log('monster_attribute',monster_attribute,"=",attributeFilter);
               // console.log('monster_race',monster_race,"=",raceFilter);
 //================== 生成html ====================
+try{
               if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all") && (monster_name !== "")){
                 data_howmany = data_howmany + 1;
                 // 創建外層的 card 元素
                 var resultItem = document.createElement("div");
                 resultItem.classList.add("card");
 
-                // 創建 cardimg-big 元素
+                // 创建 cardimg-big 元素
+                var container = document.createElement("div");
+                container.style.display = "flex";
+                container.style.justifyContent = "center";
                 var cardImgBig = document.createElement("img");
                 cardImgBig.classList.add("cardimg-big");
                 cardImgBig.src = `img/monster/${monster_id}.png`;
                 cardImgBig.alt = `${monster_name}`;
-                resultItem.appendChild(cardImgBig);
+                container.appendChild(cardImgBig);
+                resultItem.appendChild(container);
 
                 // 創建 card-name 元素
                 var cardName = document.createElement("div");
@@ -298,7 +338,6 @@ function getSelectedFields() {
                   cardNameParagraph.textContent = monster_idname;
                 }
                 cardName.appendChild(cardNameParagraph);
-console.log('monster_idname=',monster_idname);
                 // 創建第一個 cardimg-little 元素
                 var cardImgLittle1 = document.createElement("img");
                 cardImgLittle1.classList.add("cardimg-little");
@@ -383,9 +422,9 @@ console.log('monster_idname=',monster_idname);
                   // 創建 <p> 元素並設置內容
                   var teamSkillPParagraph = document.createElement("p");
                   if(select_teamskill_flag){
-                    teamSkillPParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
+                    teamSkillPParagraph.innerHTML = `隊伍技能：${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
                   }else{
-                    teamSkillPParagraph.textContent = `${monster_teamSkill[teamskill_ii]['activate']}`;
+                    teamSkillPParagraph.textContent = `隊伍技能：${monster_teamSkill[teamskill_ii]['activate']}`;
                   }
                   teamSkillP.appendChild(teamSkillPParagraph);
                   cardTeamSkillItem.appendChild(teamSkillP);
@@ -456,6 +495,11 @@ console.log('monster_idname=',monster_idname);
                 } 
                 resultsDiv.appendChild(resultItem);
               }
+            }
+            catch (error){
+              console.log("錯誤 : " + error); // 输出异常信息
+console.log('monster_idname=',monster_idname);
+}
               console.log('finish');
             }
             if(data_howmany !== 0){
