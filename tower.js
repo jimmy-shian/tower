@@ -168,6 +168,7 @@ function getSelectedFields() {
         var select_littlenum_ep_flag = false;
         var select_detailed_simple_flag = false;
         resultsDiv.innerHTML="";
+        resultsDiv_show_mse.innerHTML = " &nbsp";
 
         if (select_flag){
             console.log('select_flag=',select_flag);

@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="tower.css">
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="yYD82Aavnj3Ey0ieJxHEPL61iH9767ncuevx9vPzSsI" />
     <title>神魔之塔卡片文字搜尋器</title>
-    <script src="monster_data.js"></script>
-    <script src="leader_skill_data.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2415998114933157"
-     crossorigin="anonymous"></script>
-    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2415998114933157" crossorigin="anonymous"></script>
+     -->
     <link rel="icon" type="image/png" href="img/monster/noname.png">
     
-    <link rel="stylesheet" type="text/css" href="tower.css">
-    <style>
-
-    </style>
 </head>
 <body>
   <div class="body2">
@@ -100,7 +97,7 @@
               <option value="進化素材" >進化素材</option>
               <option value="強化素材" >強化素材</option>
             </select>
-            <img id="raceImage" style="width: 25px; padding-left: 8px;" src="" alt="" />
+            <img id="raceImage" src="" alt="" />
           </div>
           
           <div class="checkbox-label" style="display: flex; flex-wrap: nowrap;">
@@ -113,7 +110,7 @@
                 <option value="光">光</option>
                 <option value="暗">暗</option>
             </select>
-            <img id="attributeImage" style="width: 25px; padding-left: 8px;" src="" alt="" />
+            <img id="attributeImage" src="" alt="" />
           </div>
         </div>
       </div>
@@ -124,7 +121,7 @@
     <hr>
     <br>
 <!-- <center> -->
-    <div id="resultsContainer" style='font-size: 16px;'>
+    <div id="resultsContainer">
         <div id="results_show_mse" style='display: block; opacity: 1; padding-left: 10%;'><p>&nbsp;</p></div>
         <div id="results" style='display: flex; flex-wrap: wrap; opacity: 1;'><p>&nbsp;</p></div>
     </div>
@@ -145,4 +142,6 @@
 </div><br>
 </body>
     <script src="tower.js"></script>
+    <script src="monster_data.js" defer></script>
+    <script src="leader_skill_data.js" defer></script>
     </html>

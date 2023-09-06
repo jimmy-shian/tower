@@ -1,386 +1,448 @@
-    /* 在大屏幕上应用不同的样式 */
-@media only screen and (max-width: 768px) { /* 如果屏幕宽度小于等于768px */ 
-  .body {
-    width: fit-content;
-    font-size: 38px;
+
+body {
+    /* font-family: Arial, sans-serif; */
+    background-image: linear-gradient(#e9f0f7, #f7f2f9);
+    font-size: 18px;
   }
-  .card {
-        width: 390px;
-        height: 570px;
-      }
-      .card-skill-item {
-        width: 340px;
-      }
-      .card-name {
-        width: revert;
-      }
-      .body2 {
-        display: inline-grid;
-        /* width: fit-content; */
-        justify-content: space-evenly;
-    }
-    #raceFilter, #attributeFilter {
-      justify-content: center;
-      align-items: center;
-      width: 196px;
-      height: 58px;
-      font-size: 38px;
-      display: flex;
+  #results_show_mse,
+  #results{
+    font-size: 18px;
   }
-}
+  .card{
+    display: block;
+    width: 520px;
+    height: 520px;
+    margin: 20px;
+    overflow: auto;
+    border: 6px double #6698c1;
+    padding: 18px;
+    border-radius: 5px;
+    background-color: #d0e5ef;
+  }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-image: linear-gradient(#e9f0f7, #f7f2f9);
-        /* color: aliceblue; */
-        font-size: 18px;
-    }
+  .cardimg-big {
+    width: 80px;
+    transition: transform 0.2s ease-out;
+    z-index: 98;
+  }
+  .cardimg-big:hover {
+    position: relative;
+    z-index: 99;
+    transform: scale(1.3); 
+  }
+  .card-name{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    border-bottom: 2px solid #05467b;
 
-    .card{
-      display: block;
-      /* width:fit-content; */
-      width: 520px;
-      /* max-width: 300px; */
-      height: 520px;
-      margin: 20px;
-      overflow: auto;
-      border: 6px double #6698c1;
-      padding: 18px;
-      border-radius: 5px;
-      background-color: #d0e5ef;
-    }
+  }
+  .card-name p{
+    margin: 20px 25px 20px 0;
+  }
+  .cardimg-little{
+    width: 25px;
+    height: 25px;
+    margin-left: 8px; 
+  }
+  .card-skill{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    margin-bottom: 17px;
+  }
+  .card-skill-item{
+    width: 210px;
+    display: block;
+    border: 2px solid black;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 10px 5px 0;
+    background-color: #fffcd573;
+  }
 
-    .cardimg-big {
-      width: 80px;
-      transition: transform 0.2s ease-out; /* 添加過渡效果 */
-      z-index: 98;
-    }
-    .cardimg-big:hover {
-      position: relative;
-      z-index: 99;
-      transform: scale(1.3); /* 懸停時放大 1.2 倍 */
-    }
-    .card-name{
-      display: flex;
-      align-items: center;
-      flex-wrap: nowrap;
-      justify-content: center;
-      border-bottom: 2px solid #05467b;
+  .skill-p{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .skill-p p{
+    margin: 2px 8px 8px 4px;
+  }
+  .skill-p p:nth-child(2){
+    display: flex;
+    margin-left: 20px; 
+  }
+  .skill-detail {
+    height: 150px;
+    background-color: lightgray;
+    word-wrap: break-word; 
+    overflow-y: auto; 
+    line-height: 1.2; 
+    border-top: 2px solid black;
+    padding: 3px;
+  }
+  .skill-detail div{
+    white-space: pre-wrap;
+    margin: -40px 0 0 8px;
+  }
 
-    }
-    .card-name p{
-      /* margin-right: 25px;   */
-      margin: 20px 25px 20px 0;
-    }
-    .cardimg-little{
-      width: 25px;
-      height: 25px;
-      margin-left: 8px; 
-    }
-    .card-skill{
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 15px;
-      margin-bottom: 17px;
-    }
-    .card-skill-item{
-      width: 210px;
-      display: block;
-      border: 2px solid black;
-      padding: 8px;
-      border-radius: 5px;
-      margin: 5px 10px 0 0;
-      background-color: #fffcd573;
-    }
-    /* .card-skill-item:nth-child(1),
-    .card-skill-item:nth-child(2) {
-      border-right: none;
-    } */
-    .skill-p{
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-    }
-    .skill-p p{
-      margin: 2px 8px 8px 4px;
-    }
-    .skill-p p:nth-child(2){
-      display: flex;
-      margin-left: 20px; 
-    }
-    .skill-detail {
-      /* width: 150px; */
-      height: 150px;
-      background-color: lightgray; /* 淺灰色 */
-      word-wrap: break-word; /* 自動換行 */
-      overflow-y: auto; /* 出現垂直滾輪 */
-      line-height: 1.5; /* 設定行高 */
-      border-top: 2px solid black;
-      padding: 3px;
-    }
-    .skill-detail div{
-      white-space: pre-wrap;
-      margin: -40px 0 0 8px;
-    }
+  .card-teamskill{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 2px solid #05467b;
+    margin-bottom: 17px;
+  }
+  .card-teamskill-item{
+    display: block;
+    border: 2px solid black;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 10px 5px 0;
+    width: 343px;
+    background-color: #e5d8ebdb;
+  }
 
-    .card-teamskill{
-      display: flex;
-      flex-wrap: wrap;
-      padding-top: 12px;
-      border-top: 2px solid #05467b;
-      margin-bottom: 17px;
-    }
-    .card-teamskill-item{
-      display: block;
-      border: 2px solid black;
-      padding: 8px;
-      border-radius: 5px;
-      margin: 5px 10px 0 0;
-      width: 343px;
-      background-color: #e5d8ebdb;
-    }
-    /* .card-skill-item:nth-child(1),
-    .card-skill-item:nth-child(2) {
-      border-right: none;
-    } */
-    .teamskill-p{
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-    }
-    .teamskill-p p{
-      margin: 2px 8px 8px 4px;
-    }
-    .teamskill-p p:nth-child(2){
-      display: flex;
-      margin-left: 20px; 
-    }
-    .teamskill-detail {
-      /* width: 150px; */
-      height: 150px;
-      background-color: lightgray; /* 淺灰色 */
-      word-wrap: break-word; /* 自動換行 */
-      overflow-y: auto; /* 出現垂直滾輪 */
-      line-height: 1.5; /* 設定行高 */
-      border-top: 2px solid black;
-      padding: 3px;
-    }
-    .teamskill-detail div{
-      white-space: pre-wrap;
-      margin: -40px 0 0 8px;
-    }
+  .teamskill-p{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .teamskill-p p{
+    margin: 2px 8px 8px 4px;
+  }
+  .teamskill-p p:nth-child(2){
+    display: flex;
+    margin-left: 20px; 
+  }
+  .teamskill-detail {
+    height: 150px;
+    background-color: lightgray; 
+    word-wrap: break-word;
+    overflow-y: auto; 
+    line-height: 1.2;
+    border-top: 2px solid black;
+    padding: 3px;
+  }
+  .teamskill-detail div{
+    white-space: pre-wrap;
+    margin: -40px 0 0 8px;
+  }
 
-    .leaderskill {
-      display: flex;
-      padding-top: 12px;
-      border-top: 2px solid #05467b;
-    }
-    .leaderskill-item {
-      display: block;
-      border: 2px solid black;
-      background-color: #b3d2edc2;
-      padding: 8px;
-      border-radius: 5px;
-      margin: 5px 10px 0 0;
-      width: 343px;
-    }
-    .leaderskill-p {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-    }
-    .leaderskill-p p {
-      margin: 2px 8px 8px 4px;
-    }
-    .leaderskill-p p:nth-child(2) {
-      display: flex;
-      margin-left: 20px; 
-    }
-    .leaderskill-detail {
-      /* width: 150px; */
-      height: 150px;
-      background-color: lightgray;
-      word-wrap: break-word;
-      overflow-y: auto;
-      line-height: 1.5;
-      border-top: 2px solid black;
-      padding: 3px;
-    }
-    .leaderskill-detail div{
-      white-space: pre-wrap;
-      margin: -40px 0 0 8px;
-    }
+  .leaderskill {
+    display: flex;
+    padding-top: 12px;
+    border-top: 2px solid #05467b;
+  }
+  .leaderskill-item {
+    display: block;
+    border: 2px solid black;
+    background-color: #b3d2edc2;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 10px 0 0;
+    width: 343px;
+  }
+  .leaderskill-p {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .leaderskill-p p {
+    margin: 2px 8px 8px 4px;
+  }
+  .leaderskill-p p:nth-child(2) {
+    display: flex;
+    margin-left: 20px; 
+  }
+  .leaderskill-detail {
+    height: 150px;
+    background-color: lightgray;
+    word-wrap: break-word;
+    overflow-y: auto;
+    line-height: 1.2;
+    border-top: 2px solid black;
+    padding: 3px;
+  }
+  .leaderskill-detail div{
+    white-space: pre-wrap;
+    margin: -40px 0 0 8px;
+  }
 
 
-    .search-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 20px 20px 0 0;
-    }
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 20px 0 0;
+  }
 
-    .search-input {
-        width: 280px;
-        padding: 10px;
-        margin: 10px 20px 10px 15px;
-        font-size: 18px;
-        border: 6px double #ccc;
-        border-radius: 12px;
-        background-color: #d9f3ff;
-        transition: background-color 0.2s ease;
-    }
-    .search-input:hover {
-        background-color: #d0e5ef;
-    }
-    .search-button {
-        padding: 16px 25px;
-        margin: 14px;
-        width: auto;
-        font-size: 16px;
-        background-color: #a4d0ff;
-        color: rgb(30, 30, 30);
-        border: 3px solid #ccc;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-    }
+  .search-input {
+    width: 280px;
+    padding: 10px;
+    margin: 10px 20px 10px 15px;
+    font-size: 18px;
+    border: 6px double #ccc;
+    border-radius: 12px;
+    background-color: #d9f3ff;
+    transition: background-color 0.2s ease;
+  }
+  .search-input:hover {
+    background-color: #d0e5ef;
+  }
+  .search-button {
+    padding: 16px 25px;
+    margin: 14px;
+    width: auto;
+    font-size: 16px;
+    background-color: #a4d0ff;
+    color: rgb(30, 30, 30);
+    border: 3px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
 
-    .search-button:hover {
-        background-color: #e0c3ed;
-    }
-    /* .table {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-    } */
+  .search-button:hover {
+    background-color: #e0c3ed;
+  }
 
-    .container {
-      display: inline-flex;
-      align-items: center;
-    }
+  .container {
+    display: inline-flex;
+    align-items: center;
+  }
 
-    .switch {
-      margin-right: 10px;
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-      background-color: #bae0ff;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+  .switch {
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    background-color: #bae0ff;
+    border-radius: 12px;
+    cursor: pointer;
+  }
 
-    .switch:before {
-      content: "";
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 18px;
-      height: 18px;
-      background-color: #05467b;
-      border-radius: 50%;
-      transition: .4s;
-    }
+  .switch:before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background-color: #05467b;
+    border-radius: 50%;
+    transition: .4s;
+  }
 
-    .container #toggleText {
-      margin-right: 10px;
-    }
+  .container #toggleText {
+    margin-right: 10px;
+  }
 
 
-    input[data-field="switchField"] {
-      display: none;
-    }
+  input[data-field="switchField"] {
+    display: none;
+  }
 
-    input[type="checkbox"]:checked + .switch:before {
-      transform: translateX(26px);
-      background-color: #2196F3;
-    }
+  input[type="checkbox"]:checked + .switch:before {
+    transform: translateX(26px);
+    background-color: #2196F3;
+  }
 
-    .like-strong {
-      font-weight: 1000;
-      color: rgb(255, 98, 20);
-    }
+  .like-strong {
+    font-weight: 1000;
+    color: rgb(255, 98, 20);
+  }
 
-    .filter-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 20px;
-        padding: 3px;
-    }
+  .filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    padding: 3px;
+  }
 
-    .checkbox-label {
-        margin-top: 10px;
-        justify-content: start;
-        align-items: start;
-    }
+  .checkbox-label {
+    margin-top: 10px;
+    justify-content: start;
+    align-items: start;
+  }
 
-    #raceFilter,
-    #attributeFilter {
-        justify-content: start;
-        align-items: start;
-        background-color: #f2eafa;
-        border-radius: 5px;
-        border: 2px dotted #ccc;
-        width: 150px;
-        height: 30px;
-    }
+  #raceFilter,
+  #attributeFilter {
+    justify-content: start;
+    align-items: start;
+    background-color: #f2eafa;
+    border-radius: 5px;
+    border: 2px dotted #ccc;
+    width: 150px;
+    height: 30px;
+  } 
+  #raceImage,
+  #attributeImage{
+    width: 25px; 
+    padding-left: 8px;
+  }
 
-
-    /*回到 最頂or底 按鍵*/
-    /* 共用按鍵樣式 */
-
-    #back-to-top {
+  /*回到 最頂or底 按鍵*/
+  #back-to-top {
     position: fixed;
     bottom: 20vh;
     right: 15px;
-    display: none; /* 初始顯示按鍵 */
-    }
-    #scroll-to-bottom {
+    display: none; 
+  }
+  #scroll-to-bottom {
     position: fixed;
     bottom: 10vh;
     right: 15px;
-    display: none; /* 初始顯示按鍵 */
-    }
-    #back-to-top,
-    #scroll-to-bottom {
-    background-color: #b2b2b2bd; /* 淺白色背景 */
+    display: none; 
+  }
+  #back-to-top,
+  #scroll-to-bottom {
+    background-color: #b2b2b2bd; 
     border: none;
-    border-radius: 50%; /* 圓形按鍵 */
+    border-radius: 50%; 
     width: 28px;
     height: 28px;
-    transition: all 0.3s; /* 添加過渡效果 */
-    }
+    transition: all 0.3s; 
+  }
 
-    /* 向上箭頭 */
-    #back-to-top:before,
-    /* 向下箭頭 */
-    #scroll-to-bottom:before {
+  /* 向上箭頭 */
+  #back-to-top:before,
+  /* 向下箭頭 */
+  #scroll-to-bottom:before {
     content: ""; /* 清空內容，不添加文字 */
     position: absolute;
     top: 50%; /* 將箭頭的上邊緣定位在父元素的中間 */
     left: 50%; /* 將箭頭的左邊緣定位在父元素的中間 */
     transform: translate(-50%, -50%); /* 將箭頭水平和垂直都置中 */
     font-size: 15px;
+  }
+  /* 向上箭頭 */
+  #back-to-top:before {
+    /* content: "\25B2"; Unicode 箭頭字符 */
+    content: "\1F879"; /* 向上箭頭 🡹，Unicode 編碼：U+1F879 */
+
+  }
+
+  /* 向下箭頭 */
+  #scroll-to-bottom:before {
+    /* content: "\25BC"; Unicode 箭頭字符 */
+    content: "\1F87B"; /* 向下箭頭 🡻，Unicode 編碼：U+1F87B */
+
+  }
+
+  /* 修改靠近時的樣式 */
+  #back-to-top:hover,
+  #scroll-to-bottom:hover{
+    width: 30px;
+    height: 30px;
+    background-color: #a0a0a0b8; 
+  }
+  
+@media only screen and (max-width: 768px) { /* 如果屏幕宽度小于等于768px */
+      body {
+        width: fit-content;
+        font-size: 32px;
+        /* font-family: Arial, sans-serif; */
+        /* background-image: linear-gradient(#e9f0f7, #f7f2f9); */
+      }
+      .switch {
+        width: 60px;
+        height: 24px;
+      }
+
+      #results_show_mse, 
+      #results {
+        font-size: 28px;
+      }
+      .search-container {
+        margin: 20px 20px 0 20px;
     }
-    /* 向上箭頭 */
-    #back-to-top:before {
-      /* content: "\25B2"; Unicode 箭頭字符 */
-      content: "\1F879"; /* 向上箭頭 🡹，Unicode 編碼：U+1F879 */
+    .search-input {
+      font-size: 25px;
+  }
+      .search-button {
+        padding: 8px 0px;
+        width: 85px;
+        height: 55px;
+        font-size: 22px;
+        border: 3px solid #ccc;
+    }
+      .checkbox-label{
+        display: list-item;
+          margin-top: 4px;
+      }
+      .checkbox-label #applyButton{
+        width: 50px;
+        transform: scale(2.2);
+      }
+      h2{
+        font-size: 40px;
+        margin: 8px 0px;
+      }
+      .filter-container {
+        margin-top: -5px;
+      }
+      #resultsContainer{
+        font-size: 20px;
+      }
+      .card {
+        width: 500px;
+        height: 570px;
+      }
+      .card-skill-item {
+        width: 450px;
+      }
+      .card-teamskill-item {
+        width: 450px;
 
     }
+      .leaderskill {
+        display: flex;
+        flex-wrap: wrap;
+    }
+      .leaderskill-item {
+        margin-bottom: 8px;
+        width: 450px;
+    }
+      .card-name {
+        width: 480px;
+      }
+      .body2 {
+        display: inline-grid;
+        justify-content: space-evenly;
+      }
+      #toggleText{
+        font-size: 20px;
+      }
+      #raceFilter,
+      #attributeFilter {
+        justify-content: center;
+        align-items: center;
+        width: 196px;
+        height: 50px;
+        font-size: 32px;
+        display: flex;
+      }
+      #raceImage,
+      #attributeImage{
+        width: 50px; 
+        padding-left: 20px;
+      }
 
-    /* 向下箭頭 */
-    #scroll-to-bottom:before {
-      /* content: "\25BC"; Unicode 箭頭字符 */
-      content: "\1F87B"; /* 向下箭頭 🡻，Unicode 編碼：U+1F87B */
+      #back-to-top,
+      #scroll-to-bottom {
+        display: none !important; /* 強制隱藏按鈕 */
+      }
 
     }
-
-    /* 修改靠近時的樣式 */
-    #back-to-top:hover,
-    #scroll-to-bottom:hover{
-      width: 30px;
-      height: 30px;
-      background-color: #a0a0a0b8; 
+    
+    @media only screen and (max-width: 600px) {
+      #back-to-top,
+      #scroll-to-bottom {
+        display: none !important; /* 強制隱藏按鈕 */
+      }
     }
