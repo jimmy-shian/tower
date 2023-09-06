@@ -276,13 +276,13 @@ function getSelectedFields() {
             if (select_detailed_simple_flag){
               if ((mergedSearchKeyword.some(keyword => mergedmonster_word.includes(keyword)))){
                 search_flag = true; 
-                console.log('some');
+                // console.log('some');
               }
             }
             else{
                  if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
                   search_flag = true; 
-                  console.log('every');
+                  // console.log('every');
                 }
             }
             
@@ -498,9 +498,9 @@ try{
             }
             catch (error){
               console.log("錯誤 : " + error); // 输出异常信息
-console.log('monster_idname=',monster_idname);
-}
-              console.log('finish');
+              console.log('monster_idname=',monster_idname);
+            }
+              // console.log('finish');
             }
             if(data_howmany !== 0){
               resultsDiv_show_mse.innerHTML = `共有 ${data_howmany} 筆 搜尋結果`;
