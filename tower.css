@@ -236,6 +236,7 @@ body {
     height: 24px;
     background-color: #bae0ff;
     border-radius: 12px;
+    border: 0.1px solid black;
     cursor: pointer;
   }
 

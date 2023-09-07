@@ -1,3 +1,44 @@
+window.addEventListener("load", function() {
+  var raceFilter_img = document.getElementById("raceFilter");
+  var raceImage = document.getElementById("raceImage");
+  var attributeFilter_img = document.getElementById("attributeFilter");
+  var attributeImage = document.getElementById("attributeImage");
+
+  // 預設的圖片路徑
+  var defaultRaceImagePath = "img/icon/icon_race_all.png";
+  var defaultAttributeImagePath = "img/icon/icon_attr_all.png";
+
+  // 初始化圖片
+  raceImage.src = defaultRaceImagePath;
+  attributeImage.src = defaultAttributeImagePath;
+
+  raceFilter_img.addEventListener("change", function() {
+    updateImage(raceFilter_img, raceImage, {
+      "人類": "img/icon/icon_human.png",
+      "獸類": "img/icon/icon_beast.png",
+      "妖精類": "img/icon/icon_elf.png",
+      "龍類": "img/icon/icon_dragon.png",
+      "神族": "img/icon/icon_god.png",
+      "魔族": "img/icon/icon_demon.png",
+      "機械族": "img/icon/icon_machina.png",
+      "進化素材": "img/icon/icon_evolve.png",
+      "強化素材": "img/icon/icon_level_up.png",
+      "all": defaultRaceImagePath
+    });
+  });
+
+  attributeFilter_img.addEventListener("change", function() {
+    updateImage(attributeFilter_img, attributeImage, {
+      "水": "img/icon/icon_w.png",
+      "火": "img/icon/icon_f.png",
+      "木": "img/icon/icon_e.png",
+      "光": "img/icon/icon_l.png",
+      "暗": "img/icon/icon_d.png",
+      "all": defaultAttributeImagePath
+    });
+  });
+});
+
 const toggleSwitch = document.getElementById('toggleSwitch');
 const toggleText = document.getElementById('toggleText');
 // toggleText.textContent = '簡易搜尋';
@@ -13,34 +54,6 @@ toggleSwitch.addEventListener('change', function() {
   }
 });
 
-var raceFilter_img = document.getElementById("raceFilter");
-var raceImage = document.getElementById("raceImage");
-var attributeFilter_img = document.getElementById("attributeFilter");
-var attributeImage = document.getElementById("attributeImage");
-
-raceFilter_img.addEventListener("change", function() {
-  updateImage(raceFilter_img, raceImage, {
-    "人類": "img/icon/icon_human.png",
-    "獸類": "img/icon/icon_beast.png",
-    "妖精類": "img/icon/icon_elf.png",
-    "龍類": "img/icon/icon_dragon.png",
-    "神族": "img/icon/icon_god.png",
-    "魔族": "img/icon/icon_demon.png",
-    "機械族": "img/icon/icon_machina.png",
-    "進化素材": "img/icon/icon_evolve.png",
-    "強化素材": "img/icon/icon_level_up.png"
-  });
-});
-
-attributeFilter_img.addEventListener("change", function() {
-  updateImage(attributeFilter_img, attributeImage, {
-    "水": "img/icon/icon_w.png",
-    "火": "img/icon/icon_f.png",
-    "木": "img/icon/icon_e.png",
-    "光": "img/icon/icon_l.png",
-    "暗": "img/icon/icon_d.png"
-  });
-});
 
 function updateImage(filter, image, imageMap) {
   var selectedOption = filter.options[filter.selectedIndex].value;
