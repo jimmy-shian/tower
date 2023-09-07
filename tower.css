@@ -4,6 +4,13 @@ body {
     background-image: linear-gradient(#e9f0f7, #f7f2f9);
     font-size: 18px;
   }
+  h1 {
+    background-image: url(img/monster/icon/tosmark.png);
+    background-repeat: no-repeat;
+    background-size: 10%;
+    background-position-x: right;
+    background-color: transparent;
+}
   #results_show_mse,
   #results{
     font-size: 18px;
@@ -45,6 +52,13 @@ body {
     width: 25px;
     height: 25px;
     margin-left: 8px; 
+    transition: transform 0.2s ease-out;
+    z-index: 98;
+  }
+  .cardimg-little:hover {
+    position: relative;
+    z-index: 99;
+    transform: scale(2); 
   }
   .card-skill{
     display: flex;
@@ -347,7 +361,7 @@ body {
         width: fit-content;
         font-size: 32px;
         /* font-family: Arial, sans-serif; */
-        /* background-image: linear-gradient(#e9f0f7, #f7f2f9); */
+        background-image: linear-gradient(#b5c2d2, #d2cfc9);
       }
       .switch {
         width: 60px;
@@ -357,12 +371,14 @@ body {
       #results_show_mse, 
       #results {
         font-size: 28px;
+        margin-right: 8%;
       }
       .search-container {
         margin: 20px 20px 0 20px;
     }
     .search-input {
       font-size: 25px;
+      background-color: #9cc8d3;
   }
       .search-button {
         padding: 8px 0px;
@@ -390,26 +406,33 @@ body {
         font-size: 20px;
       }
       .card {
-        width: 500px;
+    background-color: #a0b5c8d2;
+
+        width: 90%;
         height: 570px;
       }
       .card-skill-item {
+        background-color: #c7c3a05e;
         width: 450px;
       }
       .card-teamskill  {
         width: 450px;
-
     }
+    .card-teamskill-item {
+      width: 405px;
+    background-color: #b2b1c6c2;
+  }
       .leaderskill {
         display: flex;
         flex-wrap: wrap;
     }
       .leaderskill-item {
         margin-bottom: 8px;
-        width: 450px;
+    background-color: #8a8bc4a8;
+    width: 450px;
     }
       .card-name {
-        width: 480px;
+        width: 98%;
       }
       .body2 {
         display: inline-grid;
@@ -426,6 +449,7 @@ body {
         height: 50px;
         font-size: 32px;
         display: flex;
+        background-color: #bcb1c9;
       }
       #raceImage,
       #attributeImage{
