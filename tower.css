@@ -363,6 +363,13 @@ body {
         /* font-family: Arial, sans-serif; */
         background-image: linear-gradient(#b5c2d2, #d2cfc9);
       }
+      h1 {
+        background-image: none;
+        /* background-repeat: no-repeat;
+        background-size: 10%;
+        background-position-x: right;
+        background-color: transparent; */
+    }
       .switch {
         width: 60px;
         height: 24px;
@@ -462,11 +469,4 @@ body {
         display: none !important; /* 強制隱藏按鈕 */
       }
 
-    }
-    
-    @media only screen and (max-width: 600px) {
-      #back-to-top,
-      #scroll-to-bottom {
-        display: none !important; /* 強制隱藏按鈕 */
-      }
     }

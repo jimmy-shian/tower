@@ -336,7 +336,7 @@ try{
                 if(select_monstername_flag){
                   cardNameParagraph.innerHTML = markupTextWithSearchKeywords(monster_idname);
                 }else{
-                  cardNameParagraph.textContent = monster_idname;
+                  cardNameParagraph.innerHTML = monster_idname;
                 }
                 cardName.appendChild(cardNameParagraph);
                 // 創建第一個 cardimg-little 元素
@@ -372,7 +372,7 @@ try{
 
                     // 創建 <p> 元素並設置內容
                     var skillPParagraph = document.createElement("p");
-                    skillPParagraph.textContent = `${monster_skill[skill_ii]['name']}`;
+                    skillPParagraph.innerHTML = `${monster_skill[skill_ii]['name']}`;
                     skillP.appendChild(skillPParagraph);
                     cardSkillItem.appendChild(skillP);
                     // 創建 <p> 元素並設置內容
@@ -398,7 +398,7 @@ try{
                     if(select_skill_flag){
                       skillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_skill[skill_ii]['description'])}`;
                     }else{
-                      skillDetailParagraph.textContent = `${monster_skill[skill_ii]['description']}`;
+                      skillDetailParagraph.innerHTML = `${monster_skill[skill_ii]['description']}`;
                     }
                     skillDetail.appendChild(skillDetailParagraph);
                     cardSkillItem.appendChild(skillDetail);
@@ -425,7 +425,7 @@ try{
                   if(select_teamskill_flag){
                     teamSkillPParagraph.innerHTML = `隊伍技能：${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['activate'])}`;
                   }else{
-                    teamSkillPParagraph.textContent = `隊伍技能：${monster_teamSkill[teamskill_ii]['activate']}`;
+                    teamSkillPParagraph.innerHTML = `隊伍技能：${monster_teamSkill[teamskill_ii]['activate']}`;
                   }
                   teamSkillP.appendChild(teamSkillPParagraph);
                   cardTeamSkillItem.appendChild(teamSkillP);
@@ -439,7 +439,7 @@ try{
                   if(select_teamskill_flag){
                     teamSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(monster_teamSkill[teamskill_ii]['description'])}`;
                   }else{
-                    teamSkillDetailParagraph.textContent = `${monster_teamSkill[teamskill_ii]['description']}`;
+                    teamSkillDetailParagraph.innerHTML = `${monster_teamSkill[teamskill_ii]['description']}`;
                   }
                   teamSkillDetail.appendChild(teamSkillDetailParagraph);
                   cardTeamSkillItem.appendChild(teamSkillDetail);
@@ -471,7 +471,7 @@ try{
 
                             // 創建 <p> 元素並設置內容
                             var leaderSkillPParagraph = document.createElement("p");
-                            leaderSkillPParagraph.textContent = `隊長技： ${leader_skill_name}`;
+                            leaderSkillPParagraph.innerHTML = `隊長技： ${leader_skill_name}`;
                             leaderSkillP.appendChild(leaderSkillPParagraph);
                             leaderSkillItem.appendChild(leaderSkillP);
 
@@ -484,7 +484,7 @@ try{
                             if(select_leaderskill_flag){
                               leaderSkillDetailParagraph.innerHTML = `${markupTextWithSearchKeywords(leader_skill_description)}`;
                             }else{
-                              leaderSkillDetailParagraph.textContent = `${leader_skill_description}`;
+                              leaderSkillDetailParagraph.innerHTML = `${leader_skill_description}`;
                             }
                             leaderSkillDetail.appendChild(leaderSkillDetailParagraph);
                             leaderSkillItem.appendChild(leaderSkillDetail);
