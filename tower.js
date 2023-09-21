@@ -39,6 +39,109 @@ window.addEventListener("load", function() {
   });
 });
 
+// 使用 currentCard 變數追蹤目前顯示的物件，實現自動收起效果
+// 將 "results" 替換為實際容器元素的 id，並根據需要調整其他選擇器
+// 點選物件時，上一個物件會自動收起，點選空白區域也會收起目前顯示的物件。
+document.addEventListener('DOMContentLoaded', function () {
+  var container = document.getElementById('results');
+  var currentCard = null;
+
+  container.addEventListener('click', function (event) {
+    if (event.target.classList.contains('cardimg-big')) {
+      var card = event.target.closest('.card');
+      var cardname = card.querySelector('.card-name');
+      var skillSection = card.querySelector('.card-skill');
+      var teamSkillSection = card.querySelector('.card-teamskill');
+      var leaderSkillSection = card.querySelector('.leaderskill');
+
+      // 切换显示状态
+      cardname.style.display = 'flex';
+      skillSection.style.display = 'flex';
+      teamSkillSection.style.display = 'flex';
+      leaderSkillSection.style.display = 'flex';
+
+      // 添加过渡效果的类
+      // 如果屏幕宽度为786px，则将卡片宽度设置为90%
+      if (window.innerWidth <= 768) {
+        // card.style.position = 'fixed';
+        card.classList.add('card-transition');
+        card.style.width = '80%';
+        card.style.height = '570px';
+
+
+      }else{
+      card.style.position = 'fixed';
+      card.classList.add('card-transition');
+      card.style.transform = 'translate(-50%, -50%)';
+      card.style.top = '50%';
+      card.style.left = '50%';
+      card.style.width = '520px';
+      card.style.height = '520px';
+      card.style.zIndex = '1000';
+    }
+      // 恢复上一个物件的状态
+      if (currentCard && currentCard !== card) {
+        var prevCardname = currentCard.querySelector('.card-name');
+        var prevSkillSection = currentCard.querySelector('.card-skill');
+        var prevTeamSkillSection = currentCard.querySelector('.card-teamskill');
+        var prevLeaderSkillSection = currentCard.querySelector('.leaderskill');
+
+        prevCardname.style.display = 'none';
+        prevSkillSection.style.display = 'none';
+        prevTeamSkillSection.style.display = 'none';
+        prevLeaderSkillSection.style.display = 'none';
+
+        currentCard.style.position = '';
+        currentCard.style.transform = '';
+        currentCard.style.top = '';
+        currentCard.style.left = '';
+        currentCard.style.width = '';
+        currentCard.style.height = '';
+        currentCard.style.zIndex = '';
+
+        // 移除过渡效果的类
+        // currentCard.classList.remove('card-transition');
+      }
+
+      // 更新当前物件
+      currentCard = card;
+
+      // 阻止事件冒泡，以避免立即触发点击空白区域的收起功能
+      event.stopPropagation();
+    }
+  });
+
+  // 点击空白区域时，收起当前物件
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.card')) {
+      if (currentCard) {
+        var cardname = currentCard.querySelector('.card-name');
+        var skillSection = currentCard.querySelector('.card-skill');
+        var teamSkillSection = currentCard.querySelector('.card-teamskill');
+        var leaderSkillSection = currentCard.querySelector('.leaderskill');
+
+        cardname.style.display = 'none';
+        skillSection.style.display = 'none';
+        teamSkillSection.style.display = 'none';
+        leaderSkillSection.style.display = 'none';
+
+        // 移除过渡效果的类
+        // currentCard.classList.remove('card-transition');
+
+        currentCard.style.position = '';
+        currentCard.style.transform = '';
+        currentCard.style.top = '';
+        currentCard.style.left = '';
+        currentCard.style.width = '';
+        currentCard.style.height = '';
+        currentCard.style.zIndex = '';
+
+        currentCard = null;
+      }
+    }
+  });
+});
+
 const toggleSwitch = document.getElementById('toggleSwitch');
 const toggleText = document.getElementById('toggleText');
 // toggleText.textContent = '簡易搜尋';
@@ -275,9 +378,9 @@ function getSelectedFields() {
             }
             if(select_teamskill_flag){
                 for (var teamskill_i = 0; teamskill_i < monster_teamSkill.length; teamskill_i++) {
-                    if (monster_teamSkill[teamskill_i]['type'] == 'normal'){
+                    // if (monster_teamSkill[teamskill_i]['type'] == 'normal'){
                         monster_word += (" " + (monster_teamSkill[teamskill_i]['description'] + " " + monster_teamSkill[teamskill_i]['activate']));
-                    }
+                    // }
                 }
             }
             // console.log('monster_word = ',monster_word)
@@ -289,15 +392,15 @@ function getSelectedFields() {
             // console.log('mergedmonster_word=',mergedmonster_word);
             if (select_detailed_simple_flag){
               if ((mergedSearchKeyword.some(keyword => mergedmonster_word.includes(keyword)))){
-                search_flag = true; 
+                  search_flag = true; 
                 // console.log('some');
               }
             }
             else{
-                 if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
-                  search_flag = true; 
-                  // console.log('every');
-                }
+              if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
+              search_flag = true; 
+              // console.log('every');
+            }
             }
             
 //==================準備輸出資料====================

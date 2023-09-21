@@ -17,16 +17,19 @@ body {
   }
   .card{
     display: block;
-    width: 520px;
-    height: 520px;
+    width: 80px;
+    height: 80px;
     margin: 20px;
     overflow: auto;
     border: 6px double #6698c1;
     padding: 18px;
     border-radius: 5px;
     background-color: #d0e5ef;
+    /* transition: all 0.3s ease-in-out; */
   }
-
+  .card-transition {
+    transition: all 0.2s ease-in-out;
+  }
   .cardimg-big {
     width: 80px;
     transition: transform 0.2s ease-out;
@@ -185,7 +188,13 @@ body {
     margin: -40px 0 0 8px;
   }
 
-
+/* 添加的CSS规则 */
+.card-name,
+.card-skill,
+.card-teamskill,
+.leaderskill {
+  display: none;
+}
   .search-container {
     display: flex;
     align-items: center;
@@ -414,10 +423,11 @@ body {
         font-size: 20px;
       }
       .card {
-    background-color: #a0b5c8d2;
-
-        width: 90%;
-        height: 570px;
+        background-color: #a0b5c8;
+        /* width: 80px;
+        height: 80px;
+        width: 90%; */
+        /* height: 570px; */
       }
       .card-skill-item {
         background-color: #c7c3a05e;
@@ -431,7 +441,7 @@ body {
     background-color: #b2b1c6c2;
   }
       .leaderskill {
-        display: flex;
+        /* display: flex; */
         flex-wrap: wrap;
     }
       .leaderskill-item {
