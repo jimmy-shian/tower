@@ -49,47 +49,48 @@ document.addEventListener('DOMContentLoaded', function () {
   container.addEventListener('click', function (event) {
     if (event.target.classList.contains('cardimg-big')) {
       var card = event.target.closest('.card');
-      var cardname = card.querySelector('.card-name');
+      var cardOutId = event.target.closest('.card-out-id');
+      var cardId = cardOutId.querySelector('.card-name-id');
+      var cardName = card.querySelector('.card-name');
       var skillSection = card.querySelector('.card-skill');
       var teamSkillSection = card.querySelector('.card-teamskill');
       var leaderSkillSection = card.querySelector('.leaderskill');
 
       // 切换显示状态
-      cardname.style.display = 'flex';
-      skillSection.style.display = 'flex';
-      teamSkillSection.style.display = 'flex';
-      leaderSkillSection.style.display = 'flex';
+      cardId && (cardId.style.display = 'none');
+      cardName && (cardName.style.display = 'flex');
+      skillSection && (skillSection.style.display = 'flex');
+      teamSkillSection && (teamSkillSection.style.display = 'flex');
+      leaderSkillSection && (leaderSkillSection.style.display = 'flex');
 
       // 添加过渡效果的类
-      // 如果屏幕宽度为786px，则将卡片宽度设置为90%
       if (window.innerWidth <= 768) {
-        // card.style.position = 'fixed';
-        card.classList.add('card-transition');
         card.style.width = '80%';
         card.style.height = '570px';
+      } else {
+        card.style.position = 'fixed';
+        card.style.transform = 'translate(-50%, -50%)';
+        card.style.top = '50%';
+        card.style.left = '50%';
+        card.style.width = '520px';
+        card.style.height = '70%';
+        card.style.zIndex = '1000';
+      }
 
-
-      }else{
-      card.style.position = 'fixed';
-      card.classList.add('card-transition');
-      card.style.transform = 'translate(-50%, -50%)';
-      card.style.top = '50%';
-      card.style.left = '50%';
-      card.style.width = '520px';
-      card.style.height = '520px';
-      card.style.zIndex = '1000';
-    }
       // 恢复上一个物件的状态
       if (currentCard && currentCard !== card) {
-        var prevCardname = currentCard.querySelector('.card-name');
+        var preCardOutId = currentCard.querySelector('.card-out-id');
+        var preCardId = currentCard.closest('.card-out-id').querySelector('.card-name-id');
+        var prevCardName = currentCard.querySelector('.card-name');
         var prevSkillSection = currentCard.querySelector('.card-skill');
         var prevTeamSkillSection = currentCard.querySelector('.card-teamskill');
         var prevLeaderSkillSection = currentCard.querySelector('.leaderskill');
 
-        prevCardname.style.display = 'none';
-        prevSkillSection.style.display = 'none';
-        prevTeamSkillSection.style.display = 'none';
-        prevLeaderSkillSection.style.display = 'none';
+        preCardId && (preCardId.style.display = 'flex');
+        prevCardName && (prevCardName.style.display = 'none');
+        prevSkillSection && (prevSkillSection.style.display = 'none');
+        prevTeamSkillSection && (prevTeamSkillSection.style.display = 'none');
+        prevLeaderSkillSection && (prevLeaderSkillSection.style.display = 'none');
 
         currentCard.style.position = '';
         currentCard.style.transform = '';
@@ -98,35 +99,29 @@ document.addEventListener('DOMContentLoaded', function () {
         currentCard.style.width = '';
         currentCard.style.height = '';
         currentCard.style.zIndex = '';
-
-        // 移除过渡效果的类
-        // currentCard.classList.remove('card-transition');
       }
 
-      // 更新当前物件
       currentCard = card;
 
-      // 阻止事件冒泡，以避免立即触发点击空白区域的收起功能
       event.stopPropagation();
     }
   });
 
-  // 点击空白区域时，收起当前物件
   document.addEventListener('click', function (event) {
     if (!event.target.closest('.card')) {
       if (currentCard) {
-        var cardname = currentCard.querySelector('.card-name');
+        var cardOutId = currentCard.querySelector('.card-out-id');
+        var cardId = currentCard.closest('.card-out-id').querySelector('.card-name-id');
+        var cardName = currentCard.querySelector('.card-name');
         var skillSection = currentCard.querySelector('.card-skill');
         var teamSkillSection = currentCard.querySelector('.card-teamskill');
         var leaderSkillSection = currentCard.querySelector('.leaderskill');
 
-        cardname.style.display = 'none';
-        skillSection.style.display = 'none';
-        teamSkillSection.style.display = 'none';
-        leaderSkillSection.style.display = 'none';
-
-        // 移除过渡效果的类
-        // currentCard.classList.remove('card-transition');
+        cardId && (cardId.style.display = 'flex');
+        cardName && (cardName.style.display = 'none');
+        skillSection && (skillSection.style.display = 'none');
+        teamSkillSection && (teamSkillSection.style.display = 'none');
+        leaderSkillSection && (leaderSkillSection.style.display = 'none');
 
         currentCard.style.position = '';
         currentCard.style.transform = '';
@@ -163,11 +158,28 @@ function updateImage(filter, image, imageMap) {
   var imgSrc = imageMap[selectedOption] || "";
   image.src = imgSrc;
 }
+
 function handleKeyPress(event) {
     if (event.keyCode === 13) {
         searchJSON(); // 在按下 Enter 键时触发搜索功能
     }
 }
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    searchJSON(); // 在按下 Enter 键时触发搜索功能
+  }
+});
+var numberInput = document.getElementById("searchInput")
+// 添加事件監聽器，當按下 "/" 鍵時將焦點設定在輸入框上
+document.addEventListener('keydown', function(event) {
+  if (event.key === '/') {
+    event.preventDefault(); // 防止斜線字符出現在輸入框中
+    numberInput.focus(); // 將焦點設定在輸入框上
+    numberInput.value = ''; // 清除輸入框中的值
+  }
+});
+
+
 function scrollToTop() {
     window.scrollTo({
         top: 0,
@@ -254,7 +266,7 @@ function getSelectedFields() {
 
 //================== searchJSON ====================
     function searchJSON() {
-        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() //|| ".";
+        var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || " ";
             mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
         console.log(mergedSearchKeyword);
         
@@ -321,6 +333,7 @@ function getSelectedFields() {
             var monster_word = "";
             var monster = monster_data[i];
                 monster_id = monster['id'];
+                monster_id2 = 'No. ' + monster_id.toString().padStart(3, '0');
                 monster_name = monster['name'];
             var monster_idname = 'No. ' + monster_id + ` ${monster_name}`;
             
@@ -429,6 +442,9 @@ try{
               if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all") && (monster_name !== "")){
                 data_howmany = data_howmany + 1;
                 // 創建外層的 card 元素
+                var cardOut = document.createElement("div");
+                cardOut.classList.add("card-out-id");
+
                 var resultItem = document.createElement("div");
                 resultItem.classList.add("card");
 
@@ -492,10 +508,17 @@ try{
                     skillP.appendChild(skillPParagraph);
                     cardSkillItem.appendChild(skillP);
                     // 創建 <p> 元素並設置內容
-                    var skillPParagraph2 = document.createElement("p");
+                    var skillPParagraph2
                     if (monster_skill[skill_ii]['num'] == -1){
+                      skillPParagraph2 = document.createElement("img");
+
                       skillPParagraph2.innerHTML = `組合技能`;
+                      skillPParagraph2.src = `img/icon/combine.png`;
+                      skillPParagraph2.alt = `組合技能`;
+                      // cardName.appendChild(cardImgLittle1);
                     }else{
+                      skillPParagraph2 = document.createElement("p");
+
                       if(select_littlenum_cd_flag || select_littlenum_ep_flag){
                         skillPParagraph2.innerHTML = `${monster_skill[skill_ii]['charge']} &nbsp ${markupTextWithSearchKeywords(String(monster_skill[skill_ii]['num']))}`;
                       }else{
@@ -587,7 +610,7 @@ try{
 
                             // 創建 <p> 元素並設置內容
                             var leaderSkillPParagraph = document.createElement("p");
-                            leaderSkillPParagraph.innerHTML = `隊長技： ${leader_skill_name}`;
+                            leaderSkillPParagraph.innerHTML = `隊長技：${leader_skill_name}`;
                             leaderSkillP.appendChild(leaderSkillPParagraph);
                             leaderSkillItem.appendChild(leaderSkillP);
 
@@ -610,7 +633,18 @@ try{
                         }
                     }
                 } 
-                resultsDiv.appendChild(resultItem);
+                cardOut.appendChild(resultItem)
+                // 創建 card-name-id 元素
+                var cardid = document.createElement("div");
+                cardid.classList.add("card-name-id");
+                // 創建 <p> 元素並設置內容
+                var cardidParagraph = document.createElement("p");
+                cardidParagraph.innerHTML = monster_id2;
+                
+                cardid.appendChild(cardidParagraph);
+                cardOut.appendChild(cardid);
+                
+                resultsDiv.appendChild(cardOut);
               }
             }
             catch (error){
