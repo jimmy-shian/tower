@@ -106,8 +106,11 @@ document.addEventListener('DOMContentLoaded', function () {
       event.stopPropagation();
     }
   });
-
-  document.addEventListener('click', function (event) {
+  document.addEventListener('click', clickOrKeyDownHandler);
+  document.addEventListener('keydown', clickOrKeyDownHandler);
+  
+  function clickOrKeyDownHandler(event) {
+  // document.addEventListener('click'||'keydown', function (event) {
     if (!event.target.closest('.card')) {
       if (currentCard) {
         var cardOutId = currentCard.querySelector('.card-out-id');
@@ -134,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function () {
         currentCard = null;
       }
     }
-  });
+  // });
+  }
 });
 
 const toggleSwitch = document.getElementById('toggleSwitch');
@@ -160,15 +164,15 @@ function updateImage(filter, image, imageMap) {
 }
 
 function handleKeyPress(event) {
-    if (event.keyCode === 13) {
-        searchJSON(); // 在按下 Enter 键时触发搜索功能
-    }
-}
-document.addEventListener('keydown', function (event) {
-  if (event.key === 'Enter') {
-    searchJSON(); // 在按下 Enter 键时触发搜索功能
+  if (event.keyCode === 13 || event.key === 'Enter') {
+    document.getElementById("loading-spinner").style.display = "block";
+    document.getElementById("results").innerHTML = "";
+    document.getElementById("results_show_mse").innerHTML = "";
+    setTimeout(searchJSON, 0); // 在按下 Enter 键后延遲 500 毫秒觸發搜索功能
   }
-});
+}
+document.addEventListener('keydown', handleKeyPress);
+
 var numberInput = document.getElementById("searchInput")
 // 添加事件監聽器，當按下 "/" 鍵時將焦點設定在輸入框上
 document.addEventListener('keydown', function(event) {
@@ -178,7 +182,10 @@ document.addEventListener('keydown', function(event) {
     numberInput.value = ''; // 清除輸入框中的值
   }
 });
-
+// 添加事件监听器，当输入框被点击时清除输入框的内容
+numberInput.addEventListener('click', function() {
+  numberInput.value = ''; // 清除输入框中的值
+});
 
 function scrollToTop() {
     window.scrollTo({
@@ -253,11 +260,13 @@ function getSelectedFields() {
   return selectedFields;
 }
 
+document.getElementById("loading-spinner").style.display = "none";
+console.log('nnon');
 
     var resultsDiv_show_mse = document.getElementById("results_show_mse");
     var resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = " &nbsp";
-    resultsDiv_show_mse.innerHTML = " &nbsp";
+    resultsDiv.innerHTML = "";
+    resultsDiv_show_mse.innerHTML = ""; // &nbsp
 
 
     var mergedSearchKeyword;
@@ -725,7 +734,8 @@ try{
                 
             // }
         
-        } // 資料查找完畢          
+        } // 資料查找完畢     
+    document.getElementById("loading-spinner").style.display = "none";
     } // searchJson finish
 
   //       function markupTextWithSearchKeywords(text) {

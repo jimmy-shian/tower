@@ -17,13 +17,13 @@
   <div class="body2">
 
 
-    <h1>Card skills Search</h1>
+    <h1>卡片文字搜尋</h1>
 
     <div class="search-container table">
       <input type="checkbox" id="toggleSwitch" data-field="switchField">
       <label class="switch" for="toggleSwitch"></label>
       <span id="toggleText">詳細搜尋</span>
-      <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至0" placeholder="請隨意輸入字詞搜尋..." onkeypress="handleKeyPress(event)">
+      <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至0" placeholder='按"/"進入or隨意輸入字詞搜尋...' onkeypress="handleKeyPress(event)">
       <!-- 回復力減至0 -->
       <button class="search-button table-cell" onclick=" searchJSON()" >搜尋</button>
     </div>
@@ -122,8 +122,9 @@
     <br>
 <!-- <center> -->
     <div id="resultsContainer">
-        <div id="results_show_mse" style='display: block; opacity: 1; padding-left: 10%;'><p>&nbsp;</p></div>
-        <div id="results" style='display: flex; flex-wrap: wrap; opacity: 1;'><p>&nbsp;</p></div>
+      <div id="loading-spinner"></div>
+      <div id="results_show_mse" style='display: block; opacity: 1; padding-left: 10%;'><p></p></div>
+      <div id="results" style='display: flex; flex-wrap: wrap; opacity: 1;'><p></p></div>
     </div>
 <!-- </center> -->
     <hr>
@@ -135,12 +136,12 @@
     <!-- 滾動到最底按鍵 -->
     <div id="scroll-to-bottom" onclick="scrollToBottom()"></div>
 
-<div style="text-align: center; margin-top: 20px; font-size: x-small;">
+<div style="text-align: center; margin-top: 20px; font-size: 14px;">
     本網站資料來源為：
     <a rel="license" href="https://github.com/tinghan33704/tos_tools" target="_blank">蒼曜 tinghan33704</a>
     ，依據此<a rel="license" href="https://raw.githubusercontent.com/tinghan33704/tos_tools/main/LICENSE" target="_blank">使用條款</a>進行使用。
 </div><br>
-<div style="text-align: center; margin-top: 20px; font-size: xx-small;">
+<div style="text-align: center; margin-top: 20px; font-size: 14px;">
   <a>資料最後更新時間為 2023/9/21 22:07</a>
 </div>
 
