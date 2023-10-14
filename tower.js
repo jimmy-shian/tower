@@ -165,11 +165,17 @@ function updateImage(filter, image, imageMap) {
 
 function handleKeyPress(event) {
   if (event.keyCode === 13 || event.key === 'Enter') {
-    document.getElementById("loading-spinner").style.display = "block";
-    document.getElementById("results").innerHTML = "";
-    document.getElementById("results_show_mse").innerHTML = "";
-    setTimeout(searchJSON, 0); // 在按下 Enter 键后延遲 500 毫秒觸發搜索功能
+    performSearch();
   }
+}
+function handleKeyPress1() {
+  performSearch();
+}
+function performSearch() {
+  document.getElementById("loading-spinner").style.display = "block";
+  document.getElementById("results").innerHTML = "";
+  document.getElementById("results_show_mse").innerHTML = "";
+  setTimeout(searchJSON, 0); // 在按下 Enter 键后延迟 500 毫秒触发搜索功能
 }
 document.addEventListener('keydown', handleKeyPress);
 
@@ -463,7 +469,49 @@ try{
                 container.style.justifyContent = "center";
                 var cardImgBig = document.createElement("img");
                 cardImgBig.classList.add("cardimg-big");
-                cardImgBig.src = `img/monster/${monster_id}.png`;
+                // 设置图片路径和备用路径
+                function loadImage(cardImgBig, monster_id, monster_attribute) {
+                  return new Promise((resolve, reject) => {
+                    cardImgBig.src = `img/monster/${monster_id}.png`;
+                    cardImgBig.onload = resolve;
+                    cardImgBig.onerror = reject;
+                  });
+                }
+                async function handleImageError(cardImgBig, monster_id, monster_attribute) {
+                  try {
+                    await loadImage(cardImgBig, monster_id, monster_attribute);
+                    console.log("tttrrryyy");
+                  } catch (error) {
+                    var pattern = /icon_([a-zA-Z]+)/;
+                    var match = dataMapping[monster_attribute].match(pattern);
+                    var extractedText = match[1]; // 提取的文本
+                    cardImgBig.src = `img/monster/noname_${extractedText}.png`;
+                  }
+                }
+                // 调用 handleImageError 函数
+                handleImageError(cardImgBig, monster_id, monster_attribute);
+                // async function loadImage(cardImgBig, monster_id, monster_attribute) {
+                //   try {
+                //     const response = await fetch(`img/monster/${monster_id}.png`);
+                //     if (response.ok) {
+                //       cardImgBig.src = `img/monster/${monster_id}.png`;
+                //     } else {
+                //       var pattern = /icon_([a-zA-Z]+)/;
+                //       var match = dataMapping[monster_attribute].match(pattern);
+                //       var extractedText = match[1]; // 提取的文本
+                //       cardImgBig.src = `img/monster/noname_${extractedText}.png`;
+                //     }
+                //   } catch (error) {
+                //     var pattern = /icon_([a-zA-Z]+)/;
+                //     var match = dataMapping[monster_attribute].match(pattern);
+                //     var extractedText = match[1]; // 提取的文本
+                //     cardImgBig.src = `img/monster/noname_${extractedText}.png`;
+                //   }
+                // }
+                
+                // // 调用 loadImage 函数
+                // loadImage(cardImgBig, monster_id, monster_attribute);
+
                 cardImgBig.alt = `${monster_name}`;
                 container.appendChild(cardImgBig);
                 resultItem.appendChild(container);
