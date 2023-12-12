@@ -189,8 +189,14 @@ document.addEventListener('keydown', function(event) {
   }
 });
 // 添加事件监听器，当输入框被点击时清除输入框的内容
-numberInput.addEventListener('click', function() {
-  numberInput.value = ''; // 清除输入框中的值
+let shouldClearInput = true;  
+document.addEventListener('click', function(event) {
+  if (shouldClearInput && numberInput === document.activeElement) {
+    numberInput.value = ''; // 清除輸入框中的值
+  }
+});
+numberInput.addEventListener('input', function(event) {
+  shouldClearInput = false; // 禁止清除輸入框中的值
 });
 
 function scrollToTop() {
