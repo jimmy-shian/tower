@@ -47,4 +47,27 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
 
-input("Press Enter to exit...")
+import os
+
+# 設定目標資料夾路徑
+folder_path = './'  # 假設檔案在當前資料夾，若不是，請修改路徑
+
+# 設定要保留的檔案名稱
+keep_files = ['monster_data.js', 'leader_skill_data.js', 'replace.py']
+
+try:
+    # 列出資料夾中的所有檔案
+    files = os.listdir(folder_path)
+
+    # 遍歷所有檔案，刪除不在保留列表中的檔案
+    for file_name in files:
+        if file_name not in keep_files:
+            file_path = os.path.join(folder_path, file_name)
+            if os.path.isfile(file_path):  # 確保是檔案而非資料夾
+                os.remove(file_path)
+                print(f"已刪除: {file_name}")
+
+except Exception as e:
+    print(f"發生錯誤: {str(e)}")
+
+input("It's OK. Press Enter to exit...")
