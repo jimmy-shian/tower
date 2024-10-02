@@ -70,4 +70,24 @@ try:
 except Exception as e:
     print(f"發生錯誤: {str(e)}")
 
+import shutil
+
+# 设置目标文件夹路径（前一个文件夹）
+parent_folder_path = os.path.abspath(os.path.join(folder_path, os.pardir))
+
+# 要复制的文件列表
+files_to_copy = ['monster_data.js', 'leader_skill_data.js']
+
+try:
+    for file_name in files_to_copy:
+        source_file = os.path.join(folder_path, file_name)
+        destination_file = os.path.join(parent_folder_path, file_name)
+        
+        # 复制文件到上级目录
+        shutil.copy2(source_file, destination_file)
+        print(f"已複製: {file_name} 到 {parent_folder_path}")
+except Exception as e:
+    print(f"發生錯誤: {str(e)}")
+
+
 input("It's OK. Press Enter to exit...")
