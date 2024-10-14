@@ -1,4 +1,5 @@
 @echo off
+chcp 65001
 setlocal
 
 rem 定义源路径和目标路径
@@ -22,6 +23,11 @@ for %%f in ("%source_img%\*.*") do (
 rem 复制 JS 文件并替代
 copy /Y "%source_js%\monster_data.js" "%dest_js%\"
 copy /Y "%source_js%\leader_skill_data.js" "%dest_js%\"
+
+
+rem 執行 replace.py
+cd C:\Users\Administrator\Desktop\tower\js
+python replace.py
 
 echo 复制完成。
 endlocal
