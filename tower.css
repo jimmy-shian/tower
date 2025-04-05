@@ -1,8 +1,46 @@
 
-body {
+:root {
+    /* 淺色模式變量 */
+    --background-gradient: linear-gradient(#e9f0f7, #f7f2f9);
+    --text-color: #333;
+    --card-background: #d0e5ef;
+    --card-border: #6698c1;
+    --search-input-bg: #d9f3ff;
+    --search-input-hover: #d0e5ef;
+    --search-button-bg: #a4d0ff;
+    --search-button-hover: #e0c3ed;
+    --skill-item-bg: #fffcd573;
+    --teamskill-item-bg: #e5d8ebdb;
+    --leaderskill-item-bg: #b3d2edc2;
+    --switch-bg: #bae0ff;
+    --switch-button: #05467b;
+    --switch-button-checked: #2196F3;
+  }
+  
+  [data-theme="dark"] {
+    /* 深色模式變量 */
+    --background-gradient: linear-gradient(#1a1a2e, #16213e);
+    --text-color: #e6e6e6;
+    --card-background: #2a2a4a;
+    --card-border: #4a6c8c;
+    --search-input-bg: #2c3e50;
+    --search-input-hover: #34495e;
+    --search-button-bg: #3498db;
+    --search-button-hover: #9b59b6;
+    --skill-item-bg: #4d4d33;
+    --teamskill-item-bg: #4d3d4d;
+    --leaderskill-item-bg: #2c4356;
+    --switch-bg: #2c3e50;
+    --switch-button: #3498db;
+    --switch-button-checked: #9b59b6;
+  }
+  
+  body {
     /* font-family: Arial, sans-serif; */
-    background-image: linear-gradient(#e9f0f7, #f7f2f9);
+    background-image: var(--background-gradient);
+    color: var(--text-color);
     font-size: 18px;
+    transition: background-image 0.3s ease;
   }
   #loading-spinner {
     /* border: 4px solid #21628e; */
@@ -42,10 +80,11 @@ body {
     height: 80px;
     margin: 20px 20px 0 20px;
     overflow: auto;
-    border: 6px double #6698c1;
+    border: 6px double var(--card-border);
     padding: 18px;
     border-radius: 5px;
-    background-color: #d0e5ef;
+    background-color: var(--card-background);
+    transition: background-color 0.3s ease;
     /* transition: all 0.3s ease-in-out; */
   }
   .card-name-id {
@@ -112,7 +151,8 @@ body {
     padding: 8px;
     border-radius: 5px;
     margin: 5px 10px 5px 0;
-    background-color: #fffcd573;
+    background-color: var(--skill-item-bg);
+    transition: background-color 0.3s ease;
   }
 
   .skill-p{
@@ -133,7 +173,7 @@ body {
   }
   .skill-detail {
     height: 150px;
-    background-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.2);
     word-wrap: break-word; 
     overflow-y: auto; 
     line-height: 1.2; 
@@ -159,7 +199,8 @@ body {
     border-radius: 5px;
     margin: 5px 10px 5px 0;
     width: 343px;
-    background-color: #e5d8ebdb;
+    background-color: var(--teamskill-item-bg);
+    transition: background-color 0.3s ease;
   }
 
   .teamskill-p{
@@ -176,7 +217,7 @@ body {
   }
   .teamskill-detail {
     height: 150px;
-    background-color: lightgray; 
+    background-color: rgba(211, 211, 211, 0.2); 
     word-wrap: break-word;
     overflow-y: auto; 
     line-height: 1.2;
@@ -196,11 +237,12 @@ body {
   .leaderskill-item {
     display: block;
     border: 2px solid black;
-    background-color: #b3d2edc2;
+    background-color: var(--leaderskill-item-bg);
     padding: 8px;
     border-radius: 5px;
     margin: 5px 10px 0 0;
     width: 343px;
+    transition: background-color 0.3s ease;
   }
   .leaderskill-p {
     display: flex;
@@ -216,7 +258,7 @@ body {
   }
   .leaderskill-detail {
     height: 150px;
-    background-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.2);
     word-wrap: break-word;
     overflow-y: auto;
     line-height: 1.2;
@@ -249,19 +291,20 @@ body {
     font-size: 18px;
     border: 6px double #ccc;
     border-radius: 12px;
-    background-color: #d9f3ff;
+    background-color: var(--search-input-bg);
+    color: var(--text-color);
     transition: background-color 0.2s ease;
   }
   .search-input:hover {
-    background-color: #d0e5ef;
+    background-color: var(--search-input-hover);
   }
   .search-button {
     padding: 16px 25px;
     margin: 14px;
     width: auto;
     font-size: 16px;
-    background-color: #a4d0ff;
-    color: rgb(30, 30, 30);
+    background-color: var(--search-button-bg);
+    color: var(--text-color);
     border: 3px solid #ccc;
     border-radius: 20px;
     cursor: pointer;
@@ -269,7 +312,7 @@ body {
   }
 
   .search-button:hover {
-    background-color: #e0c3ed;
+    background-color: var(--search-button-hover);
   }
 
   .container {
@@ -283,10 +326,11 @@ body {
     display: inline-block;
     width: 50px;
     height: 24px;
-    background-color: #bae0ff;
+    background-color: var(--switch-bg);
     border-radius: 12px;
     border: 0.1px solid black;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
   .switch:before {
@@ -296,7 +340,7 @@ body {
     left: 3px;
     width: 18px;
     height: 18px;
-    background-color: #05467b;
+    background-color: var(--switch-button);
     border-radius: 50%;
     transition: .4s;
   }
@@ -306,13 +350,14 @@ body {
   }
 
 
-  input[data-field="switchField"] {
-    display: none;
+  input[data-field="switchField"],
+  input[data-field="themeField"] {
+      display: none;
   }
 
   input[type="checkbox"]:checked + .switch:before {
     transform: translateX(26px);
-    background-color: #2196F3;
+    background-color: var(--switch-button-checked);
   }
 
   .like-strong {
@@ -322,10 +367,81 @@ body {
 
   .filter-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 20px;
     padding: 3px;
+  }
+
+  .search-options {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .search-mode, .theme-toggle {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+  }
+
+  .filter-section {
+    margin: 15px 0;
+    width: 100%;
+  }
+
+  .filter-section h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .icon-select {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .icon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 10px;
+    border: 2px solid var(--card-border);
+    background-color: var(--card-background);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 80px;
+    height: 80px;
+  }
+
+  .icon-btn img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+  }
+
+  .icon-btn span {
+    font-size: 14px;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .icon-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-btn.active {
+    background-color: var(--search-button-hover);
+    border-color: var(--switch-button-checked);
+    transform: scale(1.05);
   }
 
   .checkbox-label {
@@ -410,17 +526,14 @@ body {
       body {
         width: fit-content;
         font-size: 32px;
-        /* font-family: Arial, sans-serif; */
-        background-image: linear-gradient(#b5c2d2, #d2cfc9);
+        background-image: var(--background-gradient);
       }
       h1 {
         background-image: none;
         font-size: 36px;
-        /* background-repeat: no-repeat;
-        background-size: 10%;
-        background-position-x: right;
-        background-color: transparent; */
-    }
+        text-align: center;
+        margin-bottom: 20px;
+      }
       .switch {
         width: 60px;
         height: 24px;
@@ -433,21 +546,26 @@ body {
       }
       .search-container {
         margin: 20px 20px 0 20px;
-    }
-    .search-input {
-      font-size: 25px;
-      background-color: #9cc8d3;
-  }
+        flex-direction: column;
+      }
+      .search-input {
+        font-size: 25px;
+        background-color: var(--search-input-bg);
+        color: var(--text-color);
+        width: 80%;
+        margin: 10px auto;
+      }
       .search-button {
         padding: 8px 0px;
-        width: 85px;
+        width: 120px;
         height: 55px;
         font-size: 22px;
         border: 3px solid #ccc;
-    }
+        margin: 10px auto;
+      }
       .checkbox-label{
         display: list-item;
-          margin-top: 4px;
+        margin-top: 4px;
       }
       .checkbox-label #applyButton{
         width: 50px;
@@ -455,41 +573,61 @@ body {
       }
       h2{
         font-size: 34px;
-        margin: 8px 0px;
+        margin: 15px 0;
+        text-align: center;
       }
       .filter-container {
-        margin-top: -5px;
+        margin-top: 10px;
+        width: 95%;
+      }
+      .filter-section {
+        margin: 20px 0;
+      }
+      .filter-section h3 {
+        font-size: 28px;
+        margin: 15px 0;
+      }
+      .icon-select {
+        gap: 15px;
+      }
+      .icon-btn {
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+      }
+      .icon-btn img {
+        width: 50px;
+        height: 50px;
+      }
+      .icon-btn span {
+        font-size: 18px;
+        margin-top: 5px;
       }
       #resultsContainer{
         font-size: 20px;
       }
       .card {
-        background-color: #a0b5c8;
-        /* width: 80px;
-        height: 80px;
-        width: 90%; */
-        /* height: 570px; */
+        background-color: var(--card-background);
       }
       .card-skill-item {
-        background-color: #c7c3a05e;
+        background-color: var(--skill-item-bg);
         width: 450px;
       }
       .card-teamskill  {
         width: 450px;
-    }
-    .card-teamskill-item {
-      width: 405px;
-    background-color: #b2b1c6c2;
-  }
+      }
+      .card-teamskill-item {
+        width: 405px;
+        background-color: var(--teamskill-item-bg);
+      }
       .leaderskill {
-        /* display: flex; */
         flex-wrap: wrap;
-    }
+      }
       .leaderskill-item {
         margin-bottom: 8px;
-    background-color: #8a8bc4a8;
-    width: 450px;
-    }
+        background-color: var(--leaderskill-item-bg);
+        width: 450px;
+      }
       .card-name {
         width: 98%;
       }
@@ -504,26 +642,9 @@ body {
         transform: translateX(20px);
         background-color: #2196F3;
       }
-    
-      #raceFilter,
-      #attributeFilter {
-        justify-content: center;
-        align-items: center;
-        width: 196px;
-        height: 50px;
-        font-size: 32px;
-        display: flex;
-        background-color: #bcb1c9;
-      }
-      #raceImage,
-      #attributeImage{
-        width: 50px; 
-        padding-left: 20px;
-      }
 
       #back-to-top,
       #scroll-to-bottom {
         display: none !important; /* 強制隱藏按鈕 */
       }
-
     }

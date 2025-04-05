@@ -156,6 +156,139 @@ toggleSwitch.addEventListener('change', function() {
   }
 });
 
+// 初始化搜索模式文本
+const initialToggleState = toggleSwitch.checked;
+toggleText.textContent = initialToggleState ? '簡易搜尋' : '詳細搜尋';
+
+// 主題切換功能
+const themeToggle = document.getElementById('themeToggle');
+const themeText = document.getElementById('themeText');
+const htmlElement = document.documentElement;
+
+// 檢查本地存儲中是否有保存的主題設置
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  htmlElement.setAttribute('data-theme', savedTheme);
+  if (savedTheme === 'dark') {
+    themeToggle.checked = true;
+    themeText.textContent = '深色模式';
+  }
+}
+
+themeToggle.addEventListener('change', function() {
+  if (this.checked) {
+    htmlElement.setAttribute('data-theme', 'dark');
+    themeText.textContent = '深色模式';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    htmlElement.setAttribute('data-theme', 'light');
+    themeText.textContent = '淺色模式';
+    localStorage.setItem('theme', 'light');
+  }
+});
+
+// 處理種族和屬性按鈕的選擇邏輯
+document.addEventListener('DOMContentLoaded', function() {
+  // 種族按鈕邏輯
+  const allRaceBtn = document.querySelector('.race-btn[data-value="all"]');
+  const raceBtns = document.querySelectorAll('.race-btn:not([data-value="all"])');
+  const selectedRaces = new Set(['all']); // 初始化已選種族集合
+  
+  // 處理種族按鈕點擊
+  document.querySelector('.race-select').addEventListener('click', function(event) {
+    const btn = event.target.closest('.race-btn');
+    if (!btn) return;
+    
+    const value = btn.dataset.value;
+    
+    if (value === 'all') {
+      // 點擊「所有種族」按鈕
+      selectedRaces.clear();
+      selectedRaces.add('all');
+      allRaceBtn.classList.add('active');
+      raceBtns.forEach(btn => btn.classList.remove('active'));
+    } else {
+      // 點擊特定種族按鈕
+      if (btn.classList.contains('active')) {
+        // 取消選擇
+        btn.classList.remove('active');
+        selectedRaces.delete(value);
+        
+        // 如果沒有選擇任何種族，自動選擇「所有種族」
+        if (selectedRaces.size === 0 || (selectedRaces.size === 1 && selectedRaces.has('all'))) {
+          selectedRaces.clear();
+          selectedRaces.add('all');
+          allRaceBtn.classList.add('active');
+        }
+      } else {
+        // 選擇特定種族
+        btn.classList.add('active');
+        selectedRaces.add(value);
+        
+        // 取消「所有種族」的選擇
+        if (selectedRaces.has('all')) {
+          selectedRaces.delete('all');
+          allRaceBtn.classList.remove('active');
+        }
+      }
+    }
+  });
+  
+  // 屬性按鈕邏輯
+  const allAttributeBtn = document.querySelector('.attribute-btn[data-value="all"]');
+  const attributeBtns = document.querySelectorAll('.attribute-btn:not([data-value="all"])');
+  const selectedAttributes = new Set(['all']); // 初始化已選屬性集合
+  
+  // 處理屬性按鈕點擊
+  document.querySelector('.attribute-select').addEventListener('click', function(event) {
+    const btn = event.target.closest('.attribute-btn');
+    if (!btn) return;
+    
+    const value = btn.dataset.value;
+    
+    if (value === 'all') {
+      // 點擊「所有屬性」按鈕
+      selectedAttributes.clear();
+      selectedAttributes.add('all');
+      allAttributeBtn.classList.add('active');
+      attributeBtns.forEach(btn => btn.classList.remove('active'));
+    } else {
+      // 點擊特定屬性按鈕
+      if (btn.classList.contains('active')) {
+        // 取消選擇
+        btn.classList.remove('active');
+        selectedAttributes.delete(value);
+        
+        // 如果沒有選擇任何屬性，自動選擇「所有屬性」
+        if (selectedAttributes.size === 0 || (selectedAttributes.size === 1 && selectedAttributes.has('all'))) {
+          selectedAttributes.clear();
+          selectedAttributes.add('all');
+          allAttributeBtn.classList.add('active');
+        }
+      } else {
+        // 選擇特定屬性
+        btn.classList.add('active');
+        selectedAttributes.add(value);
+        
+        // 取消「所有屬性」的選擇
+        if (selectedAttributes.has('all')) {
+          selectedAttributes.delete('all');
+          allAttributeBtn.classList.remove('active');
+        }
+      }
+    }
+  });
+
+  // 初始化搜索模式文本
+  const toggleSwitch = document.getElementById('toggleSwitch');
+  const toggleText = document.getElementById('toggleText');
+  if (toggleSwitch.checked) {
+    toggleText.textContent = '簡易搜尋';
+  } else {
+    toggleText.textContent = '詳細搜尋';
+  }
+});
+
 
 function updateImage(filter, image, imageMap) {
   var selectedOption = filter.options[filter.selectedIndex].value;
@@ -288,14 +421,71 @@ console.log('nnon');
 //================== searchJSON ====================
     function searchJSON() {
         var searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase() || " ";
-            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== ''); //原本有var
-        console.log(mergedSearchKeyword);
+        var isDetailedSearch = !document.getElementById("toggleSwitch").checked;
+        
+        // 根據搜尋模式處理關鍵字
+        if (isDetailedSearch) {
+            // 詳細搜尋：按空格分詞組匹配
+            mergedSearchKeyword = searchKeyword.split(' ').filter(keyword => keyword !== '');
+        } else {
+            // 簡易搜尋：按字分詞
+            // 將連續的數字視為一個整體
+            let chars = [];
+            let currentNumber = '';
+            
+            for (let i = 0; i < searchKeyword.length; i++) {
+                if (/[0-9.]/.test(searchKeyword[i])) {
+                    currentNumber += searchKeyword[i];
+                } else {
+                    if (currentNumber !== '') {
+                        chars.push(currentNumber);
+                        currentNumber = '';
+                    }
+                    if (searchKeyword[i] !== ' ') {
+                        chars.push(searchKeyword[i]);
+                    }
+                }
+            }
+            
+            if (currentNumber !== '') {
+                chars.push(currentNumber);
+            }
+            
+            mergedSearchKeyword = chars;
+        }
+        console.log('搜尋模式:', isDetailedSearch ? '詳細搜尋' : '簡易搜尋');
+        console.log('搜尋關鍵字:', mergedSearchKeyword);
         
         var selectedFields = getSelectedFields();
         console.log(selectedFields);
 
-        var raceFilter = document.getElementById("raceFilter").value;
-        var attributeFilter = document.getElementById("attributeFilter").value;
+        // 獲取選中的種族
+        var selectedRaces = [];
+        document.querySelectorAll('.race-btn.active').forEach(btn => {
+            selectedRaces.push(btn.dataset.value);
+        });
+        
+        // 獲取選中的屬性
+        var selectedAttributes = [];
+        document.querySelectorAll('.attribute-btn.active').forEach(btn => {
+            selectedAttributes.push(btn.dataset.value);
+        });
+        
+        // 檢查是否選中了「所有種族」或「所有屬性」
+        var allRacesSelected = selectedRaces.includes('all');
+        var allAttributesSelected = selectedAttributes.includes('all');
+        
+        // 如果沒有選中任何種族或屬性，預設為全選
+        if (selectedRaces.length === 0) {
+            allRacesSelected = true;
+            // 自動選中「所有種族」按鈕
+            document.querySelector('.race-btn[data-value="all"]').classList.add('active');
+        }
+        if (selectedAttributes.length === 0) {
+            allAttributesSelected = true;
+            // 自動選中「所有屬性」按鈕
+            document.querySelector('.attribute-btn[data-value="all"]').classList.add('active');
+        }
         var data_howmany = 0;
         console.log('not wait,data_howmany=',data_howmany);
 
@@ -418,25 +608,19 @@ console.log('nnon');
                 }
             }
             // console.log('monster_word = ',monster_word)
-//==================開始比對資料====================
-            mergedSearchKeyword = mergeArabicNumbers(searchKeyword).split(',').filter(keyword => keyword !== '');
-            mergedmonster_word = mergeArabicNumbers(monster_word).split(',').filter(keyword => keyword !== '');
-            // console.log('select_detailed_simple_flag=',select_detailed_simple_flag);
-            // console.log('mergedSearchKeyword=',mergedSearchKeyword);
-            // console.log('mergedmonster_word=',mergedmonster_word);
-            if (select_detailed_simple_flag){
-              if ((mergedSearchKeyword.some(keyword => mergedmonster_word.includes(keyword)))){
-                  search_flag = true; 
-                // console.log('some');
-              }
-            }
-            else{
-              if ((mergedSearchKeyword.every(keyword => mergedmonster_word.includes(keyword)))){
-              search_flag = true; 
-              // console.log('every');
-            }
-            }
             
+//==================開始比對資料====================
+            var isDetailedSearch = !document.getElementById("toggleSwitch").checked;
+            var monster_word_lower = monster_word.toLowerCase();
+            
+            if (isDetailedSearch) {
+              // 詳細搜尋：所有詞組都必須匹配
+              search_flag = mergedSearchKeyword.every(keyword => monster_word_lower.includes(keyword));
+            } else {
+              // 簡易搜尋：任一字符匹配即可
+              search_flag = mergedSearchKeyword.some(keyword => monster_word_lower.includes(keyword));
+            }
+
 //==================準備輸出資料====================
             if (search_flag){
               var dataMapping = {
@@ -460,7 +644,20 @@ console.log('nnon');
               // console.log('monster_race',monster_race,"=",raceFilter);
 //================== 生成html ====================
 try{
-              if ((monster_attribute == attributeFilter || attributeFilter == "all") && (monster_race == raceFilter || raceFilter == "all") && (monster_name !== "")){
+              // 檢查卡片是否符合選中的種族和屬性條件
+              var matchesRace = allRacesSelected || selectedRaces.includes(monster_race);
+              var matchesAttribute = allAttributesSelected || selectedAttributes.includes(monster_attribute);
+              
+              // 如果選擇了多個種族或屬性，只要符合其中之一即可
+              if (!allRacesSelected && selectedRaces.length > 0) {
+                matchesRace = selectedRaces.includes(monster_race);
+              }
+              
+              if (!allAttributesSelected && selectedAttributes.length > 0) {
+                matchesAttribute = selectedAttributes.includes(monster_attribute);
+              }
+              
+              if (matchesRace && matchesAttribute && monster_name !== ""){
                 data_howmany = data_howmany + 1;
                 // 創建外層的 card 元素
                 var cardOut = document.createElement("div");
@@ -496,27 +693,6 @@ try{
                 }
                 // 调用 handleImageError 函数
                 handleImageError(cardImgBig, monster_id, monster_attribute);
-                // async function loadImage(cardImgBig, monster_id, monster_attribute) {
-                //   try {
-                //     const response = await fetch(`img/monster/${monster_id}.png`);
-                //     if (response.ok) {
-                //       cardImgBig.src = `img/monster/${monster_id}.png`;
-                //     } else {
-                //       var pattern = /icon_([a-zA-Z]+)/;
-                //       var match = dataMapping[monster_attribute].match(pattern);
-                //       var extractedText = match[1]; // 提取的文本
-                //       cardImgBig.src = `img/monster/noname_${extractedText}.png`;
-                //     }
-                //   } catch (error) {
-                //     var pattern = /icon_([a-zA-Z]+)/;
-                //     var match = dataMapping[monster_attribute].match(pattern);
-                //     var extractedText = match[1]; // 提取的文本
-                //     cardImgBig.src = `img/monster/noname_${extractedText}.png`;
-                //   }
-                // }
-                
-                // // 调用 loadImage 函数
-                // loadImage(cardImgBig, monster_id, monster_attribute);
 
                 cardImgBig.alt = `${monster_name}`;
                 container.appendChild(cardImgBig);
@@ -720,133 +896,52 @@ try{
               resultsDiv_show_mse.innerHTML = `共有 ${data_howmany} 筆 搜尋結果`;
             }
             else{
-              resultsDiv_show_mse.innerHTML = `沒有搜尋結果，請再次嘗試<br>或前往<a style="color:black; font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
+              resultsDiv_show_mse.innerHTML = `沒有搜尋結果，請再次嘗試<br>或前往<a style="color: var(--text-color); font-weight:600;" href="https://tinghan33704.com/tos_skill_filter/tos_skill_filter.html" target="_blank"> 神魔之塔主動技搜尋器</a> 進行搜尋`;
             }
-            
-//==================  ====================
-
-            // if(monster_name == '超級水手月亮'){
-            //     console.log( monster_id ,monster_name);
-            //     for (var skill_i = 0; skill_i < monster_skill.length; skill_i++) {
-            //         monster_skill_name = monster_skill[skill_i]['name'];
-            //         monster_skill_description = monster_skill[skill_i]['description'];
-            //         console.log( monster_skill_name ,monster_skill_description)
-            //         // resultsDiv_show_mse.innerHTML = monster_skill_name + `${monster_skill_description}`;
-            //                         // 根据需要创建 HTML 元素来展示结果
-            //     var resultItem = document.createElement('div');
-            //     var skillNameElement = document.createElement('h3');
-            //     skillNameElement.textContent = monster_skill_name;
-            //     var skillDescriptionElement = document.createElement('pre');
-            //     skillDescriptionElement.textContent = monster_skill_description;
-
-            //     // 将创建的元素添加到结果容器中
-            //     resultItem.appendChild(skillNameElement);
-            //     resultItem.appendChild(skillDescriptionElement);
-            //     resultsDiv.appendChild(resultItem);
-            //     }
-            //     for (var leader_skill_data_i = 0; leader_skill_data_i < leader_skill_data.length; leader_skill_data_i++) {
-            //         var match_monster = leader_skill_data[leader_skill_data_i];
-            //         // console.log('innn= ');
-            //         var leader_skill_name = match_monster['name'];
-            //         var leader_skill_description = match_monster['description'];
-
-            //         var leader_skill_monster = match_monster['monster'];
-
-            //         // resultsDiv_show_mse.innerHTML = "";
-                    
-            //         for (var leader_skill_monster_i = 0; leader_skill_monster_i < leader_skill_monster.length; leader_skill_monster_i++){
-            //             match_monster_item = leader_skill_monster[leader_skill_monster_i];
-            //             // console.log('match_monster_item', match_monster_item);
-            //             // console.log( leader_skill_monster_i);
-            //             if(match_monster_item == "10344"){
-            //                 // console.log( monster_id ,match_monster_item);
-            //                 console.log( leader_skill_name  ,leader_skill_description);
-            //                 var resultItem = document.createElement('div');
-            //                 var skillNameElement = document.createElement('h3');
-            //                 skillNameElement.textContent = leader_skill_name;
-            //                 var skillDescriptionElement = document.createElement('pre');
-            //                 skillDescriptionElement.textContent = leader_skill_description;
-
-            //                 // 将创建的元素添加到结果容器中
-            //                 resultItem.appendChild(skillNameElement);
-            //                 resultItem.appendChild(skillDescriptionElement);
-            //                 resultsDiv_show_mse.appendChild(resultItem);
-
-            //             }
-            //         }
-            //     } 
-            //     if (select_flag){
-            //         for (var select_i = 0; select_i < selectedFields.length; select_i++) {
-            //             console.log('selectedFields_i=', selectedFields[select_i]);
-            //             if (selectedFields[select_i].fieldName == 'Image Name') {
-            //                 select_imgname = 'No. ' + monster_id + ` ${monster_name}`;
-            //                 console.log('select_imgname=', select_imgname);
-            //                 select_flag = false;
-            //             }
-            //         }
-            //     }
-                
-            // }
         
         } // 資料查找完畢     
     document.getElementById("loading-spinner").style.display = "none";
     } // searchJson finish
 
-  //       function markupTextWithSearchKeywords(text) {
-  // var keywordList = mergedSearchKeyword;
-// 使用正则表达式将文本标记为红色
-
-// function markupTextWithSearchKeywords(text) {
-//     // 将 keywords 转换为正则表达式安全的字符串
-//     const escapedKeywords = mergedSearchKeyword.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-//  // 使用正则表达式将文本标记为红色
-// // 使用正则表达式将文本标记为红色
-
-//     // 创建正则表达式，用于匹配关键字，但排除包含在数字中的关键字
-//     // const keywordPattern = new RegExp(`(?:\\b|[^0-9])(${escapedKeywords.join('|')})(?:\\b|[^0-9])`, 'gi');
-//     const keywordPattern = new RegExp('\\b(' + escapedKeywords.join('|') + ')\\b', 'gi'); // 使用 \\b 表示单词边界
-
-//     // 标记关键字为红色
-//     const markedText = text.replace(keywordPattern, match => {
-//         return `<span class='like-strong'>${match}</span>`;
-//     });
-
-//     return markedText;
-// }
-
-// 使用正则表达式将文本标记为红色
 // 使用正则表达式将文本标记为红色
 function markupTextWithSearchKeywords(text) {
     var keywords = mergedSearchKeyword;
-    var text_box = "";
+    var isDetailedSearch = !document.getElementById("toggleSwitch").checked;
+    var textLower = text.toLowerCase();
+    var markedText = text;
+    
     // 将 keywords 转换为正则表达式安全的字符串
     const escapedKeywords = keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-    text = mergeArabicNumbers(text).split(',').filter(keyword => keyword !== '');
-    // // 创建正则表达式，用于匹配包含在文本中的关键字
-    // const keywordPattern = new RegExp(`\\b(${escapedKeywords.join('|')})\\b`, 'gi');
-
-    // // 标记关键字为红色
-    // const markedText = text.replace(keywordPattern, match => {
-    //     return `<span class='like-strong'>${match}</span>`;
-    // });
-    // 创建正则表达式，用于匹配包含在文本中的关键字
-    const keywordPattern = new RegExp(`(${escapedKeywords.join('|')})`, 'gi');
-    // 创建正则表达式，用于匹配包含在文本中的关键字
-// const keywordPattern = new RegExp(`\\b(${escapedKeywords.join('|')})\\b`, 'gi');
-    // 标记关键字为红色
-    for (var texti of text){
-      if(mergedSearchKeyword.includes(texti)){
-        texti = `<span class='like-strong'>${texti}</span>`
-        text_box += texti;
-      }
-      else{
-        text_box += texti;
-      }
+    
+    if (isDetailedSearch) {
+        // 詳細搜尋：標記完整詞組
+        for (let keyword of keywords) {
+            if (keyword.trim() !== '') {
+                const regex = new RegExp(keyword, 'gi');
+                markedText = markedText.replace(regex, match => `<span class='like-strong'>${match}</span>`);
+            }
+        }
+    } else {
+        // 簡易搜尋：標記單個字符或連續數字
+        for (let char of keywords) {
+            if (char.trim() !== '') {
+                // 檢查是否為數字
+                if (/^[0-9.]+$/.test(char)) {
+                    // 對於數字，使用精確匹配
+                    const regex = new RegExp(`(^|\\D)(${char})(\\D|$)`, 'g');
+                    markedText = markedText.replace(regex, (match, p1, p2, p3) => 
+                        `${p1}<span class='like-strong'>${p2}</span>${p3}`);
+                } else {
+                    // 對於其他字符，使用普通匹配
+                    const regex = new RegExp(char, 'gi');
+                    markedText = markedText.replace(regex, match => 
+                        `<span class='like-strong'>${match}</span>`);
+                }
+            }
+        }
     }
-    // const markedText = text.replace(keywordPattern, match => {
-    //     return `<span class='like-strong'>${match}</span>`;
-    // });
-    return text_box;
+    
+    return markedText;
 }
 
 

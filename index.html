@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW" data-theme="light">
 <head>
   <link rel="stylesheet" href="tower.css">
     <meta charset="UTF-8" />
@@ -20,10 +20,19 @@
     <h1>卡片文字搜尋</h1>
 
     <div class="search-container table">
-      <input type="checkbox" id="toggleSwitch" data-field="switchField">
-      <label class="switch" for="toggleSwitch"></label>
-      <span id="toggleText">詳細搜尋</span>
-      <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至0" placeholder='按"/"進入or隨意輸入字詞搜尋...' onkeypress="handleKeyPress(event)">
+      <div class="search-options">
+        <div class="search-mode">
+          <input type="checkbox" id="toggleSwitch" data-field="switchField">
+          <label class="switch" for="toggleSwitch"></label>
+          <span id="toggleText">詳細搜尋</span>
+        </div>
+        <div class="theme-toggle">
+          <input type="checkbox" id="themeToggle" data-field="themeField">
+          <label class="switch" for="themeToggle"></label>
+          <span id="themeText">淺色模式</span>
+        </div>
+      </div>
+      <input type="text" id="searchInput" class="search-input table-cell" value="回復力減至 0" placeholder='按"/"進入or隨意輸入字詞搜尋...' onkeypress="handleKeyPress(event)">
       <!-- 回復力減至0 -->
       <button class="search-button table-cell" onclick=" handleKeyPress1()" >搜尋</button>
     </div>
@@ -83,34 +92,80 @@
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="little_num_cd">最小CD</label>
           <label class="checkbox-label"><input id="applyButton" type="checkbox" data-field="little_num_ep">最小EP</label>
         
-          <div class="checkbox-label" style="display: flex; flex-wrap: nowrap;">
-            <label for="raceFilter" class="checkbox-label">選擇種族：</label>
-            <select id="raceFilter" >
-              <option value="all">所有種族</option>
-              <option value="人類" >人類</option>
-              <option value="獸類" >獸類</option>
-              <option value="妖精類" >妖精類</option>
-              <option value="龍類" >龍類</option>
-              <option value="神族" >神族</option>
-              <option value="魔族">魔族</option>
-              <option value="機械族" >機械族</option>
-              <option value="進化素材" >進化素材</option>
-              <option value="強化素材" >強化素材</option>
-            </select>
-            <img id="raceImage" src="" alt="" />
+          <div class="filter-section">
+            <h3>選擇種族：</h3>
+            <div class="icon-select race-select">
+              <button type="button" class="icon-btn race-btn active" data-value="all">
+                <img src="img/icon/icon_race_all.png" alt="所有種族">
+                <span>所有種族</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="人類">
+                <img src="img/icon/icon_human.png" alt="人類">
+                <span>人類</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="獸類">
+                <img src="img/icon/icon_beast.png" alt="獸類">
+                <span>獸類</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="妖精類">
+                <img src="img/icon/icon_elf.png" alt="妖精類">
+                <span>妖精類</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="龍類">
+                <img src="img/icon/icon_dragon.png" alt="龍類">
+                <span>龍類</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="神族">
+                <img src="img/icon/icon_god.png" alt="神族">
+                <span>神族</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="魔族">
+                <img src="img/icon/icon_demon.png" alt="魔族">
+                <span>魔族</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="機械族">
+                <img src="img/icon/icon_machina.png" alt="機械族">
+                <span>機械族</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="進化素材">
+                <img src="img/icon/icon_evolve.png" alt="進化素材">
+                <span>進化素材</span>
+              </button>
+              <button type="button" class="icon-btn race-btn" data-value="強化素材">
+                <img src="img/icon/icon_level_up.png" alt="強化素材">
+                <span>強化素材</span>
+              </button>
+            </div>
           </div>
           
-          <div class="checkbox-label" style="display: flex; flex-wrap: nowrap;">
-            <label for="attributeFilter" class="checkbox-label">選擇屬性：</label>
-            <select id="attributeFilter" >
-                <option value="all">所有屬性</option>
-                <option value="水">水</option>
-                <option value="火">火</option>
-                <option value="木">木</option>
-                <option value="光">光</option>
-                <option value="暗">暗</option>
-            </select>
-            <img id="attributeImage" src="" alt="" />
+          <div class="filter-section">
+            <h3>選擇屬性：</h3>
+            <div class="icon-select attribute-select">
+              <button type="button" class="icon-btn attribute-btn active" data-value="all">
+                <img src="img/icon/icon_attr_all.png" alt="所有屬性">
+                <span>所有屬性</span>
+              </button>
+              <button type="button" class="icon-btn attribute-btn" data-value="水">
+                <img src="img/icon/icon_w.png" alt="水">
+                <span>水</span>
+              </button>
+              <button type="button" class="icon-btn attribute-btn" data-value="火">
+                <img src="img/icon/icon_f.png" alt="火">
+                <span>火</span>
+              </button>
+              <button type="button" class="icon-btn attribute-btn" data-value="木">
+                <img src="img/icon/icon_e.png" alt="木">
+                <span>木</span>
+              </button>
+              <button type="button" class="icon-btn attribute-btn" data-value="光">
+                <img src="img/icon/icon_l.png" alt="光">
+                <span>光</span>
+              </button>
+              <button type="button" class="icon-btn attribute-btn" data-value="暗">
+                <img src="img/icon/icon_d.png" alt="暗">
+                <span>暗</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
