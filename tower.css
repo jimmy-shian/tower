@@ -604,6 +604,7 @@
         margin-top: 5px;
       }
       #resultsContainer{
+        width: 550px;
         font-size: 20px;
       }
       .card {
